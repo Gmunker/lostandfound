@@ -6,11 +6,7 @@ Our target audience is a small group of animal lovers, and animal advocates in D
 
 
 **What problem will this application attempt to solve?**  
-<<<<<<< HEAD
-This group has recovered thousands of animals. At this point, they are keeping track of their efforts in a spreadsheet that gets passed around from one volunteer to another. They update the information in the spreadsheet based on their own experience and by communicating with other members in the group. Greater structure, connectivity, and centralization would simplify updating the list as well as allowing it to be used as a resource for finding animals. Blah Blah Blah
-=======
 This group has recovered thousands of animals. At this point, they are keeping track of their efforts in a spreadsheet that gets passed around from one volunteer to another. They update the information in the spreadsheet based on their own experience and by communicating with other members in the group. Greater structure, connectivity, and centralization would simplify updating the list as well as allowing it to be used as a resource for finding animals.
->>>>>>> ad9b02f5603ee8ee8ed620f4a8f8e653238da0de
 
 
 **How will this application solve this problem?**  
