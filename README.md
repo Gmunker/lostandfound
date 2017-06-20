@@ -2,7 +2,7 @@
 ## Build to learn
 
 **Who is this application for?**  
-Our target audience is a small group of animal lovers, and animal advocates in Donelson, TN who voluntarily rescue lost and stray animals in the city. There will be an open door for similar groups in the surrounding area. Blah Blah Blah
+Our target audience is a small group of animal lovers, and animal advocates in Donelson, TN who voluntarily rescue lost and stray animals in the city. There will be an open door for similar groups in the surrounding area.
 
 
 **What problem will this application attempt to solve?**  
