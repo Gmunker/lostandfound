@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-class Footer extends Component {
+class Update extends Component {
     render() {
         return(
             <div>
-                This is the Footer
+                This is the Update Page
             </div>
         )
     }
 }
 
-export default Footer;
+export default Update;

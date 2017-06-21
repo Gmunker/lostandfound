@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-class Header extends Component {
+class List extends Component {
     render() {
         return(
             <div>
-                This is the Header
+                This is the List Page
             </div>
         )
     }
 }
 
-export default Header;
+export default List;
