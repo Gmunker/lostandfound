@@ -1,0 +1,21 @@
+@import "./colors.scss";
+
+html {
+	height: 100%;
+}
+
+body {
+    background: linear-gradient(to top, rgba($Secondary,1) 0%,rgba($Secondary,0.3) 100%), url('./images/diamond_upholstery.png');
+}
+
+.topContainer__dogImages {
+  	width: 300px;
+  	height: 300px;
+  	img {
+    	width: 100px;
+    	height: 100px;
+    	border-radius: 50%;
+    	overflow: hidden;
+    	border: 5px solid white;
+  	}
+}
