@@ -1,0 +1,16 @@
+button {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 0.75rem;
+    font: 1.5rem 'Patua One', 'Times', serif;
+    background: linear-gradient(to top, $Primary 0%, $PrimaryLight 100%);
+    border: 1px solid darken($Primary, 5%);
+    margin-bottom: 0.5rem;
+    color: white;
+    text-shadow: 0 0 10px black;
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+}

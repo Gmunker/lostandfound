@@ -1,0 +1,19 @@
+html, body, #root, .App {
+	height: 100%;
+}
+
+img {
+	display: block;
+}
+
+body {
+    background: linear-gradient(-45deg, rgba($Secondary,0) 0%,rgba($Secondary, 1) 50%, rgba($Secondary,0) 100%), url('././images/diamond_upholstery.png');
+	margin: 0;
+	font-size: 16px;
+}
+
+.App {
+	padding: 1em;
+	box-sizing: border-box;
+	overflow: hidden;
+}
