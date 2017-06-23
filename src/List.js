@@ -10,11 +10,11 @@ class DogTable extends React.Component {
       rows.push(<ListRow dog={dog} key={dog.id} />);
     });
     return (
-        
+        <body>
       <table>
         <thead>
           <tr>
-            <th>Date</th>
+            <th class="text-left">Date</th>
             <th>Breed</th>
             <th>Color</th>
                         <th>Sex</th>
@@ -23,6 +23,7 @@ class DogTable extends React.Component {
         </thead>
         <tbody>{rows}</tbody>
       </table>
+      </body>
     );
   }
 }
