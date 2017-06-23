@@ -32,7 +32,7 @@ class App extends Component {
 		    {this.state.ActivePage === "Landing" ?
 				<Landing switchPage={this.switchPage}/> :
 			this.state.ActivePage === "List" ?
-				<List /> :
+				<List switchPage={this.switchPage}/> :
 			this.state.ActivePage === "Detail" ?
 				<Detail info={this.getAnimalInfo}/> :
 			this.state.ActivePage === "Add" ?
