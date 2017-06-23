@@ -1,0 +1,123 @@
+.landingContent {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.pageNavigation {
+	align-self: flex-end;
+	flex: 0;
+	width: 100%;
+}
+
+.topContainer {
+	flex: 1;
+    position: relative;
+    right: calc(-50% -200px);
+}
+
+.dogImages {
+    width: 230px;
+    height: 230px;
+    margin: 0 auto;
+    top: 6em;
+    position: relative;
+    transform: rotate(45deg);
+    img {
+        position: absolute;
+    	width: 100px;
+    	height: 100px;
+    	border-radius: 50%;
+    	overflow: hidden;
+    	border: 5px solid white;
+        transform: rotate(-45deg);
+        box-shadow: 0 0 30px rgba(black, 0.5);
+  	}
+    .dogImages__image1 {
+        top: -290px;
+        left: -290px;
+        animation: drop1 1.2s ease-in-out;
+        animation-delay: 0.9s;
+        animation-fill-mode: forwards;
+    }
+    .dogImages__image2 {
+        top: -290px;
+        right: 290px;
+        animation: drop2 1.2s ease-in-out;
+        animation-delay: 0.6s;
+        animation-fill-mode: forwards;
+    }
+    .dogImages__image3 {
+        bottom: 290px;
+        left: -290px;
+        animation: drop3 1.2s ease-in-out;
+        animation-delay: 0.3s;
+        animation-fill-mode: forwards;
+    }
+    .dogImages__image4 {
+        bottom: 0;
+        right: 0;
+        animation: drop4 1.2s ease-in-out;
+        animation-fill-mode: forwards;
+    }
+}
+
+@keyframes drop1 {
+    0% {
+        top: -290px;
+        left: -290px;
+    }
+    75% {
+        top: 5px;
+        left: 5px;
+    }
+    100% {
+        top: 0px;
+        left: 0;
+    }
+}
+
+@keyframes drop2 {
+    0% {
+        top: -290px;
+        right: 290px;
+    }
+    75% {
+        top: 5px;
+        right: -5px;
+    }
+    100% {
+        top: 0px;
+        right: 0;
+    }
+}
+
+@keyframes drop3 {
+    0% {
+        bottom: 290px;
+        left: -290px;
+    }
+    75% {
+        bottom: -5px;
+        left: 5px;
+    }
+    100% {
+        bottom: 0px;
+        left: 0;
+    }
+}
+
+@keyframes drop4 {
+    0% {
+        bottom: 290px;
+        right: 290px;
+    }
+    75% {
+        bottom: -5px;
+        right: -5px;
+    }
+    100% {
+        bottom: 0px;
+        right: 0;
+    }
+}

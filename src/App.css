@@ -1,15 +1,177 @@
-html {
-  height: 100%; }
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+@import url("https://fonts.googleapis.com/css?family=Anton|Bree+Serif|Damion|Fredoka+One|Patua+One");
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
 
 body {
-  background: linear-gradient(to top, #6a1b9a 0%, rgba(106, 27, 154, 0.3) 100%), url("./images/diamond_upholstery.png"); }
+  line-height: 1; }
 
-.topContainer__dogImages {
-  width: 300px;
-  height: 300px; }
-  .topContainer__dogImages img {
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+button {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 0.75rem;
+  font: 1.5rem 'Patua One', 'Times', serif;
+  background: linear-gradient(to top, #1B55A4 0%, #2370CC 100%);
+  border: 1px solid #174a8e;
+  margin-bottom: 0.5rem;
+  color: white;
+  text-shadow: 0 0 10px black; }
+  button:last-of-type {
+    margin-bottom: 0; }
+
+html, body, #root, .App {
+  height: 100%; }
+
+img {
+  display: block; }
+
+body {
+  background: linear-gradient(-45deg, rgba(136, 144, 77, 0) 0%, #88904d 50%, rgba(136, 144, 77, 0) 100%), url("././images/diamond_upholstery.png");
+  margin: 0;
+  font-size: 16px; }
+
+.App {
+  padding: 1em;
+  box-sizing: border-box;
+  overflow: hidden; }
+
+.landingContent {
+  height: 100%;
+  display: flex;
+  flex-direction: column; }
+
+.pageNavigation {
+  align-self: flex-end;
+  flex: 0;
+  width: 100%; }
+
+.topContainer {
+  flex: 1;
+  position: relative;
+  right: calc(-50% -200px); }
+
+.dogImages {
+  width: 230px;
+  height: 230px;
+  margin: 0 auto;
+  top: 6em;
+  position: relative;
+  transform: rotate(45deg); }
+  .dogImages img {
+    position: absolute;
     width: 100px;
     height: 100px;
     border-radius: 50%;
     overflow: hidden;
-    border: 5px solid white; }
+    border: 5px solid white;
+    transform: rotate(-45deg);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5); }
+  .dogImages .dogImages__image1 {
+    top: -290px;
+    left: -290px;
+    animation: drop1 1.2s ease-in-out;
+    animation-delay: 0.9s;
+    animation-fill-mode: forwards; }
+  .dogImages .dogImages__image2 {
+    top: -290px;
+    right: 290px;
+    animation: drop2 1.2s ease-in-out;
+    animation-delay: 0.6s;
+    animation-fill-mode: forwards; }
+  .dogImages .dogImages__image3 {
+    bottom: 290px;
+    left: -290px;
+    animation: drop3 1.2s ease-in-out;
+    animation-delay: 0.3s;
+    animation-fill-mode: forwards; }
+  .dogImages .dogImages__image4 {
+    bottom: 0;
+    right: 0;
+    animation: drop4 1.2s ease-in-out;
+    animation-fill-mode: forwards; }
+
+@keyframes drop1 {
+  0% {
+    top: -290px;
+    left: -290px; }
+  75% {
+    top: 5px;
+    left: 5px; }
+  100% {
+    top: 0px;
+    left: 0; } }
+
+@keyframes drop2 {
+  0% {
+    top: -290px;
+    right: 290px; }
+  75% {
+    top: 5px;
+    right: -5px; }
+  100% {
+    top: 0px;
+    right: 0; } }
+
+@keyframes drop3 {
+  0% {
+    bottom: 290px;
+    left: -290px; }
+  75% {
+    bottom: -5px;
+    left: 5px; }
+  100% {
+    bottom: 0px;
+    left: 0; } }
+
+@keyframes drop4 {
+  0% {
+    bottom: 290px;
+    right: 290px; }
+  75% {
+    bottom: -5px;
+    right: -5px; }
+  100% {
+    bottom: 0px;
+    right: 0; } }

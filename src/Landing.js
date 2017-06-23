@@ -6,15 +6,19 @@ import dogFour from './images/DogFour.jpg';
 
 const Landing = (props) => {
     return(
-        <div className="topContainer">
-            <div className="topContainer__dogImages">
-                <img className="topContainer__dogImages__imgage1" src={dogOne} alt=""/>
-                <img className="topContainer__dogImages__imgage2" src={dogTwo} alt=""/>
-                <img className="topContainer__dogImages__imgage3" src={dogThree} alt=""/>
-                <img className="topContainer__dogImages__imgage4" src={dogFour} alt=""/>
+        <div className="landingContent">
+            <div className="topContainer">
+                <div className="dogImages">
+                    <img className="dogImages__image1" src={dogOne} alt=""/>
+                    <img className="dogImages__image2" src={dogTwo} alt=""/>
+                    <img className="dogImages__image3" src={dogThree} alt=""/>
+                    <img className="dogImages__image4" src={dogFour} alt=""/>
+                </div>
             </div>
-            <button onClick={props.switchPage} value="List">List</button>
-            <button onClick={props.switchPage} value="Add">Add</button>
+            <nav className="pageNavigation">
+                <button onClick={props.switchPage} value="List">View list of Animals</button>
+                <button onClick={props.switchPage} value="Add">Add New Animal</button>
+            </nav>
         </div>
     )
 }
