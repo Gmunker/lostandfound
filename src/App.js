@@ -77,20 +77,20 @@ class App extends Component {
 
   	render() {
 		
-		const Animals = this.state.Animals;
-		const rows = Animals.map((Animal) => {
-				return <p key={Animal.Id}>{Animal.Breed}</p>
-		})
+		// const Animals = this.state.Animals;
+		// const rows = Animals.map((Animal) => {
+		// 		return <p key={Animal.Id}>{Animal.Breed}</p>
+		// })
 
     	return (
       	<div className="App">
 		  	<input value={this.state.text} onChange={this.handleChange}/>
 			<button onClick={this.pushToFirebase}>Push to Firebase</button>
-			{rows}
+			
 			{this.state.ActivePage === "Landing" ?
 				<Landing switchPage={this.switchPage}/> :
 			this.state.ActivePage === "List" ?
-				<List switchPage={this.switchPage}/> :
+				<List switchPage={this.switchPage} Animals={this.state.Animals}/> :
 			this.state.ActivePage === "Detail" ?
 				<Detail info={this.getAnimalInfo}/> :
 			this.state.ActivePage === "Add" ?
