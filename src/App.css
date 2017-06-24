@@ -73,7 +73,6 @@ body {
   font-size: 16px; }
 
 .App {
-  padding: 1em;
   box-sizing: border-box; }
 
 .landingContent {
@@ -84,12 +83,14 @@ body {
 .pageNavigation {
   align-self: flex-end;
   flex: 0;
-  width: 100%; }
+  width: 100%;
+  margin-bottom: 1em; }
 
 .topContainer {
   flex: 1;
   position: relative;
-  right: calc(-50% -200px); }
+  right: calc(-50% -200px);
+  overflow: hidden; }
 
 .dogImages {
   width: 230px;

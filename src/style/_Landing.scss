@@ -8,12 +8,14 @@
 	align-self: flex-end;
 	flex: 0;
 	width: 100%;
+    margin-bottom: 1em;
 }
 
 .topContainer {
 	flex: 1;
     position: relative;
     right: calc(-50% -200px);
+    overflow: hidden;
 }
 
 .dogImages {

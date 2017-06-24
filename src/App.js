@@ -84,8 +84,8 @@ class App extends Component {
 
     	return (
       	<div className="App">
-		  	<input value={this.state.text} onChange={this.handleChange}/>
-			<button onClick={this.pushToFirebase}>Push to Firebase</button>
+		  	{/*<input value={this.state.text} onChange={this.handleChange}/>
+			<button onClick={this.pushToFirebase}>Push to Firebase</button>*/}
 			
 			{this.state.ActivePage === "Landing" ?
 				<Landing switchPage={this.switchPage}/> :
