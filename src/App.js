@@ -28,6 +28,7 @@ class App extends Component {
 		this.getAnimalInfo = this.getAnimalInfo.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.pushToFirebase = this.pushToFirebase.bind(this);
+		this.addAnimal = this.addAnimal.bind(this);
 	}
 
 	componentWillMount() {  
@@ -36,7 +37,7 @@ class App extends Component {
 		var Animals = [];
 		dataSnapshot.forEach(function(childSnapshot) {
 			var Animal = childSnapshot.val();
-			Animal['.key'] = childSnapshot.key;
+			Animal['key'] = childSnapshot.key;
 			Animals.push(Animal);
 		});
 		this.setState({
@@ -75,6 +76,13 @@ class App extends Component {
 		return "Animal Info";
 	}
 
+	addAnimal(animal) {
+		this.firebaseRef.push(animal);
+		this.setState({
+			ActivePage: "List"
+		})
+	}
+
   	render() {
 		
 		// const Animals = this.state.Animals;
@@ -84,8 +92,8 @@ class App extends Component {
 
     	return (
       	<div className="App">
-		  	<input value={this.state.text} onChange={this.handleChange}/>
-			<button onClick={this.pushToFirebase}>Push to Firebase</button>
+		  	{/*<input value={this.state.text} onChange={this.handleChange}/>
+			<button onClick={this.pushToFirebase}>Push to Firebase</button>*/}
 			
 			{this.state.ActivePage === "Landing" ?
 				<Landing switchPage={this.switchPage}/> :
@@ -94,7 +102,7 @@ class App extends Component {
 			this.state.ActivePage === "Detail" ?
 				<Detail info={this.getAnimalInfo}/> :
 			this.state.ActivePage === "Add" ?
-				<Add switchPage={this.switchPage}/> :
+				<Add switchPage={this.switchPage} send={this.send}/> :
 				<Update />
 			}
       	</div>

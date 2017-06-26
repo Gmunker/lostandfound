@@ -1,5 +1,4 @@
 import React from 'react';
-import myData from './temp_api/masterList.json'
 
 const Filter = (props) => {
 	return (
@@ -23,7 +22,7 @@ const DogTable = (props) => {
 			<tbody>
 				{Animals.map((Animal) => {
 					return(
-						<tr key={Animal.Id}>
+						<tr key={Animal.key}>
 							<td>{Animal.Location}</td>
 							<td>{Animal.Color}</td>
 							<td>{Animal.Breed}</td>
@@ -43,8 +42,8 @@ class List extends React.Component {
 		return(
 			<div className="listContent">
 				<Filter />
-				<DogTable dogs={myData} Animals={this.props.Animals} />
-				<button>Add New Animal</button>
+				<DogTable Animals={this.props.Animals} />
+				<button onClick={this.props.switchPage} value="Add">Add New Animal</button>
 			</div>
 		)
    }
