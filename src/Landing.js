@@ -6,7 +6,7 @@ import dogFour from './images/DogFour.jpg';
 
 const Landing = (props) => {
     return(
-        <div className="landingContent">
+        <div className="content">
             <div className="topContainer">
                 <div className="dogImages">
                     <img className="dogImages__image1" src={dogOne} alt=""/>

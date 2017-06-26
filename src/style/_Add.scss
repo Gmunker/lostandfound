@@ -1,0 +1,43 @@
+.addContent {
+    box-sizing: border-box;
+    padding: 1em 1em 0 1em;
+}
+
+label {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 0.25rem;
+    font: 1.25rem 'Patua One', 'Arial', serif;
+    color: white;
+}
+
+input {
+    width: 100%;
+    padding: 1em 0.5em;
+    max-width: 300px;
+    margin: 0 auto;
+    display: block;
+    border: 1px solid darken($Secondary, 10%);
+    outline: none;
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 0 0 40px 0 rgba(black, 0.6);
+}
+
+select {
+    width: 100%;
+    padding: 1em 0.5em;
+    margin: 0 auto;
+    max-width: 300px;
+    display: block;
+    outline: none; 
+    border: 1px solid darken($Secondary, 10%);
+    border-radius: 4px;
+    box-shadow: 0 0 40px 0 rgba(black, 0.6);
+}
+
+form div {
+    margin-bottom: 1em;
+}

@@ -53,13 +53,71 @@ button {
   margin: 0 auto;
   padding: 0.75rem;
   font: 1.5rem 'Patua One', 'Times', serif;
-  background: linear-gradient(to top, #1B55A4 0%, #2370CC 100%);
-  border: 1px solid #174a8e;
+  background: linear-gradient(to top, #4527A0 0%, #673AB7 100%);
+  border: 1px solid #3c228b;
   margin-bottom: 0.5rem;
   color: white;
-  text-shadow: 0 0 10px black; }
+  text-shadow: 0 0 10px black;
+  box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.6); }
   button:last-of-type {
     margin-bottom: 0; }
+
+form button {
+  background: linear-gradient(to top, #1B55A4 0%, #2370CC 100%); }
+
+.formRow {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto; }
+
+.radio {
+  width: 50%;
+  position: relative;
+  float: left; }
+  .radio span {
+    display: inline-block;
+    font: 1.25rem 'Patua One', 'Arial', serif;
+    color: white; }
+  .radio label {
+    width: auto;
+    margin: 0 0 -5px 0.5em;
+    display: inline-block;
+    position: absolute; }
+    .radio label:before {
+      content: "";
+      display: block;
+      width: 21px;
+      height: 21px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.6); }
+  .radio input {
+    display: none; }
+    .radio input:checked + label:after {
+      content: "";
+      display: block;
+      width: 15px;
+      height: 15px;
+      background: #1B55A4;
+      border-radius: 50%;
+      position: relative;
+      top: -18px;
+      left: 3px; }
+
+.formRow {
+  display: flex;
+  justify-content: space-between; }
+
+.formSpanOne {
+  width: calc(50% - 0.5em);
+  float: left; }
+
+.formIndicia {
+  width: 100%;
+  max-width: 300px;
+  margin: 0.5em auto;
+  display: block;
+  color: white; }
 
 html, body, #root, .App {
   height: 100%; }
@@ -75,7 +133,7 @@ body {
 .App {
   box-sizing: border-box; }
 
-.landingContent {
+.content {
   height: 100%;
   display: flex;
   flex-direction: column; }
@@ -276,3 +334,42 @@ td {
   font-size: 18px;
   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
   border-right: 1px solid #C1C3D1; }
+
+.addContent {
+  box-sizing: border-box;
+  padding: 1em 1em 0 1em; }
+
+label {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 0.25rem;
+  font: 1.25rem 'Patua One', 'Arial', serif;
+  color: white; }
+
+input {
+  width: 100%;
+  padding: 1em 0.5em;
+  max-width: 300px;
+  margin: 0 auto;
+  display: block;
+  border: 1px solid #696f3b;
+  outline: none;
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.6); }
+
+select {
+  width: 100%;
+  padding: 1em 0.5em;
+  margin: 0 auto;
+  max-width: 300px;
+  display: block;
+  outline: none;
+  border: 1px solid #696f3b;
+  border-radius: 4px;
+  box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.6); }
+
+form div {
+  margin-bottom: 1em; }
