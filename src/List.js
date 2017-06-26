@@ -23,9 +23,9 @@ const DogTable = (props) => {
 				{Animals.map((Animal) => {
 					return(
 						<tr key={Animal.key}>
-							<td>{Animal.Location}</td>
-							<td>{Animal.Color}</td>
-							<td>{Animal.Breed}</td>
+							<td className="loctd">{Animal.Location}</td>
+							<td className="colortd">{Animal.Color}</td>
+							<td className="breedtd">{Animal.Breed}</td>
 						</tr>
 					)
 				})}
