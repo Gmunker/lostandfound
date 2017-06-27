@@ -1,0 +1,65 @@
+form button {
+    background: linear-gradient(to top, $Tertiary 0%, $TertiaryLight 100%);
+}
+
+.formRow {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.radio {
+    width: 50%;
+    position: relative;
+    float: left;
+    span {
+        display: inline-block;
+        font: 1.25rem 'Patua One', 'Arial', serif;
+        color: white;
+    }
+    label {
+        width: auto;
+        margin: 0 0 -5px 0.5em;
+        display: inline-block;
+        position: absolute;
+        &:before {
+            content: "";
+            display: block;
+            width: 21px;
+            height: 21px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 40px 0 rgba(black, 0.6);
+        }
+    }
+    input {
+        display: none;
+        &:checked + label:after {
+            content: "";
+            display: block;
+            width: 15px;
+            height: 15px;
+            background: $Tertiary;
+            border-radius: 50%;
+            position: relative;
+            top: -18px;
+            left: 3px;
+        }
+    }
+}
+.formRow {
+    display: flex;
+    justify-content: space-between;
+}
+.formSpanOne {
+    width: calc(50% - 0.5em);
+    float: left;
+}
+
+.formIndicia {
+    width: 100%;
+    max-width: 300px;
+    margin: 0.5em auto;
+    display: block;
+    color: white;
+}

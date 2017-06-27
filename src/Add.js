@@ -28,7 +28,7 @@ class Add extends Component {
         this.setState({Date: Year + "-" + Month + "-" + Day + " " + Hours + ":" + Minutes + ":" + Seconds}, () => { 
             this.props.addAnimal(this.state);
         });
-}
+    }
 
     handleChange(event) {
         event.target.name === "name" ?

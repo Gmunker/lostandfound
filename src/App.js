@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';  
+import firebase from 'firebase';
 // import reactfire from 'reactfire';
 import './App.css';
 import Landing from './Landing';
@@ -21,7 +21,7 @@ class App extends Component {
 		super(props);
 		this.state = {
 			Animals: [],
-			ActivePage: "Landing",
+			ActivePage: "Update",
 			text: ""
 		}
 		this.switchPage = this.switchPage.bind(this);
@@ -77,6 +77,13 @@ class App extends Component {
 	}
 
 	addAnimal(animal) {
+		this.firebaseRef.push(animal);
+		this.setState({
+			ActivePage: "List"
+		})
+	}
+
+	updateAnimal(animal) {
 		this.firebaseRef.push(animal);
 		this.setState({
 			ActivePage: "List"
