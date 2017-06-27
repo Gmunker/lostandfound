@@ -18,7 +18,6 @@ const Landing = (props) => {
             <nav className="pageNavigation">
                 <button onClick={props.switchPage} value="List">View list of Animals</button>
                 <button onClick={props.switchPage} value="Add">Add New Animal</button>
-                <button onClick={props.switchPage} value="Detail">Detail</button>
             </nav>
         </div>
     )
