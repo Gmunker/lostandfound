@@ -1,5 +1,10 @@
-.contentList{
-  align:center;
+table {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
 }
 
 th {
@@ -53,7 +58,7 @@ tr:last-child td:last-child {
  
 td {
   background:#FFFFFF;
-  padding:10px;
+  padding:13px;
   text-align:left;
   vertical-align:middle;
   font-size:16px;
@@ -61,21 +66,21 @@ td {
   border-right: 1px solid #C1C3D1;
 }
 .loctd{
-  max-width:150px;
+  width:100rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .colortd{
-  max-width: 75px;
+  max-width: 100rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .breedtd{
-  max-width: 100px;
+  max-width: 100rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
