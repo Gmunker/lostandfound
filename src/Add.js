@@ -50,6 +50,7 @@ class Add extends Component {
         return(
             <div className="addContent content">
                 <div className="topContainer">
+                    <h2 className="pageHeader">Add New Animal</h2>
                     <form>
                         <div>
                             <label htmlFor="name">Name</label>

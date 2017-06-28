@@ -21,11 +21,11 @@ class App extends Component {
 		super(props);
 		this.state = {
 			Animals: [],
-			ActivePage: "Update",
-			text: ""
+			ActivePage: "Landing",
+			Animal: {}
 		}
 		this.switchPage = this.switchPage.bind(this);
-		this.getAnimalInfo = this.getAnimalInfo.bind(this);
+		this.getDetails = this.getDetails.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.pushToFirebase = this.pushToFirebase.bind(this);
 		this.addAnimal = this.addAnimal.bind(this);
@@ -72,8 +72,11 @@ class App extends Component {
 		})
 	}
 
-	getAnimalInfo(event) {
-		return "Animal Info";
+	getDetails(animal) {
+		this.setState({
+			Animal: animal,
+			ActivePage: "Detail"
+		})
 	}
 
 	addAnimal(animal) {
@@ -91,23 +94,15 @@ class App extends Component {
 	}
 
   	render() {
-		
-		// const Animals = this.state.Animals;
-		// const rows = Animals.map((Animal) => {
-		// 		return <p key={Animal.Id}>{Animal.Breed}</p>
-		// })
 
     	return (
-      	<div className="App">
-		  	{/*<input value={this.state.text} onChange={this.handleChange}/>
-			<button onClick={this.pushToFirebase}>Push to Firebase</button>*/}
-			
+      	<div className="App">			
 			{this.state.ActivePage === "Landing" ?
-				<Landing switchPage={this.switchPage}/> :
+				<Landing switchPage={this.switchPage} getDetails={this.getDetails} Animals={this.state.Animals}/> :
 			this.state.ActivePage === "List" ?
 				<List switchPage={this.switchPage} Animals={this.state.Animals}/> :
 			this.state.ActivePage === "Detail" ?
-				<Detail info={this.getAnimalInfo}/> :
+				<Detail Animal={this.state.Animal}/> :
 			this.state.ActivePage === "Add" ?
 				<Add switchPage={this.switchPage} send={this.send}/> :
 				<Update />

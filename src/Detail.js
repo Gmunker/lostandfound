@@ -1,9 +1,12 @@
 import React from 'react';
 
 const Detail = (props) => {
+
+    console.log(props.Animal);
+
     return(
         <div>
-            {props.info}
+            This is the Details Page
         </div>
     )
 }

@@ -22,7 +22,7 @@ const DogTable = (props) => {
 			<tbody>
 				{Animals.map((Animal) => {
 					return(
-						<tr key={Animal.key}>
+						<tr onClick={this.props.switchPage} key={Animal.key} value="Detail" data={Animal}>
 							<td>{Animal.Location}</td>
 							<td>{Animal.Color}</td>
 							<td>{Animal.Breed}</td>

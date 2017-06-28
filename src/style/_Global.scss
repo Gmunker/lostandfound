@@ -21,3 +21,10 @@ body {
 	display: flex;
 	flex-direction: column;
 }
+
+h2.pageHeader {
+	text-align: center;
+	font: 1.5em 'Patua One', Times, serif;
+	color: white;
+	margin-bottom: 0.5em;
+}
