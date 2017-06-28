@@ -1,50 +1,12 @@
-//Majority of credit goes to https://codepen.io/alassetter/pen/cyrfB for css magic
-
-
-
-
-
-body {
-  background-color: #3e94ec;
-  font-family: "Roboto", helvetica, arial, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  text-rendering: optimizeLegibility;
-}
-
-div.table-title {
-   display: block;
-  margin: auto;
-  max-width: 600px;
-  padding:5px;
-  width: 100%;
-}
-
-.table-title h3 {
-   color: #fafafa;
-   font-size: 30px;
-   font-weight: 400;
-   font-style:normal;
-   font-family: "Roboto", helvetica, arial, sans-serif;
-   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
-   text-transform:uppercase;
-}
-
-/*** Table Styles **/
-
-.table-fill {
-  background: white;
-  border-radius:3px;
+table {
+  border: 1px solid #ccc;
   border-collapse: collapse;
-  height: 320px;
-  margin: auto;
-  max-width: 600px;
-  padding:5px;
+  margin: 0;
+  padding: 0;
   width: 100%;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  animation: float 5s infinite;
+  table-layout:fixed ;
 }
- 
+
 th {
   color:#D5DDE5;;
   background:#1b1e24;
@@ -52,7 +14,7 @@ th {
   border-right: 1px solid #343a45;
   font-size:23px;
   font-weight: 100;
-  padding:24px;
+  padding:4px;
   text-align:left;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   vertical-align:middle;
@@ -67,14 +29,9 @@ th:last-child {
   border-right:none;
 }
   
-tr {
-  border-top: 1px solid #C1C3D1;
-  border-bottom: 1px solid #C1C3D1;
-  color:#666B85;
-  font-size:16px;
-  font-weight:normal;
-  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
-}
+table tr th:nth-child(1){
+       width: 45%;
+     }
  
 
 
@@ -103,30 +60,27 @@ tr:last-child td:last-child {
  
 td {
   background:#FFFFFF;
-  padding:10px;
+  padding:13px;
   text-align:left;
   vertical-align:middle;
-  font-weight:300;
-  font-size:18px;
+  font-size:16px;
   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
   border-right: 1px solid #C1C3D1;
 }
 .loctd{
-  max-width:180px;
+  width:300px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .colortd{
-  max-width: 90px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .breedtd{
-  max-width: 80px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
