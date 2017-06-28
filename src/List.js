@@ -12,7 +12,10 @@ const DogTable = (props) => {
 	const Animals = props.Animals;
 	return (
 		<table>
+		 
+
 			<thead>
+
 				<tr>
 					<th>Location</th>
 					<th>Color</th>

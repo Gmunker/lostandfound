@@ -4,7 +4,7 @@ table {
   margin: 0;
   padding: 0;
   width: 100%;
-  table-layout: fixed;
+  table-layout:fixed ;
 }
 
 th {
@@ -29,7 +29,9 @@ th:last-child {
   border-right:none;
 }
   
-
+table tr th:nth-child(1){
+       width: 45%;
+     }
  
 
 
@@ -66,21 +68,19 @@ td {
   border-right: 1px solid #C1C3D1;
 }
 .loctd{
-  width:100rem;
+  width:300px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .colortd{
-  max-width: 100rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .breedtd{
-  max-width: 100rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
