@@ -28,7 +28,7 @@ class Add extends Component {
         this.setState({Date: Year + "-" + Month + "-" + Day + " " + Hours + ":" + Minutes + ":" + Seconds}, () => { 
             this.props.addAnimal(this.state);
         });
-}
+    }
 
     handleChange(event) {
         event.target.name === "name" ?
@@ -50,6 +50,7 @@ class Add extends Component {
         return(
             <div className="addContent content">
                 <div className="topContainer">
+                    <h2 className="pageHeader">Add New Animal</h2>
                     <form>
                         <div>
                             <label htmlFor="name">Name</label>

@@ -117,7 +117,8 @@ form button {
   max-width: 300px;
   margin: 0.5em auto;
   display: block;
-  color: white; }
+  color: white;
+  text-align: right; }
 
 html, body, #root, .App {
   height: 100%; }
@@ -137,6 +138,12 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column; }
+
+h2.pageHeader {
+  text-align: center;
+  font: 1.5em 'Patua One', Times, serif;
+  color: white;
+  margin-bottom: 0.5em; }
 
 .pageNavigation {
   align-self: flex-end;

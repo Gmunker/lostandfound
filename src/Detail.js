@@ -1,6 +1,9 @@
 import React from 'react';
 
 const Detail = (props) => {
+
+    console.log(props.Animal);
+
     return(
         <div className="landingContent">
             <div className="topContainer">
@@ -12,9 +15,6 @@ const Detail = (props) => {
                 <div>White</div>
                 <div>Male</div>
                 <div>Chow mix</div>
-                <nav className="pageNavigation">
-                    <button onClick={props.switchPage} value="Update">Update</button>
-                </nav>
             </div>
             <nav className="pageNavigation">
                     <button onClick={props.switchPage} value="List">Back to List</button>
