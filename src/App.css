@@ -311,6 +311,15 @@ td {
   overflow: hidden;
   text-overflow: ellipsis; }
 
+ul {
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+  list-style-position: inside; }
+
+.listRadio {
+  color: green; }
+
 .addContent {
   box-sizing: border-box;
   padding: 1em 1em 0 1em; }

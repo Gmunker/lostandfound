@@ -85,3 +85,15 @@ td {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+ul{
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+    list-style-position: inside;//this is important addition
+}
+
+.listRadio{
+  color:green;
+
+}
