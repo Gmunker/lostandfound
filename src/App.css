@@ -2,7 +2,7 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-@import url("https://fonts.googleapis.com/css?family=Anton|Bree+Serif|Damion|Fredoka+One|Patua+One");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Bree+Serif|Patua+One");
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -52,18 +52,16 @@ button {
   max-width: 300px;
   margin: 0 auto;
   padding: 0.75rem;
-  font: 1.5rem 'Patua One', 'Times', serif;
-  background: linear-gradient(to top, #4527A0 0%, #673AB7 100%);
+  font: 1.5rem 'Bree Serif', 'Times', serif;
+  background: radial-gradient(circle, #4527A0 20%, #5731c9 100%);
   border: 1px solid #3c228b;
+  border-top: 1px solid #e3eb90;
   margin-bottom: 0.5rem;
-  color: white;
-  text-shadow: 0 0 10px black;
+  color: #daceef;
+  text-shadow: 0 0 1px #daceef, 0 -1px 1px black;
   box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.6); }
   button:last-of-type {
     margin-bottom: 0; }
-
-form button {
-  background: linear-gradient(to top, #1B55A4 0%, #2370CC 100%); }
 
 .formRow {
   width: 100%;
@@ -112,6 +110,9 @@ form button {
   width: calc(50% - 0.5em);
   float: left; }
 
+form button {
+  background: radial-gradient(circle, #1B55A4 30%, #226cd0 100%); }
+
 .formIndicia {
   width: 100%;
   max-width: 300px;
@@ -121,13 +122,16 @@ form button {
   text-align: right; }
 
 html, body, #root, .App {
-  height: 100%; }
+  height: 100%;
+  font-smooth: always;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
 
 img {
   display: block; }
 
 body {
-  background: linear-gradient(-45deg, rgba(136, 144, 77, 0) 0%, #88904d 50%, rgba(136, 144, 77, 0) 100%), url("././images/diamond_upholstery.png");
+  background: radial-gradient(circle farthest-corner at bottom, rgba(205, 220, 57, 0.8) 0%, rgba(205, 220, 57, 0) 100%), url("././images/diamond_upholstery.png");
   margin: 0;
   font-size: 16px; }
 
@@ -170,7 +174,7 @@ h2.pageHeader {
     height: 100px;
     border-radius: 50%;
     overflow: hidden;
-    border: 5px solid white;
+    border: 5px solid #174a8e;
     transform: rotate(-45deg);
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5); }
   .dogImages .dogImages__image1 {
@@ -247,16 +251,16 @@ table {
   margin: 0;
   padding: 0;
   width: 100%;
-  table-layout: fixed; }
+  table-layout: fixed;
+  font: 1em 'Open Sans', Arial, sans-serif; }
 
 th {
   color: #D5DDE5;
-  background: #1b1e24;
+  background: #1B55A4;
   border-bottom: 1px solid #9ea7af;
   border-right: 1px solid #343a45;
-  font-size: 23px;
-  font-weight: 100;
-  padding: 4px;
+  font-size: 1.5em;
+  padding: 0.5em;
   text-align: left;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   vertical-align: middle; }
@@ -313,7 +317,7 @@ td {
 
 .addContent {
   box-sizing: border-box;
-  padding: 1em 1em 0 1em; }
+  padding-top: 1em; }
 
 label {
   width: 100%;

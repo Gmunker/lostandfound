@@ -1,5 +1,8 @@
 html, body, #root, .App {
 	height: 100%;
+	font-smooth: always;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 img {
@@ -7,7 +10,7 @@ img {
 }
 
 body {
-    background: linear-gradient(-45deg, rgba($Secondary,0) 0%,rgba($Secondary, 1) 50%, rgba($Secondary,0) 100%), url('././images/diamond_upholstery.png');
+    background: radial-gradient(circle farthest-corner at bottom, rgba($SecondaryLight,0.8) 0%, rgba($SecondaryLight,0) 100%), url('././images/diamond_upholstery.png');
 	margin: 0;
 	font-size: 16px;
 }
