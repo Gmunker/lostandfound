@@ -1,7 +1,3 @@
-form button {
-    background: linear-gradient(to top, $Tertiary 0%, $TertiaryLight 100%);
-}
-
 .formRow {
     width: 100%;
     max-width: 300px;
@@ -17,6 +13,7 @@ form button {
         font: 1.25rem 'Patua One', 'Arial', serif;
         color: white;
     }
+
     label {
         width: auto;
         margin: 0 0 -5px 0.5em;
@@ -32,6 +29,7 @@ form button {
             box-shadow: 0 0 40px 0 rgba(black, 0.6);
         }
     }
+
     input {
         display: none;
         &:checked + label:after {
@@ -47,13 +45,19 @@ form button {
         }
     }
 }
+
 .formRow {
     display: flex;
     justify-content: space-between;
 }
+
 .formSpanOne {
     width: calc(50% - 0.5em);
     float: left;
+}
+
+form button {
+    background: radial-gradient(circle, $Tertiary 30%, lighten($Tertiary, 10%) 100%);
 }
 
 .formIndicia {
