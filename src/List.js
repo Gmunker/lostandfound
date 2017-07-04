@@ -32,6 +32,14 @@ const Filter = (props) => {
 }
 
 class DogTable extends Component {
+	constructor(props) {
+		super(props);
+		this.handleClick = this.handleClick.bind(this);
+	}
+
+	handleClick(Animal) {
+		this.props.getDetails(Animal);
+	}
 
 	render() {
 
@@ -47,7 +55,7 @@ class DogTable extends Component {
 				<tbody>
 					{	this.props.Animals.map((Animal) => {
 						return(
-							<tr key={Animal.key}>
+							<tr onClick={() => {this.handleClick(Animal)}} key={Animal.key} >
 								<td className="loctd">{Animal.Location}</td>
 								<td className="colortd">{Animal.Color}</td>
 								<td className="breedtd">{Animal.Breed}</td>
@@ -82,22 +90,17 @@ class List extends React.Component {
 			})
 		}
 	}
-
-	// listFilter(type="dog", status="lost") {
-	// 	filteredArray = this.props.Animals.filter((Animal) => {
-	// 		return ((Animal.Type === type) && (Animal.Status === status));
-	// 	})
-	// 	this.setState({
-	// 		filteredAnimals: filteredArray
-	// 	})
-	// }
 	
    	render() {
 		return(
-			<div className="listContent">
-				<Filter handleChange={this.handleChange} status={this.state.status} type={this.state.type}/>
-				<DogTable Animals={this.props.Animals}/>
-				<button onClick={this.props.switchPage} value="Add">Add New Animal</button>
+			<div className="listContent content">
+				<div className="topContainer">
+					<Filter handleChange={this.handleChange} status={this.state.status} type={this.state.type}/>
+					<DogTable Animals={this.props.Animals} getDetails={this.props.getDetails}/>
+				</div>
+				<div className="pageNavigation">
+					<button onClick={this.props.switchPage} value="Add">Add New Animal</button>
+				</div>
 			</div>
 		)
    }

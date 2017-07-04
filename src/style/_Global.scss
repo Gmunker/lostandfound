@@ -1,8 +1,5 @@
 html, body, #root, .App {
 	height: 100%;
-	font-smooth: always;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 }
 
 img {
@@ -10,7 +7,7 @@ img {
 }
 
 body {
-    background: radial-gradient(circle farthest-corner at bottom, rgba($SecondaryLight,0.8) 0%, rgba($SecondaryLight,0) 100%), url('././images/diamond_upholstery.png');
+    background: #efefef;
 	margin: 0;
 	font-size: 16px;
 }
@@ -28,6 +25,6 @@ body {
 h2.pageHeader {
 	text-align: center;
 	font: 1.5em 'Patua One', Times, serif;
-	color: white;
+	color: $Primary;
 	margin-bottom: 0.5em;
 }

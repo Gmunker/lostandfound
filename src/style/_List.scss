@@ -1,7 +1,11 @@
+.listContent {
+	padding: 1em 1em 0 1em;
+}
+
 table {
   	border: 1px solid #ccc;
   	border-collapse: collapse;
-  	margin: 0;
+  	margin: 0 0 1em 0;
   	padding: 0;
   	width: 100%;
   	table-layout:fixed;
@@ -10,7 +14,7 @@ table {
 
 th {
   	color:#D5DDE5;;
-  	background:$Tertiary;
+  	background:$Secondary;
   	border-bottom:1px solid #9ea7af;
   	border-right: 1px solid #343a45;
   	font-size:1.5em;
