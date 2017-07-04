@@ -1,0 +1,43 @@
+.detail-main {
+  background-color: $DetailBackground;
+  text-align: center;
+  line-height: 1.8;
+  padding-top: 40px;
+  margin-bottom: 20px;
+}
+
+hr {
+  width: 70%;
+  height: 2px;
+  margin: 20px auto;
+  text-align: center;
+  background-color: #888;
+  border: none;
+}
+
+.detail-navigation {
+  position: relative;
+  bottom: 10px;
+}
+
+/*** Text Styles **/
+
+.mainText {
+    margin-bottom: 30px;
+}
+
+div::first-letter {
+    text-transform: uppercase;
+}
+
+.name {
+  font-size: 1.2em;
+  margin-top: 20px;
+  line-height: 1;
+}
+
+.statusDetail {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.5em;
+}

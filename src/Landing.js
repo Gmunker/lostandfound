@@ -50,7 +50,7 @@ class Landing extends Component {
                     </div>
                 </div>
                 <nav className="pageNavigation">
-                    <button onClick={this.props.switchPage} value="List">View list of Animals</button>
+                    <button onClick={this.props.switchPage} value="List">View List of Animals</button>
                     <button onClick={this.props.switchPage} value="Add">Add New Animal</button>
                 </nav>
             </div>
