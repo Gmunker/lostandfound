@@ -22,13 +22,15 @@ class App extends Component {
 		this.state = {
 			Animals: [],
 			ActivePage: "Landing",
-			Animal: {}
+			Animal: {},
+			filteredAnimals: []
 		}
 		this.switchPage = this.switchPage.bind(this);
 		this.getDetails = this.getDetails.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.pushToFirebase = this.pushToFirebase.bind(this);
 		this.addAnimal = this.addAnimal.bind(this);
+		this.listFilter = this.listFilter.bind(this);
 	}
 
 	componentWillMount() {  
@@ -42,6 +44,8 @@ class App extends Component {
 		});
 		this.setState({
 			Animals: Animals
+		}, () => {
+			this.listFilter();
 		});
 		}.bind(this));
 	}
@@ -93,16 +97,25 @@ class App extends Component {
 		})
 	}
 
+	listFilter(type="dog", status="lost") {
+		var filteredArray = this.state.Animals.filter((Animal) => {
+			return ((Animal.Type === type) && (Animal.Status === status));
+		})
+		this.setState({
+			filteredAnimals: filteredArray
+		})
+	}
+
   	render() {
-		
+
     	return (
       	<div className="App">			
 			{this.state.ActivePage === "Landing" ?
 				<Landing switchPage={this.switchPage} getDetails={this.getDetails} Animals={this.state.Animals}/> :
 			this.state.ActivePage === "List" ?
-				<List switchPage={this.switchPage} Animals={this.state.Animals}/> :
+				<List listFilter={this.listFilter} switchPage={this.switchPage} Animals={this.state.filteredAnimals} getDetails={this.getDetails}/> :
 			this.state.ActivePage === "Detail" ?
-				<Detail Animal={this.state.Animal}/> :
+				<Detail switchPage={this.switchPage} Animal={this.state.Animal}/> :
 			this.state.ActivePage === "Add" ?
 				<Add switchPage={this.switchPage} send={this.send}/> :
 				<Update />

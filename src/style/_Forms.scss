@@ -1,11 +1,44 @@
-form button {
-    background: linear-gradient(to top, $Tertiary 0%, $TertiaryLight 100%);
-}
-
 .formRow {
     width: 100%;
     max-width: 300px;
     margin: 0 auto;
+}
+
+label {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 0.25rem;
+    font: 1.25rem 'Patua One', 'Arial', serif;
+    color: $Primary;
+}
+
+input {
+    width: 100%;
+    padding: 1em 0.5em;
+    max-width: 300px;
+    margin: 0 auto;
+    display: block;
+    border: 1px solid darken($Primary, 10%);
+    outline: none;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+select {
+    width: 100%;
+    padding: 1em 0.5em;
+    margin: 0 auto;
+    max-width: 300px;
+    display: block;
+    outline: none; 
+    border: 1px solid $Primary;
+    border-radius: 4px;
+}
+
+form div {
+    margin-bottom: 1em;
 }
 
 .radio {
@@ -15,7 +48,7 @@ form button {
     span {
         display: inline-block;
         font: 1.25rem 'Patua One', 'Arial', serif;
-        color: white;
+        color: $Primary;
     }
     label {
         width: auto;
@@ -25,11 +58,11 @@ form button {
         &:before {
             content: "";
             display: block;
-            width: 21px;
-            height: 21px;
+            width: 17px;
+            height: 17px;
             background: white;
+            border: 2px solid $Secondary;
             border-radius: 50%;
-            box-shadow: 0 0 40px 0 rgba(black, 0.6);
         }
     }
     input {
@@ -39,7 +72,7 @@ form button {
             display: block;
             width: 15px;
             height: 15px;
-            background: $Tertiary;
+            background: $Secondary;
             border-radius: 50%;
             position: relative;
             top: -18px;
@@ -47,13 +80,21 @@ form button {
         }
     }
 }
+
 .formRow {
     display: flex;
     justify-content: space-between;
 }
+
 .formSpanOne {
     width: calc(50% - 0.5em);
     float: left;
+}
+
+form button {
+    background: $SecondaryLight;
+    color: lighten($SecondaryLight, 45%);
+    border: 1px solid $Secondary;
 }
 
 .formIndicia {
@@ -61,6 +102,6 @@ form button {
     max-width: 300px;
     margin: 0.5em auto;
     display: block;
-    color: white;
+    color: $Primary;
     text-align: right;
 }

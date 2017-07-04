@@ -7,7 +7,7 @@ img {
 }
 
 body {
-    background: linear-gradient(-45deg, rgba($Secondary,0) 0%,rgba($Secondary, 1) 50%, rgba($Secondary,0) 100%), url('././images/diamond_upholstery.png');
+    background: #efefef;
 	margin: 0;
 	font-size: 16px;
 }
@@ -25,6 +25,6 @@ body {
 h2.pageHeader {
 	text-align: center;
 	font: 1.5em 'Patua One', Times, serif;
-	color: white;
+	color: $Primary;
 	margin-bottom: 0.5em;
 }

@@ -4,13 +4,13 @@ button {
     max-width: 300px;
     margin: 0 auto;
     padding: 0.75rem;
-    font: 1.5rem 'Patua One', 'Times', serif;
-    background: linear-gradient(to top, $Primary 0%, $PrimaryLight 100%);
-    border: 1px solid darken($Primary, 5%);
+    font: 1.5rem 'Bree Serif', 'Times', serif;
+    background: $Primary;
+    border: 1px solid darken($Primary, 10%);
+    border-radius: 4px;
     margin-bottom: 0.5rem;
-    color: white;
-    text-shadow: 0 0 10px black;
-    box-shadow: 0 0 40px 0 rgba(black, 0.6);
+    color: lighten($PrimaryLight, 45%);
+    text-shadow:  0 0 1px lighten($PrimaryLight, 40%), 0 -1px 1px black;
     &:last-of-type {
         margin-bottom: 0;
     }
