@@ -390,7 +390,7 @@ form div {
   background-color: #AAA;
   text-align: center;
   line-height: 1.8;
-  padding: 20px;
+  padding-top: 40px;
   margin-bottom: 20px; }
 
 hr {
@@ -400,6 +400,10 @@ hr {
   text-align: center;
   background-color: #888;
   border: none; }
+
+.detail-navigation {
+  position: relative;
+  bottom: 10px; }
 
 /*** Text Styles **/
 .mainText {
@@ -415,4 +419,5 @@ div::first-letter {
 
 .statusDetail {
   text-transform: uppercase;
-  font-weight: bold; }
+  font-weight: bold;
+  font-size: 1.5em; }
