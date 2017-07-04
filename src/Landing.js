@@ -3,6 +3,7 @@ import dogOne from './images/DogOne.jpg';
 import dogTwo from './images/DogTwo.jpg';
 import dogThree from './images/DogThree.jpg';
 import dogFour from './images/DogFour.jpg';
+import logo from './images/logo.jpg';
 
 class Landing extends Component {
 
@@ -32,11 +33,20 @@ class Landing extends Component {
         return(
             <div className="content">
                 <div className="topContainer">
+                    <img className="logo" src={logo} alt=""/>
                     <div className="dogImages">
-                        <img onClick={this.imageLink} data-animal={0} className="dogImages__image1" src={dogOne} alt=""/>
-                        <img onClick={this.imageLink} data-animal={1} className="dogImages__image2" src={dogTwo} alt=""/>
-                        <img onClick={this.imageLink} data-animal={2} className="dogImages__image3" src={dogThree} alt=""/>
-                        <img onClick={this.imageLink} data-animal={3} className="dogImages__image4" src={dogFour} alt=""/>
+                        <div className="dogImages__image1">
+                            <img onClick={this.imageLink} data-animal={0} className="dogImages__image1" src={dogOne} alt=""/>
+                        </div>
+                        <div className="dogImages__image2">
+                            <img onClick={this.imageLink} data-animal={1} className="dogImages__image2" src={dogTwo} alt=""/>
+                        </div>
+                        <div className="dogImages__image3">
+                            <img onClick={this.imageLink} data-animal={2} className="dogImages__image3" src={dogThree} alt=""/>
+                        </div>
+                        <div className="dogImages__image4">
+                            <img onClick={this.imageLink} data-animal={3} className="dogImages__image4" src={dogFour} alt=""/>
+                        </div>
                     </div>
                 </div>
                 <nav className="pageNavigation">

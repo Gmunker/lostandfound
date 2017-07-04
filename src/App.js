@@ -21,7 +21,7 @@ class App extends Component {
 		super(props);
 		this.state = {
 			Animals: [],
-			ActivePage: "List",
+			ActivePage: "Landing",
 			Animal: {},
 			filteredAnimals: []
 		}
@@ -112,9 +112,9 @@ class App extends Component {
 			{this.state.ActivePage === "Landing" ?
 				<Landing switchPage={this.switchPage} getDetails={this.getDetails} Animals={this.state.Animals}/> :
 			this.state.ActivePage === "List" ?
-				<List listFilter={this.listFilter} switchPage={this.switchPage} Animals={this.state.filteredAnimals}/> :
+				<List listFilter={this.listFilter} switchPage={this.switchPage} Animals={this.state.filteredAnimals} getDetails={this.getDetails}/> :
 			this.state.ActivePage === "Detail" ?
-				<Detail Animal={this.state.Animal}/> :
+				<Detail switchPage={this.switchPage} Animal={this.state.Animal}/> :
 			this.state.ActivePage === "Add" ?
 				<Add switchPage={this.switchPage} send={this.send}/> :
 				<Update />

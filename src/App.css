@@ -53,13 +53,12 @@ button {
   margin: 0 auto;
   padding: 0.75rem;
   font: 1.5rem 'Bree Serif', 'Times', serif;
-  background: radial-gradient(circle, #4527A0 20%, #5731c9 100%);
-  border: 1px solid #3c228b;
-  border-top: 1px solid #e3eb90;
+  background: #423837;
+  border: 1px solid #262020;
+  border-radius: 4px;
   margin-bottom: 0.5rem;
-  color: #daceef;
-  text-shadow: 0 0 1px #daceef, 0 -1px 1px black;
-  box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.6); }
+  color: #cbc0bc;
+  text-shadow: 0 0 1px #c0b3ae, 0 -1px 1px black; }
   button:last-of-type {
     margin-bottom: 0; }
 
@@ -68,6 +67,39 @@ button {
   max-width: 300px;
   margin: 0 auto; }
 
+label {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 0.25rem;
+  font: 1.25rem 'Patua One', 'Arial', serif;
+  color: #423837; }
+
+input {
+  width: 100%;
+  padding: 1em 0.5em;
+  max-width: 300px;
+  margin: 0 auto;
+  display: block;
+  border: 1px solid #262020;
+  outline: none;
+  box-sizing: border-box;
+  border-radius: 4px; }
+
+select {
+  width: 100%;
+  padding: 1em 0.5em;
+  margin: 0 auto;
+  max-width: 300px;
+  display: block;
+  outline: none;
+  border: 1px solid #423837;
+  border-radius: 4px; }
+
+form div {
+  margin-bottom: 1em; }
+
 .radio {
   width: 50%;
   position: relative;
@@ -75,7 +107,7 @@ button {
   .radio span {
     display: inline-block;
     font: 1.25rem 'Patua One', 'Arial', serif;
-    color: white; }
+    color: #423837; }
   .radio label {
     width: auto;
     margin: 0 0 -5px 0.5em;
@@ -84,11 +116,11 @@ button {
     .radio label:before {
       content: "";
       display: block;
-      width: 21px;
-      height: 21px;
+      width: 17px;
+      height: 17px;
       background: white;
-      border-radius: 50%;
-      box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.6); }
+      border: 2px solid #1B55A4;
+      border-radius: 50%; }
   .radio input {
     display: none; }
     .radio input:checked + label:after {
@@ -111,27 +143,26 @@ button {
   float: left; }
 
 form button {
-  background: radial-gradient(circle, #1B55A4 30%, #226cd0 100%); }
+  background: #2370CC;
+  color: #dce9f9;
+  border: 1px solid #1B55A4; }
 
 .formIndicia {
   width: 100%;
   max-width: 300px;
   margin: 0.5em auto;
   display: block;
-  color: white;
+  color: #423837;
   text-align: right; }
 
 html, body, #root, .App {
-  height: 100%;
-  font-smooth: always;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
+  height: 100%; }
 
 img {
   display: block; }
 
 body {
-  background: radial-gradient(circle farthest-corner at bottom, rgba(205, 220, 57, 0.8) 0%, rgba(205, 220, 57, 0) 100%), url("././images/diamond_upholstery.png");
+  background: #efefef;
   margin: 0;
   font-size: 16px; }
 
@@ -146,7 +177,7 @@ body {
 h2.pageHeader {
   text-align: center;
   font: 1.5em 'Patua One', Times, serif;
-  color: white;
+  color: #423837;
   margin-bottom: 0.5em; }
 
 .pageNavigation {
@@ -161,44 +192,55 @@ h2.pageHeader {
   right: calc(-50% -200px);
   overflow: hidden; }
 
+.logo {
+  position: relative;
+  margin: 0 auto;
+  top: 1em;
+  width: 300px; }
+
 .dogImages {
-  width: 230px;
-  height: 230px;
+  width: 250px;
+  height: 250px;
   margin: 0 auto;
   top: 6em;
   position: relative;
   transform: rotate(45deg); }
-  .dogImages img {
+  .dogImages div {
+    background: linear-gradient(-45deg, #143e78 0%, #1B55A4 100%);
+    padding: 10px;
+    border-radius: 50%;
     position: absolute;
+    box-shadow: 0 0 0px 8px #ccc; }
+  .dogImages img {
+    position: relative;
     width: 100px;
     height: 100px;
     border-radius: 50%;
     overflow: hidden;
-    border: 5px solid #174a8e;
-    transform: rotate(-45deg);
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5); }
+    transform: rotate(-45deg); }
   .dogImages .dogImages__image1 {
     top: -290px;
     left: -290px;
     animation: drop1 1.2s ease-in-out;
-    animation-delay: 0.9s;
+    animation-delay: 1.2s;
     animation-fill-mode: forwards; }
   .dogImages .dogImages__image2 {
     top: -290px;
     right: 290px;
     animation: drop2 1.2s ease-in-out;
-    animation-delay: 0.6s;
+    animation-delay: 0.9s;
     animation-fill-mode: forwards; }
   .dogImages .dogImages__image3 {
     bottom: 290px;
     left: -290px;
     animation: drop3 1.2s ease-in-out;
-    animation-delay: 0.3s;
+    animation-delay: 0.6s;
     animation-fill-mode: forwards; }
   .dogImages .dogImages__image4 {
-    bottom: 0;
-    right: 0;
+    bottom: 340px;
+    right: 340px;
     animation: drop4 1.2s ease-in-out;
+    animation-delay: 0.3s;
     animation-fill-mode: forwards; }
 
 @keyframes drop1 {
@@ -236,8 +278,8 @@ h2.pageHeader {
 
 @keyframes drop4 {
   0% {
-    bottom: 290px;
-    right: 290px; }
+    bottom: 340px;
+    right: 340px; }
   75% {
     bottom: -5px;
     right: -5px; }
@@ -245,10 +287,13 @@ h2.pageHeader {
     bottom: 0px;
     right: 0; } }
 
+.listContent {
+  padding: 1em 1em 0 1em; }
+
 table {
   border: 1px solid #ccc;
   border-collapse: collapse;
-  margin: 0;
+  margin: 0 0 1em 0;
   padding: 0;
   width: 100%;
   table-layout: fixed;
@@ -318,38 +363,3 @@ td {
 .addContent {
   box-sizing: border-box;
   padding-top: 1em; }
-
-label {
-  width: 100%;
-  max-width: 300px;
-  margin: 0 auto;
-  display: block;
-  margin-bottom: 0.25rem;
-  font: 1.25rem 'Patua One', 'Arial', serif;
-  color: white; }
-
-input {
-  width: 100%;
-  padding: 1em 0.5em;
-  max-width: 300px;
-  margin: 0 auto;
-  display: block;
-  border: 1px solid #696f3b;
-  outline: none;
-  box-sizing: border-box;
-  border-radius: 4px;
-  box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.6); }
-
-select {
-  width: 100%;
-  padding: 1em 0.5em;
-  margin: 0 auto;
-  max-width: 300px;
-  display: block;
-  outline: none;
-  border: 1px solid #696f3b;
-  border-radius: 4px;
-  box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.6); }
-
-form div {
-  margin-bottom: 1em; }

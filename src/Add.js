@@ -80,24 +80,24 @@ class Add extends Component {
                         <div className="formRow">
                             <div className="radio">
                                 <span>Lost</span>
-                                <input type="radio" id="statusLost" name="status" onChange={this.handleChange} value="Lost" checked={true} />
+                                <input type="radio" id="statusLost" name="status" onChange={this.handleChange} value="Lost" checked={this.state.Status==="Lost"}/>
                                 <label htmlFor="statusLost"></label>
                             </div>
                             <div className="radio">
                                 <span>Found</span>
-                                <input type="radio" id="statusFound" name="status" onChange={this.handleChange} value="Found"/>
+                                <input type="radio" id="statusFound" name="status" onChange={this.handleChange} value="Found" checked={this.state.Status==="Found"}/>
                                 <label htmlFor="statusFound"></label>
                             </div>
                         </div>
                         <div className="formRow">
                             <div className="radio">
                                 <span>Dog</span>
-                                <input type="radio" id="typeDog" name="type" value="Dog" onChange={this.handleChange} checked={true} />
+                                <input type="radio" id="typeDog" name="type" value="Dog" onChange={this.handleChange} checked={this.state.Type==="Dog"} />
                                 <label htmlFor="typeDog"></label>
                             </div>
                             <div className="radio">
                                 <span>Cat</span>
-                                <input type="radio" id="typeCat" name="type" value="Cat" onChange={this.handleChange}/>
+                                <input type="radio" id="typeCat" name="type" value="Cat" onChange={this.handleChange} checked={this.state.Type==="Cat"}/>
                                 <label htmlFor="typeCat"></label>
                             </div>
                         </div>
