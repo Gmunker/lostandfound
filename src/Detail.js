@@ -10,7 +10,7 @@ function FormatDate(date) {
     )
 }
 
-{/* Formats the gender info from f/m to Female/Male */}
+// Formats the gender info from f/m to Female/Male
 function FormatGender(gender) {
     return (
         <div>
@@ -37,7 +37,7 @@ const CurrentAnimal = (props) => {
                 <div>{props.Animal.Breed}</div>
             </div>
             <nav className="pageNavigation detail-navigation">
-                    <button onClick={props.switchPage} value="Update">Update</button>
+                <button onClick={props.switchPage} value="Update">Update</button>
             </nav>
         </div>
     )
