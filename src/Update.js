@@ -11,13 +11,16 @@ class Update extends Component {
             Color: this.props.Animal.Color,
             Breed: this.props.Animal.Breed,
             Status: this.props.Animal.Status,
-            Type: this.props.Animal.Type
+            Type: this.props.Animal.Type,
+            key: this.props.Animal.key,
+            Date: "",
         }
         this.writeCurrentTime = this.writeCurrentTime.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
 
     writeCurrentTime(event) {
+        event.preventDefault();
         var d = new Date(event.target.value);
         var Year = d.getFullYear();
         var Month = (d.getMonth() + 1);
@@ -47,7 +50,6 @@ class Update extends Component {
     }
 
     render() {
-        console.log(this.props.Animal);
         return(
             <div className="addContent content">
                 <Navigation navSwitch={this.props.navSwitch} ActivePage="Detail"/>
