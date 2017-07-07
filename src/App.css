@@ -46,6 +46,29 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
+.mainNavigation {
+  padding: 0.25em 1em;
+  border-bottom: 1px solid #423837;
+  background: #423837;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999; }
+  .mainNavigation ul {
+    display: flex;
+    justify-content: space-between; }
+    .mainNavigation ul img {
+      display: block; }
+    .mainNavigation ul li {
+      font: 1em 'Bree Serif', Times, serif;
+      color: white;
+      display: block;
+      padding-top: 0.85rem; }
+    .mainNavigation ul li.active {
+      color: #c2b7b6; }
+
 button {
   display: block;
   width: 100%;
@@ -97,7 +120,7 @@ select {
   border: 1px solid #423837;
   border-radius: 4px; }
 
-form div {
+form div, .formRow div {
   margin-bottom: 1em; }
 
 .radio {
@@ -170,15 +193,21 @@ body {
   box-sizing: border-box; }
 
 .content {
-  height: 100%;
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  position: relative;
+  top: 58px; }
 
 h2.pageHeader {
   text-align: center;
   font: 1.5em 'Patua One', Times, serif;
   color: #423837;
   margin-bottom: 0.5em; }
+
+.landingContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%; }
 
 .pageNavigation {
   align-self: flex-end;
@@ -288,7 +317,7 @@ h2.pageHeader {
     right: 0; } }
 
 .listContent {
-  padding: 1em 1em 0 1em; }
+  padding-top: 1em; }
 
 table {
   border: 1px solid #ccc;

@@ -31,7 +31,7 @@ class Landing extends Component {
     
     render() {
         return(
-            <div className="content">
+            <div className="landingContent">
                 <div className="topContainer">
                     <img className="logo" src={logo} alt=""/>
                     <div className="dogImages">
@@ -50,8 +50,8 @@ class Landing extends Component {
                     </div>
                 </div>
                 <nav className="pageNavigation">
-                    <button onClick={this.props.switchPage} value="List">View List of Animals</button>
-                    <button onClick={this.props.switchPage} value="Add">Add New Animal</button>
+                    <button onClick={() => this.props.navSwitch("List")}>View List of Animals</button>
+                    <button onClick={() => this.props.navSwitch("Add")}>Add New Animal</button>
                 </nav>
             </div>
         )

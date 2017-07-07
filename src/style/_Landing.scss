@@ -1,3 +1,9 @@
+.landingContent {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
 .pageNavigation {
 	align-self: flex-end;
 	flex: 0;

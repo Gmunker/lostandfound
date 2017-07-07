@@ -1,0 +1,27 @@
+.mainNavigation {
+    padding: 0.25em 1em;
+    border-bottom: 1px solid $Primary;
+    background: $Primary;
+    box-shadow: 0 0 5px 0 rgba(black, 0.8);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    ul {
+        display: flex;
+        justify-content: space-between;
+        img {
+            display: block;
+        }
+        li {
+            font: 1em 'Bree Serif', Times, serif;
+            color: white;
+            display: block;
+            padding-top: 0.85rem;
+        }
+        li.active {
+            color: lighten($Primary, 50%);
+        }
+    }
+}

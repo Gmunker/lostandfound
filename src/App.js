@@ -28,9 +28,11 @@ class App extends Component {
 		this.switchPage = this.switchPage.bind(this);
 		this.getDetails = this.getDetails.bind(this);
 		this.handleChange = this.handleChange.bind(this);
-		this.pushToFirebase = this.pushToFirebase.bind(this);
+		// this.pushToFirebase = this.pushToFirebase.bind(this);
 		this.addAnimal = this.addAnimal.bind(this);
 		this.listFilter = this.listFilter.bind(this);
+		this.navSwitch = this.navSwitch.bind(this);
+		this.deleteAnimal = this.deleteAnimal.bind(this);
 	}
 
 	componentWillMount() {  
@@ -60,15 +62,15 @@ class App extends Component {
 		});
 	}
 
-	pushToFirebase(event) {
-		event.preventDefault();
-		this.firebaseRef.push({
-			text: this.state.text
-		});
-		this.setState({
-			text: ""
-		});
-	}
+	// pushToFirebase(event) {
+	// 	event.preventDefault();
+	// 	this.firebaseRef.push({
+	// 		text: this.state.text
+	// 	});
+	// 	this.setState({
+	// 		text: ""
+	// 	});
+	// }
 
 	switchPage(event) {
 		this.setState({
@@ -90,11 +92,22 @@ class App extends Component {
 		})
 	}
 
-	updateAnimal(animal) {
-		this.firebaseRef.push(animal);
-		this.setState({
-			ActivePage: "List"
-		})
+	deleteAnimal(event) {
+		event.preventDefault();
+		this.firebaseRef.child(this.state.Animal.key).remove(this.setState({
+				ActivePage: "List",
+				Animal: {}
+			})
+		)
+	}
+
+	updateAnimal(event) {
+		event.preventDefault();
+		this.firebaseRef.child(this.state.Animal.key).update(this.state.Animal, this.setState({
+				ActivePage: "List",
+				Animal: {}
+			})
+		)
 	}
 
 	listFilter(type="dog", status="lost") {
@@ -106,19 +119,26 @@ class App extends Component {
 		})
 	}
 
-  	render() {
+	navSwitch(page) {
+		this.setState({ActivePage: page}, () => {
+			if(this.state.ActivePage === "List") {
+				this.listFilter();
+			}
+		})
+	}
 
+  	render() {
     	return (
       	<div className="App">			
 			{this.state.ActivePage === "Landing" ?
-				<Landing switchPage={this.switchPage} getDetails={this.getDetails} Animals={this.state.Animals}/> :
+				<Landing navSwitch={this.navSwitch} switchPage={this.switchPage} getDetails={this.getDetails} Animals={this.state.Animals}/> :
 			this.state.ActivePage === "List" ?
-				<List listFilter={this.listFilter} switchPage={this.switchPage} Animals={this.state.filteredAnimals} getDetails={this.getDetails}/> :
+				<List navSwitch={this.navSwitch} listFilter={this.listFilter} switchPage={this.switchPage} Animals={this.state.filteredAnimals} getDetails={this.getDetails}/> :
 			this.state.ActivePage === "Detail" ?
-				<Detail switchPage={this.switchPage} Animal={this.state.Animal}/> :
+				<Detail navSwitch={this.navSwitch} switchPage={this.switchPage} Animal={this.state.Animal}/> :
 			this.state.ActivePage === "Add" ?
-				<Add switchPage={this.switchPage} send={this.send}/> :
-				<Update />
+				<Add navSwitch={this.navSwitch} switchPage={this.switchPage} addAnimal={this.addAnimal}/> :
+				<Update navSwitch={this.navSwitch} Animal={this.state.Animal} deleteAnimal={this.deleteAnimal}/>
 			}
       	</div>
     	);

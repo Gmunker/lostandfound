@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
+import Navigation from './Navigation';
 
 class Update extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Name: "",
-            Location: "",
-            Gender: "",
-            Color: "",
-            Breed: "",
-            Status: "",
-            Type: ""
+            Name: this.props.Animal.Name,
+            Location: this.props.Animal.Location,
+            Gender: this.props.Animal.Gender,
+            Color: this.props.Animal.Color,
+            Breed: this.props.Animal.Breed,
+            Status: this.props.Animal.Status,
+            Type: this.props.Animal.Type
         }
         this.writeCurrentTime = this.writeCurrentTime.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -46,8 +47,10 @@ class Update extends Component {
     }
 
     render() {
+        console.log(this.props.Animal);
         return(
             <div className="addContent content">
+                <Navigation navSwitch={this.props.navSwitch} ActivePage="Detail"/>
                 <div className="topContainer">
                     <h2 className="pageHeader">Update Animal</h2>
                     <form>
@@ -79,35 +82,20 @@ class Update extends Component {
                         <div className="formRow">
                             <div className="radio">
                                 <span>Lost</span>
-                                <input type="radio" id="statusLost" name="status" onChange={this.handleChange} value="Lost" checked={this.state.Status==="Lost"}/>
+                                <input type="radio" id="statusLost" name="status" onChange={this.handleChange} value="lost" checked={this.state.Status==="lost"}/>
                                 <label htmlFor="statusLost"></label>
                             </div>
                             <div className="radio">
                                 <span>Found</span>
-                                <input type="radio" id="statusFound" name="status" onChange={this.handleChange} value="Found" checked={this.state.Status==="Found"}/>
+                                <input type="radio" id="statusFound" name="status" onChange={this.handleChange} value="found" checked={this.state.Status==="found"}/>
                                 <label htmlFor="statusFound"></label>
                             </div>
                         </div>
-                        <div className="formRow">
-                            <div className="radio">
-                                <span>Dog</span>
-                                <input type="radio" id="typeDog" name="type" value="Dog" onChange={this.handleChange} checked={this.state.Type==="Dog"}/>
-                                <label htmlFor="typeDog"></label>
-                            </div>
-                            <div className="radio">
-                                <span>Cat</span>
-                                <input type="radio" id="typeCat" name="type" value="Cat" onChange={this.handleChange} checked={this.state.Type==="Cat"}/>
-                                <label htmlFor="typeCat"></label>
-                            </div>
-                        </div>
                         <button value={Date()} onClick={this.writeCurrentTime}>Update</button>
-                        <button onClick={this.deleteCurrentTime}>Delete</button>
+                        <button onClick={this.props.deleteAnimal}>Delete</button>
                         <span className="formIndicia">* Required Field</span>
                     </form>
                 </div>
-                <nav className="pageNavigation">
-                    <button onClick={this.props.switchPage} value="List">View Full List</button>
-                </nav>
             </div>
         )
     }
