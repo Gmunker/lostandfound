@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Navigation from './Navigation';
 
 class Add extends Component {
     constructor(props) {
@@ -9,8 +10,8 @@ class Add extends Component {
             Gender: "m",
             Color: "",
             Breed: "",
-            Status: "Lost",
-            Type: "Dog",
+            Status: "lost",
+            Type: "dog",
             Date: "",
             DateDetail: ""
         }
@@ -50,6 +51,7 @@ class Add extends Component {
     render() {
         return(
             <div className="addContent content">
+                <Navigation navSwitch={this.props.navSwitch} ActivePage="Add"/>
                 <div className="topContainer">
                     <h2 className="pageHeader">Add New Animal</h2>
                     <form>
@@ -81,24 +83,24 @@ class Add extends Component {
                         <div className="formRow">
                             <div className="radio">
                                 <span>Lost</span>
-                                <input type="radio" id="statusLost" name="status" onChange={this.handleChange} value="Lost" checked={this.state.Status==="Lost"}/>
+                                <input type="radio" id="statusLost" name="status" onChange={this.handleChange} value="lost" checked={this.state.Status==="lost"}/>
                                 <label htmlFor="statusLost"></label>
                             </div>
                             <div className="radio">
                                 <span>Found</span>
-                                <input type="radio" id="statusFound" name="status" onChange={this.handleChange} value="Found" checked={this.state.Status==="Found"}/>
+                                <input type="radio" id="statusFound" name="status" onChange={this.handleChange} value="found" checked={this.state.Status==="found"}/>
                                 <label htmlFor="statusFound"></label>
                             </div>
                         </div>
                         <div className="formRow">
                             <div className="radio">
                                 <span>Dog</span>
-                                <input type="radio" id="typeDog" name="type" value="Dog" onChange={this.handleChange} checked={this.state.Type==="Dog"} />
+                                <input type="radio" id="typeDog" name="type" value="dog" onChange={this.handleChange} checked={this.state.Type==="dog"} />
                                 <label htmlFor="typeDog"></label>
                             </div>
                             <div className="radio">
                                 <span>Cat</span>
-                                <input type="radio" id="typeCat" name="type" value="Cat" onChange={this.handleChange} checked={this.state.Type==="Cat"}/>
+                                <input type="radio" id="typeCat" name="type" value="cat" onChange={this.handleChange} checked={this.state.Type==="cat"}/>
                                 <label htmlFor="typeCat"></label>
                             </div>
                         </div>
@@ -106,9 +108,6 @@ class Add extends Component {
                         <span className="formIndicia">* Required Field</span>
                     </form>
                 </div>
-                <nav className="pageNavigation">
-                    <button onClick={this.props.switchPage} value="List">View Full List</button>
-                </nav>
             </div>
         )
     }

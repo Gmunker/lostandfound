@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import Navigation from './Navigation';
 
 const Filter = (props) => {
 	return (
-		<div>
+		<div className="filter">
 			<div className="formRow">
 				<div className="radio">
 					<span>Lost</span>
@@ -94,12 +95,11 @@ class List extends React.Component {
    	render() {
 		return(
 			<div className="listContent content">
+				<Navigation navSwitch={this.props.navSwitch} ActivePage="List"/>
 				<div className="topContainer">
+					<h2 className="pageHeader">I'm looking for a...</h2>
 					<Filter handleChange={this.handleChange} status={this.state.status} type={this.state.type}/>
 					<DogTable Animals={this.props.Animals} getDetails={this.props.getDetails}/>
-				</div>
-				<div className="pageNavigation">
-					<button onClick={this.props.switchPage} value="Add">Add New Animal</button>
 				</div>
 			</div>
 		)
