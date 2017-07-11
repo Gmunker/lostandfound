@@ -28,11 +28,11 @@ class App extends Component {
 		this.switchPage = this.switchPage.bind(this);
 		this.getDetails = this.getDetails.bind(this);
 		this.handleChange = this.handleChange.bind(this);
-		// this.pushToFirebase = this.pushToFirebase.bind(this);
 		this.addAnimal = this.addAnimal.bind(this);
 		this.listFilter = this.listFilter.bind(this);
 		this.navSwitch = this.navSwitch.bind(this);
 		this.deleteAnimal = this.deleteAnimal.bind(this);
+		this.updateAnimal = this.updateAnimal.bind(this);
 	}
 
 	componentWillMount() {  
@@ -61,16 +61,6 @@ class App extends Component {
 			text: event.target.value
 		});
 	}
-
-	// pushToFirebase(event) {
-	// 	event.preventDefault();
-	// 	this.firebaseRef.push({
-	// 		text: this.state.text
-	// 	});
-	// 	this.setState({
-	// 		text: ""
-	// 	});
-	// }
 
 	switchPage(event) {
 		this.setState({
@@ -101,9 +91,8 @@ class App extends Component {
 		)
 	}
 
-	updateAnimal(event) {
-		event.preventDefault();
-		this.firebaseRef.child(this.state.Animal.key).update(this.state.Animal, this.setState({
+	updateAnimal(animal) {
+		this.firebaseRef.child(animal.key).update(animal, this.setState({
 				ActivePage: "List",
 				Animal: {}
 			})
@@ -138,7 +127,7 @@ class App extends Component {
 				<Detail navSwitch={this.navSwitch} switchPage={this.switchPage} Animal={this.state.Animal}/> :
 			this.state.ActivePage === "Add" ?
 				<Add navSwitch={this.navSwitch} switchPage={this.switchPage} addAnimal={this.addAnimal}/> :
-				<Update navSwitch={this.navSwitch} Animal={this.state.Animal} deleteAnimal={this.deleteAnimal}/>
+				<Update navSwitch={this.navSwitch} Animal={this.state.Animal} deleteAnimal={this.deleteAnimal} updateAnimal={this.updateAnimal}/>
 			}
       	</div>
     	);

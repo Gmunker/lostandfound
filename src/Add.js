@@ -15,7 +15,6 @@ class Add extends Component {
             Status: "lost",
             Type: "dog",
             Date: "",
-            DateDetail: ""
         }
         this.handleChange = this.handleChange.bind(this);
         this.writeCurrentTime = this.writeCurrentTime.bind(this);
