@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Navigation from './Navigation';
 
+var dateFormat = require('dateformat');
+
 class Add extends Component {
     constructor(props) {
         super(props);
@@ -20,14 +22,8 @@ class Add extends Component {
     }
 
     writeCurrentTime(event) {
-        var d = new Date(event.target.value);
-        var Year = d.getFullYear();
-        var Month = (d.getMonth() + 1);
-        var Day = d.getDate();
-        var Hours = d.getHours();
-        var Minutes = d.getMinutes();
-        var Seconds = d.getSeconds();
-        this.setState({Date: Year + "-" + Month + "-" + Day + " " + Hours + ":" + Minutes + ":" + Seconds}, () => { 
+        console.log(event.target.value);
+        this.setState({Date: event.target.value}, () => { 
             this.props.addAnimal(this.state);
         });
     }
@@ -104,7 +100,7 @@ class Add extends Component {
                                 <label htmlFor="typeCat"></label>
                             </div>
                         </div>
-                        <button value={Date()} onClick={this.writeCurrentTime}>Save</button>
+                        <button value={dateFormat(Date(), "mmmm dS, yyyy")} onClick={this.writeCurrentTime}>Save</button>
                         <span className="formIndicia">* Required Field</span>
                     </form>
                 </div>
