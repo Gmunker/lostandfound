@@ -393,38 +393,28 @@ td {
   box-sizing: border-box;
   padding-top: 1em; }
 
-.detail-main {
-  background-color: #AAA;
+.detail {
   text-align: center;
-  line-height: 1.8;
-  padding-top: 40px;
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  font: 1em/1.5em 'Open Sans', 'Arial', serif; }
 
-hr {
-  width: 70%;
-  height: 2px;
-  margin: 20px auto;
-  text-align: center;
-  background-color: #888;
-  border: none; }
+.detail__main__status, .detail__sub__name {
+  text-transform: uppercase;
+  font: 1.5em 'Bree Serif', Times, serif;
+  color: #423837; }
+
+.detail__main__location {
+  font-size: 1.25em;
+  margin-bottom: 0.5em; }
+
+.detail__main__image {
+  width: 100%; }
 
 .detail-navigation {
   position: relative;
   bottom: 10px; }
 
-/*** Text Styles **/
-.mainText {
-  margin-bottom: 30px; }
-
-div::first-letter {
-  text-transform: uppercase; }
-
 .name {
   font-size: 1.2em;
   margin-top: 20px;
   line-height: 1; }
-
-.statusDetail {
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 1.5em; }

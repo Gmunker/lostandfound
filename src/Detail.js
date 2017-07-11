@@ -24,21 +24,20 @@ function FormatGender(gender) {
 
 const CurrentAnimal = (props) => {
     return(
-        <div className="detail-main topContainer">
-            <div className="mainText">
-                <div className="statusDetail">{props.Animal.Type} {props.Animal.Status}</div>
-                <div>{FormatDate(props.Animal.Date)}</div>
-                <div className="name">{props.Animal.Name}</div>
-                <hr/>
-                <div>{props.Animal.DateDetail}</div>
-                <div>{props.Animal.Location}</div>
-                <div>{props.Animal.Color}</div>
-                <div>{FormatGender(props.Animal.Gender)}</div>
-                <div>{props.Animal.Breed}</div>
+        <div className="detail">
+            <div className="detail__main">
+                <h2 className="detail__main__status">{props.Animal.Status} {FormatDate(props.Animal.Date)}</h2>
+                <div>Near</div>
+                <p className="detail__main__location">{props.Animal.Location}</p>
+                <img className="detail__main__image" src={props.Animal.Image} alt=""></img>
             </div>
-            <nav className="pageNavigation detail-navigation">
+            <div className="detail__sub">
+                <div className="detail__sub__name">{props.Animal.Name}</div>
+                <div className="detail__sub__color">{props.Animal.Color}</div>
+                <div className="detail__sub__gender">{FormatGender(props.Animal.Gender)}</div>
+                <div className="detail__sub__breed">{props.Animal.Breed}</div>
                 <button onClick={() => props.navSwitch("Update")} value="Update">Update</button>
-            </nav>
+            </div>
         </div>
     )
 }
