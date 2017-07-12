@@ -7,6 +7,7 @@ import Detail from './Detail';
 import Add from './Add';
 import List from './List';
 import Update from './Update';
+import Login from './Login';
 
 const config = {
   	apiKey: "AIzaSyChKSzluTzhjX5VJxVqFF5zWzaFeWNScR8",
@@ -127,7 +128,9 @@ class App extends Component {
 				<Detail navSwitch={this.navSwitch} switchPage={this.switchPage} Animal={this.state.Animal}/> :
 			this.state.ActivePage === "Add" ?
 				<Add navSwitch={this.navSwitch} switchPage={this.switchPage} addAnimal={this.addAnimal}/> :
-				<Update navSwitch={this.navSwitch} Animal={this.state.Animal} deleteAnimal={this.deleteAnimal} updateAnimal={this.updateAnimal}/>
+			this.state.ActivePage === "Update" ?
+				<Update navSwitch={this.navSwitch} Animal={this.state.Animal} deleteAnimal={this.deleteAnimal} updateAnimal={this.updateAnimal}/> :
+				<Login navSwitch={this.navSwitch}/>
 			}
       	</div>
     	);

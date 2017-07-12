@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Navigation from './Navigation';
+import dateFormat from 'dateformat';
 
 class Update extends Component {
     constructor(props) {
@@ -21,14 +22,7 @@ class Update extends Component {
 
     writeCurrentTime(event) {
         event.preventDefault();
-        var d = new Date(event.target.value);
-        var Year = d.getFullYear();
-        var Month = (d.getMonth() + 1);
-        var Day = d.getDate();
-        var Hours = d.getHours();
-        var Minutes = d.getMinutes();
-        var Seconds = d.getSeconds();
-        this.setState({Date: Year + "-" + Month + "-" + Day + " " + Hours + ":" + Minutes + ":" + Seconds}, () => { 
+        this.setState({Date: event.target.value}, () => { 
             this.props.updateAnimal(this.state);
         });
     }
@@ -93,7 +87,7 @@ class Update extends Component {
                                 <label htmlFor="statusFound"></label>
                             </div>
                         </div>
-                        <button value={Date()} onClick={this.writeCurrentTime}>Update</button>
+                        <button value={dateFormat(Date(), "yyyy-mm-dd HH:MM:ss")} onClick={this.writeCurrentTime}>Update</button>
                         <button onClick={this.props.deleteAnimal}>Delete</button>
                         <span className="formIndicia">* Required Field</span>
                     </form>
