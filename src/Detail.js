@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import Navigation from './Navigation';
+import dateFormat from 'dateformat';
+// var dateFormat = require('dateformat');
 
-function FormatDate(date) {
-    var monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    let year = date.slice(0,4);
-    let month = monthName[date.slice(5,7) - 1];
-    let day = date.slice(8,10);
-    return (
-        <div>{month} {day}, {year}</div>
-    )
-}
+// function FormatDate(date) {
+//     var monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+//     let year = date.slice(0,4);
+//     let month = monthName[date.slice(5,7) - 1];
+//     let day = date.slice(8,10);
+//     return (
+//         <div>{month} {day}, {year}</div>
+//     )
+// }
 
 // Formats the gender info from f/m to Female/Male
 function FormatGender(gender) {
@@ -26,7 +28,7 @@ const CurrentAnimal = (props) => {
     return(
         <div className="detail">
             <div className="detail__main">
-                <h2 className="detail__main__status">{props.Animal.Status} {FormatDate(props.Animal.Date)}</h2>
+                <h2 className="detail__main__status">{props.Animal.Status} {dateFormat(props.Animal.Date, "ddd, mmm dS, yyyy")}</h2>
                 <div>Near</div>
                 <p className="detail__main__location">{props.Animal.Location}</p>
                 <img className="detail__main__image" src={props.Animal.Image} alt=""></img>

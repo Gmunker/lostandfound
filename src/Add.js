@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Navigation from './Navigation';
-
-var dateFormat = require('dateformat');
+import dateFormat from 'dateformat';
 
 class Add extends Component {
     constructor(props) {
@@ -21,7 +20,6 @@ class Add extends Component {
     }
 
     writeCurrentTime(event) {
-        console.log(event.target.value);
         this.setState({Date: event.target.value}, () => { 
             this.props.addAnimal(this.state);
         });
@@ -99,7 +97,7 @@ class Add extends Component {
                                 <label htmlFor="typeCat"></label>
                             </div>
                         </div>
-                        <button value={dateFormat(Date(), "mmmm dS, yyyy")} onClick={this.writeCurrentTime}>Save</button>
+                        <button value={dateFormat(Date(), "yyyy-mm-dd HH:MM:ss")} onClick={this.writeCurrentTime}>Save</button>
                         <span className="formIndicia">* Required Field</span>
                     </form>
                 </div>
