@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Navigation from './Navigation';
 import dateFormat from 'dateformat';
 
+// Comment
+
 class Add extends Component {
     constructor(props) {
         super(props);
