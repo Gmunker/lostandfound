@@ -1,3 +1,16 @@
+@mixin bp($point) {
+  @if $point == papa-bear {
+    @media (max-width: 1600px) { @content; }
+  }
+  @else if $point == mama-bear {
+    @media (max-width: 1250px) { @content; }
+  }
+  @else if $point == baby-bear {
+    @media (max-width: 600px)  { @content; }
+  }
+}
+
+
 html, body, #root, .App {
 	height: 100%;
 }
