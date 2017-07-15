@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 import dateFormat from 'dateformat';
 
@@ -16,16 +17,10 @@ class Add extends Component {
             Date: "",
         }
         this.handleChange = this.handleChange.bind(this);
-        this.writeCurrentTime = this.writeCurrentTime.bind(this);
-    }
-
-    writeCurrentTime(event) {
-        this.setState({Date: event.target.value}, () => { 
-            this.props.addAnimal(this.state);
-        });
     }
 
     handleChange(event) {
+        this.setState({Date: dateFormat(Date(), "yyyy-mm-dd HH:MM:ss")})
         event.target.name === "name" ?
         this.setState({Name: event.target.value}) :
         event.target.name === "location" ?
@@ -97,7 +92,7 @@ class Add extends Component {
                                 <label htmlFor="typeCat"></label>
                             </div>
                         </div>
-                        <button value={dateFormat(Date(), "yyyy-mm-dd HH:MM:ss")} onClick={this.writeCurrentTime}>Save</button>
+                        <Link to="/list" onClick={() => {this.props.addAnimal(this.state)}}>Save</Link>
                         <span className="formIndicia">* Required Field</span>
                     </form>
                 </div>

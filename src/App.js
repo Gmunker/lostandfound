@@ -71,22 +71,18 @@ class App extends Component {
 	}
 
 	getDetails(animal) {
-		// this.setState({Animal: animal}, () => {
-		// 	this.context.router.push("/add")
-		// })
+		this.setState({
+			Animal: animal
+		})
 	}
 
 	addAnimal(animal) {
 		this.firebaseRef.push(animal);
-		this.setState({
-			ActivePage: "List"
-		})
 	}
 
 	deleteAnimal(event) {
 		event.preventDefault();
 		this.firebaseRef.child(this.state.Animal.key).remove(this.setState({
-				ActivePage: "List",
 				Animal: {}
 			})
 		)
@@ -94,7 +90,6 @@ class App extends Component {
 
 	updateAnimal(animal) {
 		this.firebaseRef.child(animal.key).update(animal, this.setState({
-				ActivePage: "List",
 				Animal: {}
 			})
 		)

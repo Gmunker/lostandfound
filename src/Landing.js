@@ -10,28 +10,11 @@ class Landing extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            animal: "Bob"
-        }
         this.imageLink = this.imageLink.bind(this);
     }
 
-// Convert string to number to avoid ternary
-
     imageLink(num) {
-        // console.log(this.props.Animals[num]);
-        // var num;
-        // event.target.dataset.animal === "0" ?
-        // num = 0 :
-        // event.target.dataset.animal === "1" ?
-        // num = 1 :
-        // event.target.dataset.animal === "2" ?
-        // num = 2 :
-        // num = 3
-        // this.setState({animal: this.props.Animals[num]}, () => {
-            // console.log(this.state.animal);
         this.props.getDetails(this.props.Animals[num]);
-        // })
     }
     
     render() {
@@ -44,13 +27,13 @@ class Landing extends Component {
                             <Link to="/detail" onClick={() => {this.imageLink(0)}}><img className="dogImages__image1" src={dogOne} alt=""/></Link>
                         </div>
                         <div className="dogImages__image2">
-                            <img onClick={this.imageLink} data-animal={1} className="dogImages__image2" src={dogTwo} alt=""/>
+                            <Link to="/detail" onClick={() => {this.imageLink(1)}}><img onClick={this.imageLink} data-animal={1} className="dogImages__image2" src={dogTwo} alt=""/></Link>
                         </div>
                         <div className="dogImages__image3">
-                            <img onClick={this.imageLink} data-animal={2} className="dogImages__image3" src={dogThree} alt=""/>
+                            <Link to="/detail" onClick={() => {this.imageLink(2)}}><img onClick={this.imageLink} data-animal={2} className="dogImages__image3" src={dogThree} alt=""/></Link>
                         </div>
                         <div className="dogImages__image4">
-                            <img onClick={this.imageLink} data-animal={3} className="dogImages__image4" src={dogFour} alt=""/>
+                            <Link to="/detail" onClick={() => {this.imageLink(3)}}><img onClick={this.imageLink} data-animal={3} className="dogImages__image4" src={dogFour} alt=""/></Link>
                         </div>
                     </div>
                 </div>

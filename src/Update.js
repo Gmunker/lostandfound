@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 import dateFormat from 'dateformat';
 
@@ -87,8 +88,8 @@ class Update extends Component {
                                 <label htmlFor="statusFound"></label>
                             </div>
                         </div>
-                        <button value={dateFormat(Date(), "yyyy-mm-dd HH:MM:ss")} onClick={this.writeCurrentTime}>Update</button>
-                        <button onClick={this.props.deleteAnimal}>Delete</button>
+                        <Link to="/list"><button value={dateFormat(Date(), "yyyy-mm-dd HH:MM:ss")} onClick={this.writeCurrentTime}>Update</button></Link>
+                        <Link to="/list"><button onClick={this.props.deleteAnimal}>Delete</button></Link>
                         <span className="formIndicia">* Required Field</span>
                     </form>
                 </div>

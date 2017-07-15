@@ -58,11 +58,9 @@ class DogTable extends Component {
 					{	this.props.Animals.map((Animal) => {
 						return(
 						<tr key={Animal.key} onClick={() => {this.handleClick(Animal)}}>
-							
-								<td className="loctd">{Animal.Location}</td>
-								<td className="colortd">{Animal.Color}</td>
-								<td className="breedtd">{Animal.Breed}</td>
-						
+							<td className="loctd"><Link to="/detail">{Animal.Location}</Link></td>
+							<td className="colortd"><Link to="/detail">{Animal.Color}</Link></td>
+							<td className="breedtd"><Link to="/detail">{Animal.Breed}</Link></td>
 						</tr>
 						)
 					})}
