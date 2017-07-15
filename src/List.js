@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 
 const Filter = (props) => {
@@ -56,11 +57,13 @@ class DogTable extends Component {
 				<tbody>
 					{	this.props.Animals.map((Animal) => {
 						return(
-							<tr onClick={() => {this.handleClick(Animal)}} key={Animal.key} >
+						<tr key={Animal.key} onClick={() => {this.handleClick(Animal)}}>
+							
 								<td className="loctd">{Animal.Location}</td>
 								<td className="colortd">{Animal.Color}</td>
 								<td className="breedtd">{Animal.Breed}</td>
-							</tr>
+						
+						</tr>
 						)
 					})}
 				</tbody>

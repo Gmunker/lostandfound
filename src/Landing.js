@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import dogOne from './images/DogOne.jpg';
 import dogTwo from './images/DogTwo.jpg';
 import dogThree from './images/DogThree.jpg';
@@ -10,23 +11,27 @@ class Landing extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            animal: {}
+            animal: "Bob"
         }
         this.imageLink = this.imageLink.bind(this);
     }
 
-    imageLink(event) {
-        var num;
-        event.target.dataset.animal === "0" ?
-        num = 0 :
-        event.target.dataset.animal === "1" ?
-        num = 1 :
-        event.target.dataset.animal === "2" ?
-        num = 2 :
-        num = 3
-        this.setState({animal: this.props.Animals[num]}, () => {
-            this.props.getDetails(this.state.animal)
-        })
+// Convert string to number to avoid ternary
+
+    imageLink(num) {
+        // console.log(this.props.Animals[num]);
+        // var num;
+        // event.target.dataset.animal === "0" ?
+        // num = 0 :
+        // event.target.dataset.animal === "1" ?
+        // num = 1 :
+        // event.target.dataset.animal === "2" ?
+        // num = 2 :
+        // num = 3
+        // this.setState({animal: this.props.Animals[num]}, () => {
+            // console.log(this.state.animal);
+        this.props.getDetails(this.props.Animals[num]);
+        // })
     }
     
     render() {
@@ -36,7 +41,7 @@ class Landing extends Component {
                     <img className="logo" src={logo} alt=""/>
                     <div className="dogImages">
                         <div className="dogImages__image1">
-                            <img onClick={this.imageLink} data-animal={0} className="dogImages__image1" src={dogOne} alt=""/>
+                            <Link to="/detail" onClick={() => {this.imageLink(0)}}><img className="dogImages__image1" src={dogOne} alt=""/></Link>
                         </div>
                         <div className="dogImages__image2">
                             <img onClick={this.imageLink} data-animal={1} className="dogImages__image2" src={dogTwo} alt=""/>
@@ -50,8 +55,8 @@ class Landing extends Component {
                     </div>
                 </div>
                 <nav className="pageNavigation">
-                    <button onClick={() => this.props.navSwitch("List")}>View List of Animals</button>
-                    <button onClick={() => this.props.navSwitch("Add")}>Add New Animal</button>
+                    <Link to="/list"><button>View Full List</button></Link>
+                    <Link to="/add"><button>Add New Animal</button></Link>
                 </nav>
             </div>
         )

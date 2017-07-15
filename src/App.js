@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-// import reactfire from 'reactfire';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 import Landing from './Landing';
 import Detail from './Detail';
 import Add from './Add';
 import List from './List';
 import Update from './Update';
-import Login from './Login';
+// import Login from './Login';
 
 const config = {
   	apiKey: "AIzaSyChKSzluTzhjX5VJxVqFF5zWzaFeWNScR8",
@@ -17,7 +17,8 @@ const config = {
 
 firebase.initializeApp(config);
 
-class App extends Component {
+class App extends Component {	
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -70,10 +71,9 @@ class App extends Component {
 	}
 
 	getDetails(animal) {
-		this.setState({
-			Animal: animal,
-			ActivePage: "Detail"
-		})
+		// this.setState({Animal: animal}, () => {
+		// 	this.context.router.push("/add")
+		// })
 	}
 
 	addAnimal(animal) {
@@ -119,22 +119,23 @@ class App extends Component {
 
   	render() {
     	return (
-      	<div className="App">			
-			{this.state.ActivePage === "Landing" ?
-				<Landing navSwitch={this.navSwitch} switchPage={this.switchPage} getDetails={this.getDetails} Animals={this.state.Animals}/> :
-			this.state.ActivePage === "List" ?
-				<List navSwitch={this.navSwitch} listFilter={this.listFilter} switchPage={this.switchPage} Animals={this.state.filteredAnimals} getDetails={this.getDetails}/> :
-			this.state.ActivePage === "Detail" ?
-				<Detail navSwitch={this.navSwitch} switchPage={this.switchPage} Animal={this.state.Animal}/> :
-			this.state.ActivePage === "Add" ?
-				<Add navSwitch={this.navSwitch} switchPage={this.switchPage} addAnimal={this.addAnimal}/> :
-			this.state.ActivePage === "Update" ?
-				<Update navSwitch={this.navSwitch} Animal={this.state.Animal} deleteAnimal={this.deleteAnimal} updateAnimal={this.updateAnimal}/> :
-				<Login navSwitch={this.navSwitch}/>
-			}
-      	</div>
+		<Router>
+      	 <div className="App"> 
+			<Route exact path="/" render={() => <Landing Animals={this.state.Animals} getDetails={this.getDetails}/>}/>
+			<Route exact path="/list" render={() => <List Animals={this.state.filteredAnimals} listFilter={this.listFilter} getDetails={this.getDetails}/>}/>	
+			<Route exact path="/detail" render={() => <Detail Animal={this.state.Animal}/>}/>
+			<Route exact path="/add" render={() => <Add addAnimal={this.addAnimal}/>}/>
+			<Route exact path="/update" render={() => <Update Animal={this.state.Animal} deleteAnimal={this.deleteAnimal} updateAnimal={this.updateAnimal}/>}/>
+			<Route exact path="/login"/>			
+      	 </div> 
+		</Router>
     	);
   	}
 }
 
+contextTypes: {
+	router: React.PropTypes.object
+}
+
 export default App;
+
