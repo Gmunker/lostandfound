@@ -128,9 +128,5 @@ class App extends Component {
   	}
 }
 
-contextTypes: {
-	router: React.PropTypes.object
-}
-
 export default App;
 

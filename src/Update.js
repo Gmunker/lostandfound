@@ -81,8 +81,8 @@ class Update extends Component {
                                 <label htmlFor="statusFound"></label>
                             </div>
                         </div>
-                        <Link to="/list" onClick={ () => {this.props.updateAnimal(this.state, this.props.Animal.key)}}>Update</Link>
-                        <Link to="/list" onClick={() => {this.props.deleteAnimal(this.props.Animal.key)}}>Delete</Link>
+                        <Link className="formButton" to="/list" onClick={ () => {this.props.updateAnimal(this.state, this.props.Animal.key)}}>Update</Link>
+                        <Link className="formButton" to="/list" onClick={() => {this.props.deleteAnimal(this.props.Animal.key)}}>Delete</Link>
                         <span className="formIndicia">* Required Field</span>
                     </form>
                 </div>

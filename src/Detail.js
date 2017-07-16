@@ -27,8 +27,7 @@ const CurrentAnimal = (props) => {
                 <div className="detail__sub__color">{props.Animal.Color}</div>
                 <div className="detail__sub__gender">{FormatGender(props.Animal.Gender)}</div>
                 <div className="detail__sub__breed">{props.Animal.Breed}</div>
-                <Link to="/update"><button>Update</button></Link>
-                {/* <button onClick={() => props.navSwitch("Update")} value="Update">Update</button> */}
+                <Link className="Button" to="/update">Update</Link>
             </div>
         </div>
     )

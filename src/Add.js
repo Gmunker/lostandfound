@@ -92,7 +92,7 @@ class Add extends Component {
                                 <label htmlFor="typeCat"></label>
                             </div>
                         </div>
-                        <Link to="/list" onClick={() => {this.props.addAnimal(this.state)}}>Save</Link>
+                        <Link className="formButton" to="/list" onClick={() => {this.props.addAnimal(this.state)}}>Save</Link>
                         <span className="formIndicia">* Required Field</span>
                     </form>
                 </div>
