@@ -80,16 +80,16 @@ class App extends Component {
 		this.firebaseRef.push(animal);
 	}
 
-	deleteAnimal(event) {
-		event.preventDefault();
-		this.firebaseRef.child(this.state.Animal.key).remove(this.setState({
+	deleteAnimal(key) {
+		// event.preventDefault();
+		this.firebaseRef.child(key).remove(this.setState({
 				Animal: {}
 			})
 		)
 	}
 
-	updateAnimal(animal) {
-		this.firebaseRef.child(animal.key).update(animal, this.setState({
+	updateAnimal(animal, key) {
+		this.firebaseRef.child(key).update(animal, this.setState({
 				Animal: {}
 			})
 		)

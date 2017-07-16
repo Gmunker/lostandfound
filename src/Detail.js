@@ -14,7 +14,6 @@ function FormatGender(gender) {
 }
 
 const CurrentAnimal = (props) => {
-    console.log(props.Animal);
     return(
         <div className="detail">
             <div className="detail__main">

@@ -14,21 +14,13 @@ class Update extends Component {
             Breed: this.props.Animal.Breed,
             Status: this.props.Animal.Status,
             Type: this.props.Animal.Type,
-            key: this.props.Animal.key,
-            Date: "",
+            Date: dateFormat(Date(), "yyyy-mm-dd HH:MM:ss")               
         }
-        this.writeCurrentTime = this.writeCurrentTime.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
 
-    writeCurrentTime(event) {
-        event.preventDefault();
-        this.setState({Date: event.target.value}, () => { 
-            this.props.updateAnimal(this.state);
-        });
-    }
-
     handleChange(event) {
+        this.setState({Date: dateFormat(Date(), "yyyy-mm-dd HH:MM:ss")})
         event.target.name === "name" ?
         this.setState({Name: event.target.value}) :
         event.target.name === "location" ?
@@ -45,6 +37,7 @@ class Update extends Component {
     }
 
     render() {
+        // this.props.updateAnimal(this.state, this.props.Animal.key);
         return(
             <div className="addContent content">
                 <Navigation navSwitch={this.props.navSwitch} ActivePage="Detail"/>
@@ -88,8 +81,8 @@ class Update extends Component {
                                 <label htmlFor="statusFound"></label>
                             </div>
                         </div>
-                        <Link to="/list"><button value={dateFormat(Date(), "yyyy-mm-dd HH:MM:ss")} onClick={this.writeCurrentTime}>Update</button></Link>
-                        <Link to="/list"><button onClick={this.props.deleteAnimal}>Delete</button></Link>
+                        <Link to="/list" onClick={ () => {this.props.updateAnimal(this.state, this.props.Animal.key)}}>Update</Link>
+                        <Link to="/list" onClick={() => {this.props.deleteAnimal(this.props.Animal.key)}}>Delete</Link>
                         <span className="formIndicia">* Required Field</span>
                     </form>
                 </div>
