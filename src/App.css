@@ -251,7 +251,7 @@ h2.pageHeader {
   top: 6em;
   position: relative;
   transform: rotate(45deg); }
-  .dogImages div {
+  .dogImages a {
     background: linear-gradient(-45deg, #143e78 0%, #1B55A4 100%);
     padding: 10px;
     border-radius: 50%;

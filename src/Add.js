@@ -39,7 +39,7 @@ class Add extends Component {
     render() {
         return(
             <div className="addContent content">
-                <Navigation navSwitch={this.props.navSwitch} ActivePage="Add"/>
+                <Navigation/>
                 <div className="topContainer">
                     <h2 className="pageHeader">Add New Animal</h2>
                     <form>

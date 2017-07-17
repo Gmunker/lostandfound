@@ -10,11 +10,6 @@ class Landing extends Component {
 
     constructor(props) {
         super(props);
-        this.imageLink = this.imageLink.bind(this);
-    }
-
-    imageLink(num) {
-        this.props.getDetails(this.props.Animals[num]);
     }
     
     render() {
@@ -23,18 +18,18 @@ class Landing extends Component {
                 <div className="topContainer">
                     <img className="logo" src={logo} alt=""/>
                     <div className="dogImages">
-                        <div className="dogImages__image1">
-                            <Link to="/detail" onClick={() => {this.imageLink(0)}}><img className="dogImages__image1" src={dogOne} alt=""/></Link>
-                        </div>
-                        <div className="dogImages__image2">
-                            <Link to="/detail" onClick={() => {this.imageLink(1)}}><img onClick={this.imageLink} data-animal={1} className="dogImages__image2" src={dogTwo} alt=""/></Link>
-                        </div>
-                        <div className="dogImages__image3">
-                            <Link to="/detail" onClick={() => {this.imageLink(2)}}><img onClick={this.imageLink} data-animal={2} className="dogImages__image3" src={dogThree} alt=""/></Link>
-                        </div>
-                        <div className="dogImages__image4">
-                            <Link to="/detail" onClick={() => {this.imageLink(3)}}><img onClick={this.imageLink} data-animal={3} className="dogImages__image4" src={dogFour} alt=""/></Link>
-                        </div>
+                        <Link className="dogImages__image1" to="/detail" onClick={() => {this.props.getDetails(this.props.Animals[0])}}>
+                            <img className="dogImages__image1" src={dogOne} alt=""/>
+                        </Link>
+                        <Link className="dogImages__image2" to="/detail" onClick={() => {this.props.getDetails(this.props.Animals[1])}}>
+                            <img className="dogImages__image2" src={dogTwo} alt=""/>
+                        </Link>
+                        <Link className="dogImages__image3" to="/detail" onClick={() => {this.props.getDetails(this.props.Animals[2])}}>
+                            <img className="dogImages__image3" src={dogThree} alt=""/>
+                        </Link>
+                        <Link className="dogImages__image4" to="/detail" onClick={() => {this.props.getDetails(this.props.Animals[3])}}>
+                            <img className="dogImages__image4" src={dogFour} alt=""/>
+                        </Link>
                     </div>
                 </div>
                 <nav className="pageNavigation">

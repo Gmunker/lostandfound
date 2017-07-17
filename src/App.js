@@ -23,16 +23,12 @@ class App extends Component {
 		super(props);
 		this.state = {
 			Animals: [],
-			ActivePage: "Landing",
 			Animal: {},
 			filteredAnimals: []
 		}
-		this.switchPage = this.switchPage.bind(this);
 		this.getDetails = this.getDetails.bind(this);
-		this.handleChange = this.handleChange.bind(this);
 		this.addAnimal = this.addAnimal.bind(this);
 		this.listFilter = this.listFilter.bind(this);
-		this.navSwitch = this.navSwitch.bind(this);
 		this.deleteAnimal = this.deleteAnimal.bind(this);
 		this.updateAnimal = this.updateAnimal.bind(this);
 	}
@@ -58,18 +54,6 @@ class App extends Component {
 		this.firebaseRef.off();
 	}
 
-	handleChange(event) {
-		this.setState({
-			text: event.target.value
-		});
-	}
-
-	switchPage(event) {
-		this.setState({
-			ActivePage: event.target.value
-		})
-	}
-
 	getDetails(animal) {
 		this.setState({
 			Animal: animal
@@ -81,7 +65,6 @@ class App extends Component {
 	}
 
 	deleteAnimal(key) {
-		// event.preventDefault();
 		this.firebaseRef.child(key).remove(this.setState({
 				Animal: {}
 			})
@@ -101,14 +84,6 @@ class App extends Component {
 		})
 		this.setState({
 			filteredAnimals: filteredArray
-		})
-	}
-
-	navSwitch(page) {
-		this.setState({ActivePage: page}, () => {
-			if(this.state.ActivePage === "List") {
-				this.listFilter();
-			}
 		})
 	}
 
