@@ -18,7 +18,6 @@ The database will be set up on Heroku along with a functioning instance of Apach
 
 
 **Tech Stack**
-* MySQL
+* Firebase
 * React
-* Redux
-* PHP
+* Sass
