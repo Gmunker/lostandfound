@@ -7,10 +7,6 @@ import dogFour from './images/DogFour.jpg';
 import logo from './images/logo.jpg';
 
 class Landing extends Component {
-
-    constructor(props) {
-        super(props);
-    }
     
     render() {
         return(

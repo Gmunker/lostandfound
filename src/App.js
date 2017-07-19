@@ -7,6 +7,7 @@ import Detail from './Detail';
 import Add from './Add';
 import List from './List';
 import Update from './Update';
+import ScrollToTop from './ScrollToTop';
 // import Login from './Login';
 
 const config = {
@@ -90,14 +91,16 @@ class App extends Component {
   	render() {
     	return (
 		<Router>
-      	 <div className="App"> 
-			<Route exact path="/" render={() => <Landing Animals={this.state.Animals} getDetails={this.getDetails}/>}/>
-			<Route exact path="/list" render={() => <List Animals={this.state.filteredAnimals} listFilter={this.listFilter} getDetails={this.getDetails}/>}/>	
-			<Route exact path="/detail" render={() => <Detail Animal={this.state.Animal}/>}/>
-			<Route exact path="/add" render={() => <Add addAnimal={this.addAnimal}/>}/>
-			<Route exact path="/update" render={() => <Update Animal={this.state.Animal} deleteAnimal={this.deleteAnimal} updateAnimal={this.updateAnimal}/>}/>
-			<Route exact path="/login"/>			
-      	 </div> 
+			<ScrollToTop>
+			<div className="App"> 
+				<Route exact path="/" render={() => <Landing Animals={this.state.Animals} getDetails={this.getDetails}/>}/>
+				<Route exact path="/list" render={() => <List Animals={this.state.filteredAnimals} listFilter={this.listFilter} getDetails={this.getDetails}/>}/>	
+				<Route exact path="/detail" render={() => <Detail Animal={this.state.Animal}/>}/>
+				<Route exact path="/add" render={() => <Add addAnimal={this.addAnimal}/>}/>
+				<Route exact path="/update" render={() => <Update Animal={this.state.Animal} deleteAnimal={this.deleteAnimal} updateAnimal={this.updateAnimal}/>}/>
+				<Route exact path="/login"/>			
+			</div>
+			</ScrollToTop>
 		</Router>
     	);
   	}

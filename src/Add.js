@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Navigation from './Navigation';
 import dateFormat from 'dateformat';
 
@@ -15,8 +15,10 @@ class Add extends Component {
             Status: "lost",
             Type: "dog",
             Date: "",
+            fireRedirect: false
         }
         this.handleChange = this.handleChange.bind(this);
+        this.submitForm = this.submitForm.bind(this);
     }
 
     handleChange(event) {
@@ -36,20 +38,29 @@ class Add extends Component {
         this.setState({Type: event.target.value})
     }
 
+    submitForm() {
+        // validation
+        if(this.state.Location !== "" || this.state.Color !== "" || this.state.Breed !== "") {
+            this.props.addAnimal(this.state)
+            this.setState({ fireRedirect: true })
+        }
+    }
+
     render() {
+        const { fireRedirect } = this.state;
         return(
             <div className="addContent content">
                 <Navigation/>
                 <div className="topContainer">
                     <h2 className="pageHeader">Add New Animal</h2>
-                    <form>
+                    <form onSubmit={this.submitForm}>
                         <div>
                             <label htmlFor="name">Name</label>
                             <input name="name" id="name" type="text" onChange={this.handleChange} value={this.state.name}/>
                         </div>
                         <div>
                             <label htmlFor="location">Location*</label>
-                            <input name="location" id="location" type="text" onChange={this.handleChange} value={this.state.location} required/>
+                            <input name="location" id="location" type="text" onChange={this.handleChange} value={this.state.location}/>
                         </div>
                         <div>
                             <label htmlFor="sex">Sex</label>
@@ -61,10 +72,10 @@ class Add extends Component {
                         <div className="formRow">
                             <div className="formSpanOne">
                                 <label htmlFor="color">Color*</label>
-                                <input name="color" id="color" type="text" onChange={this.handleChange} value={this.state.color} required/>
+                                <input name="color" id="color" type="text" onChange={this.handleChange} value={this.state.color}/>
                             </div>
                             <div className="formSpanOne">
-                                <label htmlFor="breed">Breed</label>
+                                <label htmlFor="breed">Breed*</label>
                                 <input name="breed" id="breed" type="text" onChange={this.handleChange} value={this.state.breed}/>
                             </div>
                         </div>
@@ -92,9 +103,12 @@ class Add extends Component {
                                 <label htmlFor="typeCat"></label>
                             </div>
                         </div>
-                        <Link className="formButton" to="/list" onClick={() => {this.props.addAnimal(this.state)}}>Save</Link>
+                        <button type="submit" className="formButton">Save</button>
                         <span className="formIndicia">* Required Field</span>
                     </form>
+                    {fireRedirect && (
+                        <Redirect to="/list"/>
+                    )}
                 </div>
             </div>
         )

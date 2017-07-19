@@ -34,9 +34,6 @@ const Filter = (props) => {
 }
 
 class DogTable extends Component {
-	constructor(props) {
-		super(props);
-	}
 
 	render() {
 
