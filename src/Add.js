@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import Navigation from './Navigation';
 import dateFormat from 'dateformat';
+import Map from './Map';
 
 import { connect } from 'react-redux';
 
@@ -90,16 +92,31 @@ class Add extends Component {
         this.state.type.isCat ? ref.typeCat.checked = false : null;
     }
 
+    submitForm() {
+        // validation
+        if(this.state.Location !== "" || this.state.Color !== "" || this.state.Breed !== "") {
+            this.props.addAnimal(this.state)
+            this.setState({ fireRedirect: true })
+        }
+    }
+
     render() {
-        console.log(this.props);
+        const { fireRedirect } = this.state;
         return(
             <div className="addContent content">
-                <Navigation navSwitch={this.props.navSwitch} ActivePage="Add"/>
+                <Navigation/>
                 <div className="topContainer">
                     <h2 className="pageHeader">Add New Animal</h2>
-                    <form onSubmit={this.handleSubmit}>
+                    
+                    
+                    
+                  
                         
-                        <div>
+                    <form onSubmit={this.submitForm}>
+                    
+                    
+                    
+                    <div>
                             <label htmlFor="name">Name</label>
                             <input 
                                 name="name"
@@ -111,6 +128,7 @@ class Add extends Component {
                                 value={this.state.name}
                             />
                         </div>
+                        
                         <div>
                             <label htmlFor="location">Location*</label>
                             <input 
@@ -123,7 +141,7 @@ class Add extends Component {
                                 value={this.state.location}
                             />
                         </div>
-                        
+                        <Map google={window.google}/>
                         <div>
                             <label htmlFor="sex">Sex</label>
                             <select 
@@ -219,14 +237,15 @@ class Add extends Component {
                                 <label htmlFor="typeCat"></label>
                             </div>
                         </div>
-
-                        <button value={dateFormat(Date(), "yyyy-mm-dd HH:MM:ss")} onClick={this.writeCurrentTime}>Save</button>
-                        <button type="submit">submit button</button> 
+                        <button type="submit" className="formButton">Save</button>
                         <span className="formIndicia">* Required Field</span>
-            </form>
-        </div>
-    </div>
-    )
+                    </form>
+                    {fireRedirect && (
+                        <Redirect to="/list"/>
+                    )}
+                </div>
+            </div>
+        )
     }
 }
 
@@ -235,3 +254,6 @@ export default connect(state => {
         newAnimal: state.newAnimal
     }
 })(Add);
+
+
+//  <form onSubmit={this.handleSubmit}>

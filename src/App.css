@@ -61,6 +61,8 @@ table {
     justify-content: space-between; }
     .mainNavigation ul img {
       display: block; }
+    .mainNavigation ul a {
+      text-decoration: none; }
     .mainNavigation ul li {
       font: 1em 'Bree Serif', Times, serif;
       color: white;
@@ -69,12 +71,14 @@ table {
     .mainNavigation ul li.active {
       color: #c2b7b6; }
 
-button {
+.Button {
   display: block;
   width: 100%;
   max-width: 300px;
   margin: 0 auto;
   padding: 0.75rem;
+  text-decoration: none;
+  text-align: center;
   font: 1.5rem 'Bree Serif', 'Times', serif;
   background: #423837;
   border: 1px solid #262020;
@@ -82,7 +86,25 @@ button {
   margin-bottom: 0.5rem;
   color: #cbc0bc;
   text-shadow: 0 0 1px #c0b3ae, 0 -1px 1px black; }
-  button:last-of-type {
+  .Button:last-of-type {
+    margin-bottom: 0; }
+
+.formButton {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 0.75rem;
+  text-decoration: none;
+  text-align: center;
+  font: 1.5rem 'Bree Serif', 'Times', serif;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 1px #c0b3ae, 0 -1px 1px black;
+  background: #2370CC;
+  color: #dce9f9;
+  border: 1px solid #1B55A4; }
+  .formButton:last-of-type {
     margin-bottom: 0; }
 
 .formRow {
@@ -165,11 +187,6 @@ form div, .formRow div {
   width: calc(50% - 0.5em);
   float: left; }
 
-form button {
-  background: #2370CC;
-  color: #dce9f9;
-  border: 1px solid #1B55A4; }
-
 .formIndicia {
   width: 100%;
   max-width: 300px;
@@ -204,6 +221,15 @@ h2.pageHeader {
   color: #423837;
   margin-bottom: 0.5em; }
 
+.gMap {
+  max-width: 300px;
+  margin: 0 auto;
+  height: 250px;
+  width: 100%;
+  border: 1px solid #423837; }
+  .gMap .map {
+    height: 100%; }
+
 .landingContent {
   display: flex;
   flex-direction: column;
@@ -218,7 +244,6 @@ h2.pageHeader {
 .topContainer {
   flex: 1;
   position: relative;
-  right: calc(-50% -200px);
   overflow: hidden; }
 
 .logo {
@@ -234,7 +259,7 @@ h2.pageHeader {
   top: 6em;
   position: relative;
   transform: rotate(45deg); }
-  .dogImages div {
+  .dogImages a {
     background: linear-gradient(-45deg, #143e78 0%, #1B55A4 100%);
     padding: 10px;
     border-radius: 50%;
@@ -372,6 +397,9 @@ td {
   font-size: 16px;
   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
   border-right: 1px solid #C1C3D1; }
+  td a {
+    text-decoration: none;
+    color: inherit; }
 
 .loctd {
   width: 300px;

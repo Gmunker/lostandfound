@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import dogOne from './images/DogOne.jpg';
 import dogTwo from './images/DogTwo.jpg';
 import dogThree from './images/DogThree.jpg';
@@ -6,28 +7,6 @@ import dogFour from './images/DogFour.jpg';
 import logo from './images/logo.jpg';
 
 class Landing extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            animal: {}
-        }
-        this.imageLink = this.imageLink.bind(this);
-    }
-
-    imageLink(event) {
-        var num;
-        event.target.dataset.animal === "0" ?
-        num = 0 :
-        event.target.dataset.animal === "1" ?
-        num = 1 :
-        event.target.dataset.animal === "2" ?
-        num = 2 :
-        num = 3
-        this.setState({animal: this.props.Animals[num]}, () => {
-            this.props.getDetails(this.state.animal)
-        })
-    }
     
     render() {
         return(
@@ -35,23 +14,23 @@ class Landing extends Component {
                 <div className="topContainer">
                     <img className="logo" src={logo} alt=""/>
                     <div className="dogImages">
-                        <div className="dogImages__image1">
-                            <img onClick={this.imageLink} data-animal={0} className="dogImages__image1" src={dogOne} alt=""/>
-                        </div>
-                        <div className="dogImages__image2">
-                            <img onClick={this.imageLink} data-animal={1} className="dogImages__image2" src={dogTwo} alt=""/>
-                        </div>
-                        <div className="dogImages__image3">
-                            <img onClick={this.imageLink} data-animal={2} className="dogImages__image3" src={dogThree} alt=""/>
-                        </div>
-                        <div className="dogImages__image4">
-                            <img onClick={this.imageLink} data-animal={3} className="dogImages__image4" src={dogFour} alt=""/>
-                        </div>
+                        <Link className="dogImages__image1" to="/detail" onClick={() => {this.props.getDetails(this.props.Animals[0])}}>
+                            <img className="dogImages__image1" src={dogOne} alt=""/>
+                        </Link>
+                        <Link className="dogImages__image2" to="/detail" onClick={() => {this.props.getDetails(this.props.Animals[1])}}>
+                            <img className="dogImages__image2" src={dogTwo} alt=""/>
+                        </Link>
+                        <Link className="dogImages__image3" to="/detail" onClick={() => {this.props.getDetails(this.props.Animals[2])}}>
+                            <img className="dogImages__image3" src={dogThree} alt=""/>
+                        </Link>
+                        <Link className="dogImages__image4" to="/detail" onClick={() => {this.props.getDetails(this.props.Animals[3])}}>
+                            <img className="dogImages__image4" src={dogFour} alt=""/>
+                        </Link>
                     </div>
                 </div>
                 <nav className="pageNavigation">
-                    <button onClick={() => this.props.navSwitch("List")}>View List of Animals</button>
-                    <button onClick={() => this.props.navSwitch("Add")}>Add New Animal</button>
+                    <Link className="Button" to="/list">View Full List</Link>
+                    <Link className="Button" to="/add">Add New Animal</Link>
                 </nav>
             </div>
         )

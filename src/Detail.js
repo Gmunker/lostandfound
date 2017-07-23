@@ -1,19 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 import dateFormat from 'dateformat';
-// var dateFormat = require('dateformat');
 
-// function FormatDate(date) {
-//     var monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-//     let year = date.slice(0,4);
-//     let month = monthName[date.slice(5,7) - 1];
-//     let day = date.slice(8,10);
-//     return (
-//         <div>{month} {day}, {year}</div>
-//     )
-// }
-
-// Formats the gender info from f/m to Female/Male
 function FormatGender(gender) {
     return (
         <div>
@@ -38,7 +27,7 @@ const CurrentAnimal = (props) => {
                 <div className="detail__sub__color">{props.Animal.Color}</div>
                 <div className="detail__sub__gender">{FormatGender(props.Animal.Gender)}</div>
                 <div className="detail__sub__breed">{props.Animal.Breed}</div>
-                <button onClick={() => props.navSwitch("Update")} value="Update">Update</button>
+                <Link className="Button" to="/update">Update</Link>
             </div>
         </div>
     )
@@ -49,8 +38,8 @@ class Detail extends Component {
    	render() {
         return(
             <div className="content">
-                <Navigation navSwitch={this.props.navSwitch} ActivePage="Detail"/>
-                <CurrentAnimal navSwitch={this.props.navSwitch} Animal={this.props.Animal}/>
+                <Navigation/>
+                <CurrentAnimal Animal={this.props.Animal}/>
             </div>
         )
     }

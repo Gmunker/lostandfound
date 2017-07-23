@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import icon from './images/icon.png';
 
 const Navigation = (props) => {
@@ -6,9 +7,9 @@ const Navigation = (props) => {
     return(
         <nav className="mainNavigation">
             <ul>
-                <img onClick={() => props.navSwitch("Landing")} src={icon} alt=""/>
-                <li onClick={() => props.navSwitch("Add")} className={props.ActivePage === "Add" ? "active" : ""}>Add New Animal</li>
-                <li onClick={() => props.navSwitch("List")} className={props.ActivePage === "List" ? "active" : ""}>View Full List</li>
+                <Link to="/"><img src={icon} alt="hipdlostandfoundpets"/></Link>
+                <Link to="/add"><li>Add New Animal</li></Link>
+                <Link to="/list"><li>View Full List</li></Link>
             </ul>
         </nav>
     )

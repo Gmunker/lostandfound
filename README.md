@@ -1,4 +1,4 @@
-# Chingu > Bearded Dragons > Open Team 1
+# Chingu > Bears > Team 4
 ## Build to learn
 
 **Who is this application for?**  
@@ -20,4 +20,5 @@ The database will be set up on Heroku along with a functioning instance of Apach
 **Tech Stack**
 * Firebase
 * React
+* Redux
 * Sass

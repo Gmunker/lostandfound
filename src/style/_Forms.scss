@@ -91,12 +91,6 @@ form div, .formRow div {
     float: left;
 }
 
-form button {
-    background: $SecondaryLight;
-    color: lighten($SecondaryLight, 45%);
-    border: 1px solid $Secondary;
-}
-
 .formIndicia {
     width: 100%;
     max-width: 300px;
