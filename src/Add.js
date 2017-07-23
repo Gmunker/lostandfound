@@ -128,7 +128,6 @@ class Add extends Component {
     }
 
     render() {
-        console.log(this.props);
         const { fireRedirect } = this.state;
         return(
             <div className="addContent content">

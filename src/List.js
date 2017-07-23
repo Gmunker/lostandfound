@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 
+import { connect } from 'react-redux';
+
 const Filter = (props) => {
 	return (
 		<div className="filter">
@@ -99,4 +101,6 @@ class List extends React.Component {
    }
 }
 
-export default List;
+export default connect(state => {return {
+	animals: state.animals.animals
+}})(List);

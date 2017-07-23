@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
+import firebase from './firebase';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 import Landing from './Landing';
@@ -10,13 +10,15 @@ import Update from './Update';
 import ScrollToTop from './ScrollToTop';
 // import Login from './Login';
 
-const config = {
-  	apiKey: "AIzaSyChKSzluTzhjX5VJxVqFF5zWzaFeWNScR8",
-  	authDomain: "api-project-802443824988.firebaseapp.com",
-  	databaseURL: "https://api-project-802443824988.firebaseio.com"
-};
 
-firebase.initializeApp(config);
+
+// const config = {
+//   	apiKey: "AIzaSyChKSzluTzhjX5VJxVqFF5zWzaFeWNScR8",
+//   	authDomain: "api-project-802443824988.firebaseapp.com",
+//   	databaseURL: "https://api-project-802443824988.firebaseio.com"
+// };
+
+// firebase.initializeApp(config);
 
 class App extends Component {	
 
@@ -35,14 +37,18 @@ class App extends Component {
 	}
 
 	componentWillMount() {  
+		
 		this.firebaseRef = firebase.database().ref("Animals");
 		this.firebaseRef.on('value', function(dataSnapshot) {
+
 		var Animals = [];
 		dataSnapshot.forEach(function(childSnapshot) {
 			var Animal = childSnapshot.val();
 			Animal['key'] = childSnapshot.key;
 			Animals.push(Animal);
+
 		});
+		
 		this.setState({
 			Animals: Animals
 		}, () => {
