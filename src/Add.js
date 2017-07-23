@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import Navigation from './Navigation';
 import dateFormat from 'dateformat';
+import Map from './Map';
 
 class Add extends Component {
     constructor(props) {
@@ -14,18 +16,14 @@ class Add extends Component {
             Status: "lost",
             Type: "dog",
             Date: "",
+            fireRedirect: false
         }
         this.handleChange = this.handleChange.bind(this);
-        this.writeCurrentTime = this.writeCurrentTime.bind(this);
-    }
-
-    writeCurrentTime(event) {
-        this.setState({Date: event.target.value}, () => { 
-            this.props.addAnimal(this.state);
-        });
+        this.submitForm = this.submitForm.bind(this);
     }
 
     handleChange(event) {
+        this.setState({Date: dateFormat(Date(), "yyyy-mm-dd HH:MM:ss")})
         event.target.name === "name" ?
         this.setState({Name: event.target.value}) :
         event.target.name === "location" ?
@@ -41,21 +39,31 @@ class Add extends Component {
         this.setState({Type: event.target.value})
     }
 
+    submitForm() {
+        // validation
+        if(this.state.Location !== "" || this.state.Color !== "" || this.state.Breed !== "") {
+            this.props.addAnimal(this.state)
+            this.setState({ fireRedirect: true })
+        }
+    }
+
     render() {
+        const { fireRedirect } = this.state;
         return(
             <div className="addContent content">
-                <Navigation navSwitch={this.props.navSwitch} ActivePage="Add"/>
+                <Navigation/>
                 <div className="topContainer">
                     <h2 className="pageHeader">Add New Animal</h2>
-                    <form>
+                    <form onSubmit={this.submitForm}>
                         <div>
                             <label htmlFor="name">Name</label>
                             <input name="name" id="name" type="text" onChange={this.handleChange} value={this.state.name}/>
                         </div>
                         <div>
                             <label htmlFor="location">Location*</label>
-                            <input name="location" id="location" type="text" onChange={this.handleChange} value={this.state.location} required/>
+                            <input name="location" id="location" type="text" onChange={this.handleChange} value={this.state.location}/>
                         </div>
+                        <Map google={window.google}/>
                         <div>
                             <label htmlFor="sex">Sex</label>
                             <select name="sex" id="sex" onChange={this.handleChange} value={this.state.sex}>
@@ -66,10 +74,10 @@ class Add extends Component {
                         <div className="formRow">
                             <div className="formSpanOne">
                                 <label htmlFor="color">Color*</label>
-                                <input name="color" id="color" type="text" onChange={this.handleChange} value={this.state.color} required/>
+                                <input name="color" id="color" type="text" onChange={this.handleChange} value={this.state.color}/>
                             </div>
                             <div className="formSpanOne">
-                                <label htmlFor="breed">Breed</label>
+                                <label htmlFor="breed">Breed*</label>
                                 <input name="breed" id="breed" type="text" onChange={this.handleChange} value={this.state.breed}/>
                             </div>
                         </div>
@@ -97,9 +105,12 @@ class Add extends Component {
                                 <label htmlFor="typeCat"></label>
                             </div>
                         </div>
-                        <button value={dateFormat(Date(), "yyyy-mm-dd HH:MM:ss")} onClick={this.writeCurrentTime}>Save</button>
+                        <button type="submit" className="formButton">Save</button>
                         <span className="formIndicia">* Required Field</span>
                     </form>
+                    {fireRedirect && (
+                        <Redirect to="/list"/>
+                    )}
                 </div>
             </div>
         )

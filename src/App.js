@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-// import reactfire from 'reactfire';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 import Landing from './Landing';
 import Detail from './Detail';
 import Add from './Add';
 import List from './List';
 import Update from './Update';
-import Login from './Login';
+import ScrollToTop from './ScrollToTop';
+// import Login from './Login';
 
 const config = {
   	apiKey: "AIzaSyChKSzluTzhjX5VJxVqFF5zWzaFeWNScR8",
@@ -17,21 +18,18 @@ const config = {
 
 firebase.initializeApp(config);
 
-class App extends Component {
+class App extends Component {	
+
 	constructor(props) {
 		super(props);
 		this.state = {
 			Animals: [],
-			ActivePage: "Landing",
 			Animal: {},
 			filteredAnimals: []
 		}
-		this.switchPage = this.switchPage.bind(this);
 		this.getDetails = this.getDetails.bind(this);
-		this.handleChange = this.handleChange.bind(this);
 		this.addAnimal = this.addAnimal.bind(this);
 		this.listFilter = this.listFilter.bind(this);
-		this.navSwitch = this.navSwitch.bind(this);
 		this.deleteAnimal = this.deleteAnimal.bind(this);
 		this.updateAnimal = this.updateAnimal.bind(this);
 	}
@@ -57,44 +55,25 @@ class App extends Component {
 		this.firebaseRef.off();
 	}
 
-	handleChange(event) {
-		this.setState({
-			text: event.target.value
-		});
-	}
-
-	switchPage(event) {
-		this.setState({
-			ActivePage: event.target.value
-		})
-	}
-
 	getDetails(animal) {
 		this.setState({
-			Animal: animal,
-			ActivePage: "Detail"
+			Animal: animal
 		})
 	}
 
 	addAnimal(animal) {
 		this.firebaseRef.push(animal);
-		this.setState({
-			ActivePage: "List"
-		})
 	}
 
-	deleteAnimal(event) {
-		event.preventDefault();
-		this.firebaseRef.child(this.state.Animal.key).remove(this.setState({
-				ActivePage: "List",
+	deleteAnimal(key) {
+		this.firebaseRef.child(key).remove(this.setState({
 				Animal: {}
 			})
 		)
 	}
 
-	updateAnimal(animal) {
-		this.firebaseRef.child(animal.key).update(animal, this.setState({
-				ActivePage: "List",
+	updateAnimal(animal, key) {
+		this.firebaseRef.child(key).update(animal, this.setState({
 				Animal: {}
 			})
 		)
@@ -109,32 +88,23 @@ class App extends Component {
 		})
 	}
 
-	navSwitch(page) {
-		this.setState({ActivePage: page}, () => {
-			if(this.state.ActivePage === "List") {
-				this.listFilter();
-			}
-		})
-	}
-
   	render() {
     	return (
-      	<div className="App">			
-			{this.state.ActivePage === "Landing" ?
-				<Landing navSwitch={this.navSwitch} switchPage={this.switchPage} getDetails={this.getDetails} Animals={this.state.Animals}/> :
-			this.state.ActivePage === "List" ?
-				<List navSwitch={this.navSwitch} listFilter={this.listFilter} switchPage={this.switchPage} Animals={this.state.filteredAnimals} getDetails={this.getDetails}/> :
-			this.state.ActivePage === "Detail" ?
-				<Detail navSwitch={this.navSwitch} switchPage={this.switchPage} Animal={this.state.Animal}/> :
-			this.state.ActivePage === "Add" ?
-				<Add navSwitch={this.navSwitch} switchPage={this.switchPage} addAnimal={this.addAnimal}/> :
-			this.state.ActivePage === "Update" ?
-				<Update navSwitch={this.navSwitch} Animal={this.state.Animal} deleteAnimal={this.deleteAnimal} updateAnimal={this.updateAnimal}/> :
-				<Login navSwitch={this.navSwitch}/>
-			}
-      	</div>
+		<Router>
+			<ScrollToTop>
+			<div className="App"> 
+				<Route exact path="/" render={() => <Landing Animals={this.state.Animals} getDetails={this.getDetails}/>}/>
+				<Route exact path="/list" render={() => <List Animals={this.state.filteredAnimals} listFilter={this.listFilter} getDetails={this.getDetails}/>}/>	
+				<Route exact path="/detail" render={() => <Detail Animal={this.state.Animal}/>}/>
+				<Route exact path="/add" render={() => <Add addAnimal={this.addAnimal}/>}/>
+				<Route exact path="/update" render={() => <Update Animal={this.state.Animal} deleteAnimal={this.deleteAnimal} updateAnimal={this.updateAnimal}/>}/>
+				<Route exact path="/login"/>		
+			</div>
+			</ScrollToTop>
+		</Router>
     	);
   	}
 }
 
 export default App;
+
