@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Navigation from './Navigation';
 import dateFormat from 'dateformat';
-import Map from './Map';
+// import Map from './Map';
 
 import { connect } from 'react-redux';
+import { newAnimalInfo, newAnimalStatus, newAnimalType } from './actions/newAnimalActions';
 
 class Add extends Component {
     constructor(props) {
@@ -48,6 +49,15 @@ class Add extends Component {
     }
     handleChange(e) {
         let ref = this.refs;
+        this.props.dispatch(newAnimalInfo({
+            ...this.props.newAnimal.newAnimalInfo,
+            name: ref.name.value,
+            location: ref.location.value,
+            color: ref.color.value,
+            breed: ref.breed.value
+        }))
+
+        //Will be removed when props are all updated to redux
         this.setState((state, props) => { return {
             ...this.state, 
             name: ref.name.value,
@@ -60,6 +70,12 @@ class Add extends Component {
 
     handleStatus(e) {
         const ref = this.refs;
+
+        this.props.dispatch(newAnimalStatus({
+            ...this.props.newAnimal.newAnimalStatus,
+            statusLost: ref.statusLost.checked,
+            statusFound: ref.statusFound.checked
+        }))
         this.setState((state, props) => { 
             return { 
                 ...this.state,
@@ -73,6 +89,11 @@ class Add extends Component {
 
     handleGender(e) {
         let gender = e.target.value;
+        this.props.dispatch(newAnimalInfo({
+            ...this.props.newAnimal.newAnimalInfo,
+            gender
+        }))
+
         this.setState((state, props) => { return {
             ...this.state, 
             gender
@@ -81,6 +102,12 @@ class Add extends Component {
 
     handleType(e) {
         let ref = this.refs;
+        this.props.dispatch(newAnimalType({
+            ...this.props.newAnimal.newAnimalType,
+            isDog: ref.typeDog.checked,
+            isCat: ref.typeCat.checked
+        }))
+
         this.setState((state, props) => { return { 
             ...this.state,
             type: {
@@ -88,8 +115,8 @@ class Add extends Component {
                 isCat: ref.typeCat.checked
             }
          }});
-        this.state.type.isDog ? ref.typeDog.checked = false : null;
-        this.state.type.isCat ? ref.typeCat.checked = false : null;
+        this.props.newAnimal.newAnimalType.isDog ? ref.typeDog.checked = false : null;
+        this.props.newAnimal.newAnimalType.isCat ? ref.typeCat.checked = false : null;
     }
 
     submitForm() {
@@ -101,6 +128,7 @@ class Add extends Component {
     }
 
     render() {
+        console.log(this.props);
         const { fireRedirect } = this.state;
         return(
             <div className="addContent content">
@@ -141,7 +169,6 @@ class Add extends Component {
                                 value={this.state.location}
                             />
                         </div>
-                        <Map google={window.google}/>
                         <div>
                             <label htmlFor="sex">Sex</label>
                             <select 
@@ -257,3 +284,6 @@ export default connect(state => {
 
 
 //  <form onSubmit={this.handleSubmit}>
+
+
+                        // <Map google={window.google}/>
