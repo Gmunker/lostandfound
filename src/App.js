@@ -98,7 +98,7 @@ class App extends Component {
 				<Route exact path="/detail" render={() => <Detail Animal={this.state.Animal}/>}/>
 				<Route exact path="/add" render={() => <Add addAnimal={this.addAnimal}/>}/>
 				<Route exact path="/update" render={() => <Update Animal={this.state.Animal} deleteAnimal={this.deleteAnimal} updateAnimal={this.updateAnimal}/>}/>
-				<Route exact path="/login"/>			
+				<Route exact path="/login"/>		
 			</div>
 			</ScrollToTop>
 		</Router>

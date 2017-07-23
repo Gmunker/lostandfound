@@ -1,0 +1,10 @@
+.gMap {
+    max-width: 300px;
+    margin: 0 auto;
+    height: 250px;
+    width: 100%;
+    border: 1px solid $Primary;
+    .map {
+        height: 100%;
+    }
+}

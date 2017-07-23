@@ -221,6 +221,15 @@ h2.pageHeader {
   color: #423837;
   margin-bottom: 0.5em; }
 
+.gMap {
+  max-width: 300px;
+  margin: 0 auto;
+  height: 250px;
+  width: 100%;
+  border: 1px solid #423837; }
+  .gMap .map {
+    height: 100%; }
+
 .landingContent {
   display: flex;
   flex-direction: column;

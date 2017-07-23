@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Navigation from './Navigation';
 import dateFormat from 'dateformat';
+import Map from './Map';
 
 class Add extends Component {
     constructor(props) {
@@ -62,6 +63,7 @@ class Add extends Component {
                             <label htmlFor="location">Location*</label>
                             <input name="location" id="location" type="text" onChange={this.handleChange} value={this.state.location}/>
                         </div>
+                        <Map google={window.google}/>
                         <div>
                             <label htmlFor="sex">Sex</label>
                             <select name="sex" id="sex" onChange={this.handleChange} value={this.state.sex}>
