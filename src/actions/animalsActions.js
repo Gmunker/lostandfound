@@ -25,7 +25,8 @@ export function fetchAnimal(id) {
     .on('value', (snapshot) => {
       let animal = {...snapshot.val(), Id: id} || {};
       
-      dispatch({type: "FETCH_ANIMAL_FULLFILLED",payload: animal}) 
+      dispatch({type: "FETCH_ANIMAL_FULLFILLED",payload: animal})
+      dispatch({type: "SET_ANIMAL_INFO", payload: animal})
     })
   }
 }

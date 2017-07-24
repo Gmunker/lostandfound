@@ -6,7 +6,7 @@ import firebase from './firebase';
 // import Map from './Map';
 
 import { connect } from 'react-redux';
-import { newAnimalInfo } from './actions/newAnimalActions';
+import { animalInfo } from './actions/animalActions';
 
 
 class Add extends Component {
@@ -22,7 +22,7 @@ class Add extends Component {
 
     handleChange(e) {
         let ref = this.refs;
-        this.props.dispatch(newAnimalInfo({
+        this.props.dispatch(animalInfo({
             ...this.props.newAnimal,
             Name: ref.name.value,
             Location: ref.location.value,
@@ -34,7 +34,7 @@ class Add extends Component {
 
     handleStatus(e) {
         let Status = e.currentTarget.name === "status" ? e.currentTarget.value : null;
-        this.props.dispatch(newAnimalInfo({
+        this.props.dispatch(animalInfo({
             ...this.props.newAnimal,
             Status
         }))
@@ -42,7 +42,7 @@ class Add extends Component {
 
     handleType(e) {
         let Type = e.currentTarget.name === "type" ? e.currentTarget.value : null;
-        this.props.dispatch(newAnimalInfo({
+        this.props.dispatch(animalInfo({
             ...this.props.newAnimal,
             Type
         }));
@@ -50,7 +50,7 @@ class Add extends Component {
 
     handleGender(e) {
         let Gender = e.target.value;
-        this.props.dispatch(newAnimalInfo({
+        this.props.dispatch(animalInfo({
             ...this.props.newAnimal,
             Gender
         }))
@@ -215,7 +215,7 @@ class Add extends Component {
 
 export default connect(state => {
     return {
-        newAnimal: state.newAnimal
+        newAnimal: state.animal
     }
 })(Add);
 
