@@ -104,8 +104,10 @@ class List extends Component {
 			
 			let table = filteredAnimals.map((Animal) => {
 				return(
-					<tr key={Animal.id} onClick={() => {this.props.getDetails(Animal)}}>
-						<td className="loctd"><Link to="/detail">{Animal.Location}</Link></td>
+					<tr key={Animal.Id}>
+						<td className="loctd">
+							<Link to={"/detail/" + Animal.Id}>{Animal.Location}</Link>
+						</td>
 						<td className="colortd"><Link to="/detail">{Animal.Color}</Link></td>
 						<td className="breedtd"><Link to="/detail">{Animal.Breed}</Link></td>
 					</tr>

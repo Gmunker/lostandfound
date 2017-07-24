@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Navigation from './Navigation';
+import firebase from './firebase';
 // import dateFormat from 'dateformat';
 // import Map from './Map';
 
 import { connect } from 'react-redux';
 import { newAnimalInfo } from './actions/newAnimalActions';
+
 
 class Add extends Component {
     constructor(props) {
@@ -22,40 +24,44 @@ class Add extends Component {
         let ref = this.refs;
         this.props.dispatch(newAnimalInfo({
             ...this.props.newAnimal,
-            name: ref.name.value,
-            location: ref.location.value,
-            color: ref.color.value,
-            breed: ref.breed.value
+            Name: ref.name.value,
+            Location: ref.location.value,
+            Color: ref.color.value,
+            Breed: ref.breed.value,
+            Date: new Date().toString()
         }))
     }
 
     handleStatus(e) {
-        let status = e.currentTarget.name === "status" ? e.currentTarget.value : null;
+        let Status = e.currentTarget.name === "status" ? e.currentTarget.value : null;
         this.props.dispatch(newAnimalInfo({
             ...this.props.newAnimal,
-            status
+            Status
         }))
     }
 
     handleType(e) {
-        let type = e.currentTarget.name === "type" ? e.currentTarget.value : null;
+        let Type = e.currentTarget.name === "type" ? e.currentTarget.value : null;
         this.props.dispatch(newAnimalInfo({
             ...this.props.newAnimal,
-            type
+            Type
         }));
     }
 
     handleGender(e) {
-        let gender = e.target.value;
+        let Gender = e.target.value;
         this.props.dispatch(newAnimalInfo({
             ...this.props.newAnimal,
-            gender
+            Gender
         }))
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        this.setState((state, props) => { return {...this.state, redirect: true }});
+        
+        this.setState((state, props) => { return {...this.state, redirect: true }}, () => {
+            firebase.database().ref("Animals").push(this.props.newAnimal);
+        });
         
     }
 
@@ -87,7 +93,7 @@ class Add extends Component {
                                 id="name" 
                                 type="text" 
                                 onChange={this.handleChange} 
-                                value={newAnimal.name}
+                                value={newAnimal.Name}
                             />
                         </div>
                         
@@ -100,7 +106,7 @@ class Add extends Component {
                                 id="location" 
                                 type="text"
                                 onChange={this.handleChange} 
-                                value={newAnimal.location}
+                                value={newAnimal.Location}
                             />
                         </div>
                         <div>
@@ -110,7 +116,7 @@ class Add extends Component {
                                 ref="gender" 
                                 id="sex" 
                                 onChange={this.handleGender}
-                                value={newAnimal.gender}
+                                value={newAnimal.Gender}
                             >
                                 <option value=""></option>
                                 <option value="male">Male</option>
@@ -128,7 +134,7 @@ class Add extends Component {
                                     id="color" 
                                     type="text" 
                                     onChange={this.handleChange} 
-                                    value={newAnimal.color}
+                                    value={newAnimal.Color}
                                 />
                             </div>
                             <div className="formSpanOne">
@@ -139,8 +145,7 @@ class Add extends Component {
                                     id="breed" 
                                     type="text" 
                                     onChange={this.handleChange} 
-                                    value={newAnimal.breed}
-                                    required
+                                    value={newAnimal.Breed}
                                 />
                             </div>
                         </div>
@@ -154,7 +159,7 @@ class Add extends Component {
                                     name="status" 
                                     value="lost"
                                     onChange={this.handleStatus}
-                                    checked={newAnimal.status === "lost"}
+                                    checked={newAnimal.Status === "lost"}
                                 />
                                 <label htmlFor="statusLost"></label>
                             </div>
@@ -166,7 +171,7 @@ class Add extends Component {
                                     name="status"
                                     value="found" 
                                     onChange={this.handleStatus}
-                                    checked={newAnimal.status === "found"}
+                                    checked={newAnimal.Status === "found"}
                                 />
                                 <label htmlFor="statusFound"></label>
                             </div>
@@ -180,7 +185,7 @@ class Add extends Component {
                                     value="dog"
                                     id="typeDog"
                                     name="type"
-                                    checked={newAnimal.type === "dog"}
+                                    checked={newAnimal.Type === "dog"}
                                     onChange={this.handleType}
                                 />
                                 <label htmlFor="typeDog"></label>
@@ -192,7 +197,7 @@ class Add extends Component {
                                     value="cat"
                                     id="typeCat"
                                     name="type"
-                                    checked={newAnimal.type === "cat"}
+                                    checked={newAnimal.Type === "cat"}
                                     onChange={this.handleType}
                                 />
                                 <label htmlFor="typeCat"></label>

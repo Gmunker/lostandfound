@@ -1,48 +1,64 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
-import dateFormat from 'dateformat';
+// import dateFormat from 'dateformat';
+
+import { connect } from 'react-redux';
+import { fetchAnimal } from './actions/animalsActions';
 
 function FormatGender(gender) {
-    return (
-        <div>
-            {gender === "f" ?
-                    "Female" :
-                    "Male"}
-        </div>
-    )
+	return (
+		<div>
+			{gender === "f" ? "Female" : "Male"}
+		</div>
+	)
 }
 
-const CurrentAnimal = (props) => {
-    return(
-        <div className="detail">
-            <div className="detail__main">
-                <h2 className="detail__main__status">{props.Animal.Status} {dateFormat(props.Animal.Date, "ddd, mmm dS, yyyy")}</h2>
-                <div>Near</div>
-                <p className="detail__main__location">{props.Animal.Location}</p>
-                <img className="detail__main__image" src={props.Animal.Image} alt=""></img>
-            </div>
-            <div className="detail__sub">
-                <div className="detail__sub__name">{props.Animal.Name}</div>
-                <div className="detail__sub__color">{props.Animal.Color}</div>
-                <div className="detail__sub__gender">{FormatGender(props.Animal.Gender)}</div>
-                <div className="detail__sub__breed">{props.Animal.Breed}</div>
-                <Link className="Button" to="/update">Update</Link>
-            </div>
-        </div>
-    )
-}
+
 
 class Detail extends Component {
 
-   	render() {
-        return(
-            <div className="content">
-                <Navigation/>
-                <CurrentAnimal Animal={this.props.Animal}/>
-            </div>
-        )
-    }
+	componentWillMount() {
+			let animalID = this.props.match.params.Id;
+			this.props.dispatch(fetchAnimal(animalID));
+	}
+
+	render() {
+		
+		const CurrentAnimal = () => {
+			return(
+				<div className="detail">
+					<div className="detail__main">
+						<h2 className="detail__main__status">{this.props.Animal.Status}</h2>
+							<h2 className="detail__main__status"> {this.props.Animal.Date}</h2>
+						<div>Near</div>
+							<p className="detail__main__location">{this.props.Animal.Location}</p>
+							<img className="detail__main__image" src={this.props.Animal.Image} alt="" />
+						</div>
+						<div className="detail__sub">
+							<div className="detail__sub__name">{this.props.Animal.Name}</div>
+							<div className="detail__sub__color">{this.props.Animal.Color}</div>
+							<div className="detail__sub__gender">
+								{FormatGender(this.props.Animal.Gender)}
+							</div>
+							<div className="detail__sub__breed">{this.props.Animal.Breed}</div>
+							<Link className="Button" to={"/update/" + this.props.Animal.Id}>Update</Link>
+						</div>
+				</div>
+			)
+		}
+
+		return(
+			<div className="content">
+				<Navigation/>
+				{this.props.Animal ? <CurrentAnimal /> : <h1>Loading...</h1>}
+			</div>
+		)	
+	}
 }
 
-export default Detail;
+export default connect(state => {
+  return{
+  	Animal: state.animals.animal
+  }
+})(Detail);

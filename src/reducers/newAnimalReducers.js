@@ -1,12 +1,12 @@
 let defaultState = {
-  name: "",
-  location: "",
-  gender: "",
-  color: "",
-  breed: "",
-  status: "",
-  type: "",
-  date: new Date()
+  Name: "",
+  Location: "",
+  Gender: "",
+  Color: "",
+  Breed: "",
+  Status: "",
+  Type: "",
+  Date: ""
 }
 
 export default function reducer(state=defaultState, action) {

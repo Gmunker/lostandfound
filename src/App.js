@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { 
+	BrowserRouter as Router, 
+	Route,
+	Switch 
+} from 'react-router-dom';
 import './App.css';
 
-
-import Landing from './Landing';
-import Detail from './Detail';
 import Add from './Add';
+import Detail from './Detail';
+import Landing from './Landing';
 import List from './List';
+import Navigation from './Navigation';
 import Update from './Update';
 // import ScrollToTop from './ScrollToTop';
 // import Login from './Login';
 
 class App extends Component {	
-
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -55,16 +58,20 @@ class App extends Component {
 	}
 
   	render() {
+			console.log(this.props);
     	return (
 		<Router>
-			<div className="App"> 
-				<Route exact path="/" render={() => <Landing Animals={this.state.Animals} getDetails={this.getDetails}/>}/>
-				<Route exact path="/list" render={() => <List Animals={this.state.filteredAnimals} listFilter={this.listFilter} getDetails={this.getDetails}/>}/>	
-				<Route exact path="/detail" render={() => <Detail Animal={this.state.Animal}/>}/>
-				<Route exact path="/add" component={Add} />
-				<Route exact path="/update" render={() => <Update Animal={this.state.Animal} deleteAnimal={this.deleteAnimal} updateAnimal={this.updateAnimal}/>}/>
-				<Route exact path="/login"/>		
-			</div>
+			<Switch>
+				<Route path="/list" component={List} />
+				<Route path="/detail/:Id" component={Detail}/>
+				<Route path="/detail" />
+				
+				<Route path="/add" component={Add} />
+				<Route path="/update/:Id" component={Update} />
+				
+				<Route path="/login"/>		
+				<Route path="/" component={Landing}/>
+			</Switch>
 		</Router>
     	);
   	}

@@ -10,35 +10,25 @@ export function fetchAnimals(type, status) {
 
         Object.keys(animals).forEach((animalId) => {
           parsedAnimals.push({
-            id: animalId,
+            Id: animalId,
             ...animals[animalId]
           });
         });
-
-        
-
-        
         dispatch({type: "FETCH_ANIMALS_FULLFILLED",payload: parsedAnimals}) 
       })
     }
   }
 
-
-
-
-
-
-
-  // export function fetchEvent(id) {
-  //   return function(dispatch) {
-  //    eventsRef.ref('/events/' + id)
-  //     .on('value', (snapshot) => {
-  //       let event = snapshot.val() || {};
-        
-  //       dispatch({type: "FETCH_EVENT_FULLFILLED",payload: event}) 
-  //     })
-  //   }
-  // }
+export function fetchAnimal(id) {
+  return function(dispatch) {
+    firebaseRef.ref('/Animals/' + id)
+    .on('value', (snapshot) => {
+      let animal = {...snapshot.val(), Id: id} || {};
+      
+      dispatch({type: "FETCH_ANIMAL_FULLFILLED",payload: animal}) 
+    })
+  }
+}
 
 
 // this.firebaseRef = firebase.database().ref("Animals");
