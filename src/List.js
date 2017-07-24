@@ -118,7 +118,7 @@ class List extends Component {
 				<Navigation navSwitch={this.props.navSwitch} ActivePage="List"/>
 				<div className="topContainer">
 					<h2 className="pageHeader">I'm looking for a...</h2>
-					<Filter handleChange={this.handleChange} status={this.state.status} type={this.state.type}/>
+					<Filter />
 					<table>
 						<thead>
 							<tr>
