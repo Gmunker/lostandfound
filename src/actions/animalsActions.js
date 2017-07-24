@@ -1,7 +1,7 @@
 import firebase from '../firebase';
 const firebaseRef = firebase.database();
 
-export function fetchAnimals() {
+export function fetchAnimals(type, status) {
   return function(dispatch) {
      firebaseRef.ref('Animals')
       .on('value', (snapshot) => {
@@ -14,10 +14,20 @@ export function fetchAnimals() {
             ...animals[animalId]
           });
         });
+
+        
+
+        
         dispatch({type: "FETCH_ANIMALS_FULLFILLED",payload: parsedAnimals}) 
       })
     }
   }
+
+
+
+
+
+
 
   // export function fetchEvent(id) {
   //   return function(dispatch) {
