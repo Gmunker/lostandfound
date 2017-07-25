@@ -116,8 +116,8 @@ class List extends Component {
 						<td className="loctd">
 							<Link id={Animal.Id} to={loc}>{Animal.Location}</Link>
 						</td>
-						<td className="colortd"><Link to={"/dog/detail?id=" + Animal.Id}>{Animal.Color}</Link></td>
-						<td className="breedtd"><Link to={"/dog/detail?id=" + Animal.Id}>{Animal.Breed}</Link></td>
+						<td className="colortd"><Link to={loc}>{Animal.Color}</Link></td>
+						<td className="breedtd"><Link to={loc}>{Animal.Breed}</Link></td>
 					</tr>
 				)
 			});
