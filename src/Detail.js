@@ -19,30 +19,33 @@ function FormatGender(gender) {
 class Detail extends Component {
 
 	componentWillMount() {
-			let animalID = this.props.match.params.Id;
-			this.props.dispatch(fetchAnimal(animalID));
+		let searchParams = this.props.location.search;
+		let id = searchParams.slice(searchParams.indexOf('?id=') + 4);
+			// let animalID = this.props.match.params.Id;
+			this.props.dispatch(fetchAnimal(id));
 	}
 
 	render() {
-		
+		let Animal = this.props.Animal;
+		let loc = Animal.Type === "dog" ? "/dog/update?id" + Animal.Id : "/cat/update?id=" + Animal.Id;
 		const CurrentAnimal = () => {
 			return(
 				<div className="detail">
 					<div className="detail__main">
-						<h2 className="detail__main__status">{this.props.Animal.Status}</h2>
-							<h2 className="detail__main__status"> {this.props.Animal.Date}</h2>
+						<h2 className="detail__main__status">{Animal.Status}</h2>
+							<h2 className="detail__main__status"> {Animal.Date}</h2>
 						<div>Near</div>
-							<p className="detail__main__location">{this.props.Animal.Location}</p>
-							<img className="detail__main__image" src={this.props.Animal.Image} alt="" />
+							<p className="detail__main__location">{Animal.Location}</p>
+							<img className="detail__main__image" src={Animal.Image} alt="" />
 						</div>
 						<div className="detail__sub">
-							<div className="detail__sub__name">{this.props.Animal.Name}</div>
-							<div className="detail__sub__color">{this.props.Animal.Color}</div>
+							<div className="detail__sub__name">{Animal.Name}</div>
+							<div className="detail__sub__color">{Animal.Color}</div>
 							<div className="detail__sub__gender">
-								{FormatGender(this.props.Animal.Gender)}
+								{FormatGender(Animal.Gender)}
 							</div>
-							<div className="detail__sub__breed">{this.props.Animal.Breed}</div>
-							<Link className="Button" to={"/update/" + this.props.Animal.Id}>Update</Link>
+							<div className="detail__sub__breed">{Animal.Breed}</div>
+							<Link className="Button" to={loc}>Update</Link>
 						</div>
 				</div>
 			)
@@ -51,7 +54,7 @@ class Detail extends Component {
 		return(
 			<div className="content">
 				<Navigation/>
-				{this.props.Animal ? <CurrentAnimal /> : <h1>Loading...</h1>}
+				{Animal ? <CurrentAnimal /> : <h1>Loading...</h1>}
 			</div>
 		)	
 	}

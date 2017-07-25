@@ -16,8 +16,10 @@ class Update extends Component {
 }
 
 	componentWillMount() {
-   	let animalID = this.props.match.params.Id;
-		this.props.dispatch(fetchAnimal(animalID));
+   let searchParams = this.props.location.search;
+		let id = searchParams.slice(searchParams.indexOf('?id=') + 4);
+			// let animalID = this.props.match.params.Id;
+			this.props.dispatch(fetchAnimal(id));
   }
 
 	handleChange(event) {	
@@ -38,6 +40,10 @@ class Update extends Component {
 			...this.props.Animal,
 			Status
 		}))
+	}
+
+	componentWillUnmount() {
+		this.props.dispatch(animalInfo({}));
 	}
 
 	render() {

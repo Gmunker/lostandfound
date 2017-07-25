@@ -11,23 +11,26 @@ import Detail from './Detail';
 import Landing from './Landing';
 import List from './List';
 import Update from './Update';
-// import ScrollToTop from './ScrollToTop';
+import ScrollToTop from './ScrollToTop';
 // import Login from './Login';
 
 class App extends Component {
 
 	render() {
-		console.log(this.props);
 		return (
 			<Router>
-				<Switch>
-					<Route path="/list" component={List} />
-					<Route path="/detail/:Id" component={Detail}/>
-					<Route path="/add" component={Add} />
-					<Route path="/update/:Id" component={Update} />
-					<Route path="/login"/>		
-					<Route path="/" component={Landing}/>
-				</Switch>
+				<ScrollToTop>
+					<Switch>
+						<Route path="/list" component={List} />
+						<Route path="/dog/details" component={Detail} />
+						<Route path="/cat/details" component={Detail} />
+						<Route path="/add" component={Add} />
+						<Route path="/dog/update" component={Update} />
+						<Route path="/cat/update" component={Update} />
+						<Route path="/login"/>		
+						<Route path="/" component={Landing}/>
+					</Switch>
+				</ScrollToTop>
 			</Router>
 		);
 	}

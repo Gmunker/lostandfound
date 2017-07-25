@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 
 import { connect } from 'react-redux';
-import { fetchAnimals } from './actions/animalsActions';
+import { fetchAnimals, fetchAnimal } from './actions/animalsActions';
 
 class List extends Component {
 	constructor(props) {
@@ -14,6 +14,7 @@ class List extends Component {
 		}
 		this.handleType = this.handleType.bind(this);
 		this.handleStatus = this.handleStatus.bind(this);
+		this.handleClick = this.handleClick.bind(this);
 	}
 
 	componentWillMount() {
@@ -36,6 +37,10 @@ class List extends Component {
 				...this.state,
 				status 
 			}});
+	}
+
+	handleClick(e) {
+		this.props.dispatch(fetchAnimal(this.refs.animal.props.id))
 	}
 	
    	render() {
@@ -103,13 +108,16 @@ class List extends Component {
 			})
 			
 			let table = filteredAnimals.map((Animal) => {
+
+				let loc = Animal.Type === "dog" ? "/dog/details?id" + Animal.Id : "/cat/details?id=" + Animal.Id;
+
 				return(
 					<tr key={Animal.Id}>
 						<td className="loctd">
-							<Link to={"/detail/" + Animal.Id}>{Animal.Location}</Link>
+							<Link id={Animal.Id} to={loc}>{Animal.Location}</Link>
 						</td>
-						<td className="colortd"><Link to="/detail">{Animal.Color}</Link></td>
-						<td className="breedtd"><Link to="/detail">{Animal.Breed}</Link></td>
+						<td className="colortd"><Link to={"/dog/detail?id=" + Animal.Id}>{Animal.Color}</Link></td>
+						<td className="breedtd"><Link to={"/dog/detail?id=" + Animal.Id}>{Animal.Breed}</Link></td>
 					</tr>
 				)
 			});
@@ -130,15 +138,17 @@ class List extends Component {
 							</tr>
 						</thead>
 						<tbody>
-							{this.props.animals.length > 0 ? table : <h1>Loading....</h1>}
+							{this.props.animals.length > 0 ? table : null}
 						</tbody>
 					</table>
+					{this.props.animals.length === 0 ? <h1>Loading List....</h1> : null}
 				</div>
 			</div>
 		)
   }
 }
 
-export default connect(state => {return {
+export default connect(state => {
+	return {
 	animals: state.animals.animals
 }})(List);

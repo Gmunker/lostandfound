@@ -74,6 +74,10 @@ class Add extends Component {
         }
     }
 
+    componentWillUnmount() {
+        this.props.dispatch(animalInfo({}));
+    }
+
     render() {
         console.log(this.props.match)
         // const { fireRedirect } = this.state;
