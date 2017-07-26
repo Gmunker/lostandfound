@@ -12,7 +12,7 @@ import Landing from './Landing';
 import List from './List';
 import Update from './Update';
 import ScrollToTop from './ScrollToTop';
-// import Login from './Login';
+import Login from './Login';
 
 class App extends Component {
 
@@ -27,7 +27,7 @@ class App extends Component {
 						<Route path="/add" component={Add} />
 						<Route path="/dog/update" component={Update} />
 						<Route path="/cat/update" component={Update} />
-						<Route path="/login"/>		
+						<Route path="/login" component={Login} />>		
 						<Route path="/" component={Landing}/>
 					</Switch>
 				</ScrollToTop>
