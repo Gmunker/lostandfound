@@ -4,11 +4,8 @@ export function login(email, password) {
   return function(dispatch) {
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then(result => {
-      let user = {
-        id: result.uid
-      }
-      console.log(result);
-      dispatch({type: "SET_USER", payload: user})
+      dispatch({type: "USER_LOGIN", payload: result.uid})
+      console.log("User Logged In!")
     })
     .catch(error => {
       var errorCode = error.code;
@@ -23,3 +20,13 @@ export function login(email, password) {
   }
 }
 
+
+export function logout() {
+  return function(dispatch) {
+    firebase.auth().signOut()
+      .then(result => {
+        dispatch({type: "USER_LOGOUT"})
+        console.log("User Logged Out!");
+      })
+  }
+}

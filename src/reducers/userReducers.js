@@ -1,8 +1,11 @@
 export default function reducer(state={}, action) {
 
   switch(action.type) {
-    case "SET_USER": {
-      return {...action.payload};
+    case "USER_LOGIN": {
+      return {...state, uid: action.payload};
+    }
+    case "USER_LOGOUT": {
+      return {}
     }
   }
 
