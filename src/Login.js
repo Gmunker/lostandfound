@@ -26,7 +26,6 @@ class Login extends Component {
 
   handleLogin() {
     this.props.dispatch(login(this.state.email, this.state.password))
-    this.props.user.uid ? console.log(this.props.user) : "";
   }
 
   handleLogout() {

@@ -5,7 +5,7 @@ import Navigation from './Navigation';
 import Search from './Search';
 
 import { connect } from 'react-redux';
-import { fetchAnimals, fetchAnimal } from './actions/animalsActions';
+import { fetchAnimals } from './actions/animalsActions';
 import searchAPI from'./api/searchApi';
 
 class List extends Component {
@@ -24,15 +24,6 @@ class List extends Component {
 	}
 	
    	render() {
-			 
-			// let filteredAnimals = this.props.animals.filter((animal) => {
-			// 	let searchFields = this.props.searchFields;
-			// 	return ((searchFields.showDog === (animal.Type === "dog")) && 
-			// 					(searchFields.showCat === (animal.Type === "cat")) && 
-			// 					(searchFields.showLost === (animal.Status === "lost")) && 
-			// 					(searchFields.showFound === (animal.Status === "found"))
-			// 				);
-			// })
 
 		let { searchText, showDog, showCat, showLost, showFound } = this.props.searchFields;
 		let filteredAnimals = searchAPI.filterAnimals(this.props.animals, showDog, showCat, showLost, showFound, searchText);

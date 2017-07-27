@@ -14,8 +14,6 @@ function FormatGender(gender) {
 	)
 }
 
-
-
 class Detail extends Component {
 
 	componentWillMount() {
