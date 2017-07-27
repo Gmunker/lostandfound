@@ -1,29 +1,36 @@
 module.exports = {
-	filterAnimals(animals, showDogs, showCats, showLost, showFound, searchText) {
+	filterAnimals(animals, showDog, showCat, showLost, showFound, searchText) {
 		let filteredAnimals = animals;
 
-		//Filter by showCompleted
-		filteredAnimals = filteredAnimals.filter((animal) => {
-			return !animal.completed || showCompleted;
-		});
+		filteredAnimals = animals.filter((animal) => {
+			return ((showDog === (animal.Type === "dog")) && 
+					(showCat === (animal.Type === "cat")) && 
+					(showLost === (animal.Status === "lost")) && 
+					(showFound === (animal.Status === "found"))
+				);
+			})
 
 		//Filter by searchText
 		filteredAnimals = filteredAnimals.filter((animal) => {
-			let text = animal.text.toLowerCase();
-			return searchText.length === 0 || text.indexOf(searchText.toLowerCase()) > -1;
+			let name = animal.Name.toLowerCase();
+			let loc = animal.Location.toLowerCase();
+			let breed = animal.Breed.toLowerCase();
+			let color = animal.Color.toLowerCase();
+
+			return (searchText.length === 0 || (name.indexOf(searchText.toLowerCase()) > -1) );
 		})
 
 		//Sort todos with non-completed first
-		filteredAnimals.sort((a, b) => {
-			if (!a.completed && b.completed) {
-				return -1;
-			} else if (a.completed && !b.completed) {
-				return 1;
-			} else {
-				return 0;
-			}
-		});
+		// filteredAnimals.sort((a, b) => {
+		// 	if (!a.completed && b.completed) {
+		// 		return -1;
+		// 	} else if (a.completed && !b.completed) {
+		// 		return 1;
+		// 	} else {
+		// 		return 0;
+		// 	}
+		// });
 
-		return filteredTodos;
+		return filteredAnimals;
 	}
 };
