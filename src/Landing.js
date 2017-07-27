@@ -36,8 +36,6 @@ class Landing extends Component {
 		let three = getRandom();
 		let four = getRandom();
 
-		one[0] ? console.log(one[0]) : null;
-
 		let randomAnimals = () => {
 			return (
 				<div className="dogImages">
