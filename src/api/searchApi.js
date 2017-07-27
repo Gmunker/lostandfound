@@ -17,7 +17,12 @@ module.exports = {
 			let breed = animal.Breed.toLowerCase();
 			let color = animal.Color.toLowerCase();
 
-			return (searchText.length === 0 || (name.indexOf(searchText.toLowerCase()) > -1) );
+			return (searchText.length === 0 || 
+				(name.indexOf(searchText.toLowerCase()) > -1) ||
+				(loc.indexOf(searchText.toLowerCase()) > -1) ||
+				(breed.indexOf(searchText.toLowerCase()) > -1) ||
+				(color.indexOf(searchText.toLowerCase()) > -1)
+			);
 		})
 
 		//Sort todos with non-completed first
