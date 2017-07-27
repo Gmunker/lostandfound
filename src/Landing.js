@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
-import dogOne from './images/DogOne.jpg';
-import dogTwo from './images/DogTwo.jpg';
-import dogThree from './images/DogThree.jpg';
-import dogFour from './images/DogFour.jpg';
 import logo from './images/logo.jpg';
 
 import { connect } from 'react-redux';
