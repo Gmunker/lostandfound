@@ -4,18 +4,12 @@ import logo from './images/logo.jpg';
 
 import { connect } from 'react-redux';
 import { fetchAnimals } from './actions/animalsActions';
-import { getAnimalsWithPics } from './actions/randomAnimalsActions';
 
-
-
-//create random pics based on if pic is aviliable
-//link directly to /dog/details?id
 
 class Landing extends Component {
 
 	componentWillMount() {
 		this.props.dispatch(fetchAnimals());
-		// this.props.dispatch(getAnimalsWithPics(this.props.animals));		
 	}
 	render() {
 
