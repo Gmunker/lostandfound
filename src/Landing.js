@@ -55,7 +55,7 @@ class Landing extends Component {
 			<div className="landingContent">
 				<div className="topContainer">
 					<img className="logo" src={logo} alt=""/>
-					{one[0] ? randomAnimals() : null}
+					{/* {one[0] ? randomAnimals() : null} */}
 				</div>
 				<nav className="pageNavigation">
 					<Link className="Button" to="/list">View Full List</Link>
