@@ -40,9 +40,12 @@ export default function reducer(state=defaultState, action) {
         showFound: !state.showFound
       }
     }
+    default: {
+      return state;
+    }
   }
 
-  return state;
+  
 
 }
 

@@ -7,9 +7,10 @@ export default function reducer(state={}, action) {
     case "USER_LOGOUT": {
       return {}
     }
+    default: {
+     return state 
+    }
   }
-
-  return state;
 
 }
 

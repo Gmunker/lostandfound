@@ -4,9 +4,9 @@ export default function reducer(state={}, action) {
     case "SET_ANIMAL_INFO": {
       return {...action.payload};
     }
+    default: {
+      return state
+    }
   }
-
-  return state;
-
 }
 
