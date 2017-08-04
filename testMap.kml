@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <name>Untitled map</name>
+    <name>testMap</name>
     <description/>
-    <Style id="poly-000000-1200-77-nodesc-normal">
+    <Style id="poly-7CB342-201-48-nodesc-normal">
       <LineStyle>
-        <color>ff000000</color>
-        <width>1.2</width>
+        <color>ff42b37c</color>
+        <width>0.201</width>
       </LineStyle>
       <PolyStyle>
-        <color>4d000000</color>
+        <color>3042b37c</color>
         <fill>1</fill>
         <outline>1</outline>
       </PolyStyle>
@@ -17,13 +17,13 @@
         <text><![CDATA[<h3>$[name]</h3>]]></text>
       </BalloonStyle>
     </Style>
-    <Style id="poly-000000-1200-77-nodesc-highlight">
+    <Style id="poly-7CB342-201-48-nodesc-highlight">
       <LineStyle>
-        <color>ff000000</color>
-        <width>1.8</width>
+        <color>ff42b37c</color>
+        <width>0.3015</width>
       </LineStyle>
       <PolyStyle>
-        <color>4d000000</color>
+        <color>3042b37c</color>
         <fill>1</fill>
         <outline>1</outline>
       </PolyStyle>
@@ -31,30 +31,68 @@
         <text><![CDATA[<h3>$[name]</h3>]]></text>
       </BalloonStyle>
     </Style>
-    <StyleMap id="poly-000000-1200-77-nodesc">
+    <StyleMap id="poly-7CB342-201-48-nodesc">
       <Pair>
         <key>normal</key>
-        <styleUrl>#poly-000000-1200-77-nodesc-normal</styleUrl>
+        <styleUrl>#poly-7CB342-201-48-nodesc-normal</styleUrl>
       </Pair>
       <Pair>
         <key>highlight</key>
-        <styleUrl>#poly-000000-1200-77-nodesc-highlight</styleUrl>
+        <styleUrl>#poly-7CB342-201-48-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="poly-E65100-201-41-nodesc-normal">
+      <LineStyle>
+        <color>ff0051e6</color>
+        <width>0.201</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>290051e6</color>
+        <fill>1</fill>
+        <outline>1</outline>
+      </PolyStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="poly-E65100-201-41-nodesc-highlight">
+      <LineStyle>
+        <color>ff0051e6</color>
+        <width>0.3015</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>290051e6</color>
+        <fill>1</fill>
+        <outline>1</outline>
+      </PolyStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="poly-E65100-201-41-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#poly-E65100-201-41-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#poly-E65100-201-41-nodesc-highlight</styleUrl>
       </Pair>
     </StyleMap>
     <Folder>
       <name>Untitled layer</name>
       <Placemark>
         <name>Polygon 1</name>
-        <styleUrl>#poly-000000-1200-77-nodesc</styleUrl>
+        <styleUrl>#poly-E65100-201-41-nodesc</styleUrl>
         <Polygon>
           <outerBoundaryIs>
             <LinearRing>
               <tessellate>1</tessellate>
               <coordinates>
-                -86.6828156,36.1492419,0
-                -86.6711426,36.1320519,0
-                -86.6598129,36.1509052,0
-                -86.6828156,36.1492419,0
+                -86.6814449,36.1628257,0
+                -86.6697698,36.1456357,0
+                -86.6584382,36.164489,0
+                -86.6814449,36.1628257,0
               </coordinates>
             </LinearRing>
           </outerBoundaryIs>
@@ -62,21 +100,24 @@
       </Placemark>
       <Placemark>
         <name>Polygon 2</name>
-        <styleUrl>#poly-000000-1200-77-nodesc</styleUrl>
+        <styleUrl>#poly-7CB342-201-48-nodesc</styleUrl>
         <Polygon>
           <outerBoundaryIs>
             <LinearRing>
               <tessellate>1</tessellate>
               <coordinates>
-                -86.6742325,36.1736341,0
-                -86.6508865,36.1547862,0
-                -86.6320038,36.1744655,0
-                -86.6742325,36.1736341,0
+                -86.7120858,36.1804244,0
+                -86.6887378,36.1615765,0
+                -86.6698535,36.1812558,0
+                -86.7120858,36.1804244,0
               </coordinates>
             </LinearRing>
           </outerBoundaryIs>
         </Polygon>
       </Placemark>
+    </Folder>
+    <Folder>
+      <name>Untitled layer</name>
     </Folder>
   </Document>
 </kml>
