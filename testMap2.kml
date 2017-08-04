@@ -25,16 +25,7 @@
         <outline>1</outline>
       </PolyStyle>
     </Style>
-    <StyleMap id="poly-0288D1-1200-76-nodesc">
-      <Pair>
-        <key>normal</key>
-        <styleUrl>#poly-0288D1-1200-76-nodesc-normal</styleUrl>
-      </Pair>
-      <Pair>
-        <key>highlight</key>
-        <styleUrl>#poly-0288D1-1200-76-nodesc-highlight</styleUrl>
-      </Pair>
-    </StyleMap>
+    
     <Folder>
       <name>Untitled layer</name>
       <Placemark>
