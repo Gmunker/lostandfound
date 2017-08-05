@@ -14,6 +14,8 @@ import Update from './Update';
 import ScrollToTop from './ScrollToTop';
 import Login from './Login';
 
+import Gmap from './GoogleMap/Gmap';
+
 class App extends Component {
 
 	render() {
@@ -21,6 +23,7 @@ class App extends Component {
 			<Router>
 				<ScrollToTop>
 					<Switch>
+						<Route path="/map" component={Gmap} />
 						<Route path="/list" component={List} />
 						<Route path="/dog/details" component={Detail} />
 						<Route path="/cat/details" component={Detail} />
