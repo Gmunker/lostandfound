@@ -1,6 +1,6 @@
 let defaultState = {
-  animals: [],
-  animal: {},
+  animal: [],
+  animals: {},
   fetching: false,
   fetched: false,
   error: null
@@ -37,8 +37,8 @@ export default function reducer(state=defaultState, action) {
         animal: action.payload
       }
     }
+    default: {
+      return state
+    }
   }
-
-  return state;
-
 }
