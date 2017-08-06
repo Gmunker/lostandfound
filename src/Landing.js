@@ -27,13 +27,9 @@ class Landing extends Component {
 			<div className="landingContent">
 				<div className="topContainer">
 					<img className="logo" src={logo} alt=""/>
-<<<<<<< HEAD
-					{/* {one[0] ? randomAnimals() : null} */}
-=======
 					<div className="dogImages">
 						{this.props.animalsWithPics.length > 0 ? randomAnimals() : null }		
 					</div>
->>>>>>> d968336d4ceb8fdb8ff4bf572c3dba8718bdd587
 				</div>
 				<nav className="pageNavigation">
 					<Link className="Button" to="/list">View Full List</Link>
