@@ -9,6 +9,7 @@ let defaultState = {
 
 export default function reducer(state=defaultState, action) {
 
+<<<<<<< HEAD
 	switch(action.type) {
 		case "SEARCH_TEXT": {
 			return {
@@ -44,5 +45,45 @@ export default function reducer(state=defaultState, action) {
 			return state;
 		}
 	}
+=======
+  switch(action.type) {
+    case "SEARCH_TEXT": {
+      return {
+        ...state,
+        searchText: action.payload
+      };
+    }
+    case "SHOW_DOG": {
+      return {
+        ...state, 
+        showDog: !state.showDog
+      }
+    }
+    case "SHOW_CAT": {
+      return {
+        ...state, 
+        showCat: !state.showCat
+      }
+    }
+    case "SHOW_LOST": {
+      return {
+        ...state, 
+        showLost: !state.showLost
+      }
+    }
+    case "SHOW_FOUND": {
+      return {
+        ...state, 
+        showFound: !state.showFound
+      }
+    }
+    default: {
+      return state;
+    }
+  }
+
+  
+
+>>>>>>> d968336d4ceb8fdb8ff4bf572c3dba8718bdd587
 }
 

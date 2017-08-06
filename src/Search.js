@@ -16,7 +16,6 @@ class Search extends Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div className="filter">
         <div className="formRow">
