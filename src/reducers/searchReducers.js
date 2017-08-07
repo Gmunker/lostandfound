@@ -1,9 +1,9 @@
 let defaultState = {
-  searchText: "",
-  showCat: false,
-  showDog: true,
-  showLost: true,
-  showFound: false
+	searchText: "",
+	showCat: false,
+	showDog: true,
+	showLost: true,
+	showFound: false
 }
 
 

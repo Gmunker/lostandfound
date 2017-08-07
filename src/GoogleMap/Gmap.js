@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import regions from './geojson.json';
 
 const google = window.google;
 
@@ -22,19 +23,33 @@ class Gmap extends Component {
       }]
     }
   }
+<<<<<<< HEAD
 
   componentDidMount() {  
 
+=======
+
+  componentDidMount() {
+>>>>>>> 5c7c9a8dca560c7dce24e94a46609ca7cdeaaf63
     let map = new google.maps.Map(document.getElementById('map'), {
       zoom: 14,
       center: Donelson
     });
 
+<<<<<<< HEAD
+=======
+    // Comment out the three lines below to test functionality
+    // var outerCoords0 = regions[0].polygon;
+    // var outerCoords1 = regions[1].polygon;
+    // map.data.add({geometry: new google.maps.Data.Polygon([outerCoords0, outerCoords1])})
+
+>>>>>>> 5c7c9a8dca560c7dce24e94a46609ca7cdeaaf63
     let markers = this.state.markers.map(loc => {
       return new google.maps.Marker({
         position: loc.position,
         map: map
       })
+<<<<<<< HEAD
     })
 
     map.addListener('click', function(e) {
@@ -44,11 +59,35 @@ class Gmap extends Component {
     });
 
     function placeMarkerAndPanTo(latLng, map) {
+=======
+    });
+
+    map.addListener('click', function(e) {
+      var regionName;
+      for(var i=0; i<regions.length;i++) {
+        var currentPoly = new google.maps.Polygon({paths: regions[i].polygon});
+        if(google.maps.geometry.poly.containsLocation(e.latLng, currentPoly)) {
+          regionName = regions[i].name;
+        }
+      }
+      if(regionName) {
+        placeMarkerAndPanTo(e.latLng, map, regionName)
+      } else {
+        placeMarkerAndPanTo(e.latLng, map, "Outside defined regions")
+      }
+    });
+
+    function placeMarkerAndPanTo(latLng, map, name) {
+>>>>>>> 5c7c9a8dca560c7dce24e94a46609ca7cdeaaf63
       var marker = new google.maps.Marker({
         position: latLng,
         map: map
       });
       map.panTo(latLng);
+<<<<<<< HEAD
+=======
+      console.log(name);
+>>>>>>> 5c7c9a8dca560c7dce24e94a46609ca7cdeaaf63
     }
   }
   
