@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import regions from './geojson.json';
 
 const google = window.google;
 
@@ -23,12 +24,16 @@ class Gmap extends Component {
     }
   }
 
-  componentDidMount() {  
-
+  componentDidMount() {
     let map = new google.maps.Map(document.getElementById('map'), {
       zoom: 14,
       center: Donelson
     });
+
+    // Comment out the three lines below to test functionality
+    // var outerCoords0 = regions[0].polygon;
+    // var outerCoords1 = regions[1].polygon;
+    // map.data.add({geometry: new google.maps.Data.Polygon([outerCoords0, outerCoords1])})
 
     let markers = this.state.markers.map(loc => {
       return new google.maps.Marker({
@@ -38,17 +43,27 @@ class Gmap extends Component {
     });
 
     map.addListener('click', function(e) {
-      placeMarkerAndPanTo(e.latLng, map);
-      console.log(e.latLng.lat())
-      console.log(e.latLng.lng())
+      var regionName;
+      for(var i=0; i<regions.length;i++) {
+        var currentPoly = new google.maps.Polygon({paths: regions[i].polygon});
+        if(google.maps.geometry.poly.containsLocation(e.latLng, currentPoly)) {
+          regionName = regions[i].name;
+        }
+      }
+      if(regionName) {
+        placeMarkerAndPanTo(e.latLng, map, regionName)
+      } else {
+        placeMarkerAndPanTo(e.latLng, map, "Outside defined regions")
+      }
     });
 
-    function placeMarkerAndPanTo(latLng, map) {
+    function placeMarkerAndPanTo(latLng, map, name) {
       var marker = new google.maps.Marker({
         position: latLng,
         map: map
       });
       map.panTo(latLng);
+      console.log(name);
     }
   }
   
