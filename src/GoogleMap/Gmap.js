@@ -8,58 +8,82 @@ let Donelson = {
       lng: -86.674846
     }
 
+let dummyData = [
+  {
+    Name: "Spot",
+    Color: "White",
+    Breed: "Great Dame",
+    Date: new Date().toString(),
+    Location: {
+      position: [{
+        lat: 36.5571445511326,
+        lng: -86.17903900146484
+      }],
+      key: this.name,
+      defaultAnimation: 2
+    }
+  },
+  {
+    Name: "Whiskers",
+    Color: "Orange",
+    Breed: "Evil",
+    Date: new Date().toString(),
+    Location: {
+      position: [{
+        lat: 36.0571445511326,
+        lng: -86.97903900146484
+      }],
+      key: this.name,
+      defaultAnimation: 2
+    }
+  },
+  {
+    Name: "Rusty",
+    Color: "White with Black",
+    Breed: "Jack Russel",
+    Date: new Date().toString(),
+    Location: {
+      position: [{
+        lat: 36.9121445511326,
+        lng: -85.17903900146484
+      },
+      {
+        lat: 36.9121445511396,
+        lng: -85.77903900141484
+      }],
+      key: this.name,
+      defaultAnimation: 2
+      }
+  }
+]
+
 class Gmap extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      markers: [{
-          position: {
-              lat: 36.1571445511326,
-              lng: -86.67903900146484
-          },
-          key: 'Spot',
-          defaultAnimation: 2
-      }]
+      animals: dummyData
     }
   }
-<<<<<<< HEAD
-
-  componentDidMount() {  
-
-=======
 
   componentDidMount() {
->>>>>>> 5c7c9a8dca560c7dce24e94a46609ca7cdeaaf63
     let map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 14,
+      zoom: 6,
       center: Donelson
     });
 
-<<<<<<< HEAD
-=======
     // Comment out the three lines below to test functionality
     // var outerCoords0 = regions[0].polygon;
     // var outerCoords1 = regions[1].polygon;
     // map.data.add({geometry: new google.maps.Data.Polygon([outerCoords0, outerCoords1])})
 
->>>>>>> 5c7c9a8dca560c7dce24e94a46609ca7cdeaaf63
-    let markers = this.state.markers.map(loc => {
-      return new google.maps.Marker({
-        position: loc.position,
-        map: map
+    let markers = this.state.animals.map(animal => {
+      animal.Location.position.map(position => {
+        return new google.maps.Marker({
+          position: position,
+          map: map
+        })
       })
-<<<<<<< HEAD
-    })
-
-    map.addListener('click', function(e) {
-      placeMarkerAndPanTo(e.latLng, map);
-      console.log(e.latLng.lat())
-      console.log(e.latLng.lng())
-    });
-
-    function placeMarkerAndPanTo(latLng, map) {
-=======
     });
 
     map.addListener('click', function(e) {
@@ -78,26 +102,19 @@ class Gmap extends Component {
     });
 
     function placeMarkerAndPanTo(latLng, map, name) {
->>>>>>> 5c7c9a8dca560c7dce24e94a46609ca7cdeaaf63
+      console.log(name)
       var marker = new google.maps.Marker({
         position: latLng,
         map: map
       });
       map.panTo(latLng);
-<<<<<<< HEAD
-=======
-      console.log(name);
->>>>>>> 5c7c9a8dca560c7dce24e94a46609ca7cdeaaf63
     }
   }
   
   render() {
     return (
       <div>
-        <div 
-          id="map" 
-          style={{height: "100vh", width: "100vw"}}
-        ></div>        
+        {google ? <div id="map" style={{height: "100vh", width: "100vw"}}></div> : <p>Loading...</p>}        
       </div>
     )
   }
