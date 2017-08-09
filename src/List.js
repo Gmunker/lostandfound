@@ -41,7 +41,6 @@ class List extends Component {
 				)
 			});
 
-
 		return(
 			<div className="listContent content">
 				<Navigation navSwitch={this.props.navSwitch} ActivePage="List"/>

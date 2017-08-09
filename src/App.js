@@ -13,7 +13,6 @@ import List from './List';
 import Update from './Update';
 import ScrollToTop from './ScrollToTop';
 import Login from './Login';
-
 import Gmap from './GoogleMap/Gmap';
 
 class App extends Component {
