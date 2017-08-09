@@ -1,6 +1,6 @@
 let defaultState = {
   animal: [],
-  animals: {},
+  animals: [],
   fetching: false,
   fetched: false,
   error: null
