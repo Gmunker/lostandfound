@@ -9,8 +9,8 @@ class Login extends Component {
   constructor(props){
     super(props)
     this.state = {
-      email: null,
-      password: null
+      email: "",
+      password: ""
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
@@ -35,13 +35,14 @@ class Login extends Component {
   }
 
   render() {
+    console.log(this.state)
     console.log(this.props.user)
     return (
       <div className="content">
         <Navigation navSwitch={this.props.navSwitch} ActivePage="Login"/>
         <div className="topContainer">
           <h2 className="pageHeader">Login</h2>
-          <form>
+          <div>
             <div>
               <label>Username</label>
               <input 
@@ -66,7 +67,7 @@ class Login extends Component {
             <button className="formButton" onClick={this.props.user.uid ? this.handleLogout : null}>Logout</button>
             <button className="formButton" onClick={this.state.email ? this.handleLogin : null}>Login</button>
             
-          </form>
+          </div>
         </div>
       </div>
     )
