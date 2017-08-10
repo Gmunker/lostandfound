@@ -21,6 +21,7 @@
   "devDependencies": {
     "node-sass-chokidar": "0.0.3",
     "npm-run-all": "^4.0.2",
+    "react-async-script-loader": "^0.3.0",
     "react-google-maps": "^7.1.0",
     "react-redux": "^5.0.5",
     "react-scripts": "1.0.7",
