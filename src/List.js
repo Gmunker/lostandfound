@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
-
 import Search from './Search';
-
 import { connect } from 'react-redux';
 import { fetchAnimals } from './actions/animalsActions';
 import searchAPI from'./api/searchApi';
@@ -19,27 +17,27 @@ class List extends Component {
 	}
 
 	componentWillMount() {
-		this.props.dispatch(fetchAnimals())
-
+		this.props.dispatch(fetchAnimals());
 	}
 	
-   	render() {
+   	render() {		
 
 		let { searchText, showDog, showCat, showLost, showFound } = this.props.searchFields;
+		{console.log(this.props.animals)}
 		let filteredAnimals = searchAPI.filterAnimals(this.props.animals, showDog, showCat, showLost, showFound, searchText);
 			
-			let table = filteredAnimals.map((Animal) => {
-				let loc = Animal.Type === "dog" ? "/dog/details?id" + Animal.Id : "/cat/details?id=" + Animal.Id;
-				return(
-					<tr key={Animal.Id}>
-						<td className="loctd">
-							<Link id={Animal.Id} to={loc}>{Animal.Location}</Link>
-						</td>
-						<td className="colortd"><Link to={loc}>{Animal.Color}</Link></td>
-						<td className="breedtd"><Link to={loc}>{Animal.Breed}</Link></td>
-					</tr>
-				)
-			});
+		let table = filteredAnimals.map((Animal) => {
+			let loc = Animal.Type === "dog" ? "/dog/details?id" + Animal.Id : "/cat/details?id=" + Animal.Id;
+			return(
+				<tr key={Animal.Id}>
+					<td className="loctd">
+						<Link id={Animal.Id} to={loc}>{Animal.Location}</Link>
+					</td>
+					<td className="colortd"><Link to={loc}>{Animal.Color}</Link></td>
+					<td className="breedtd"><Link to={loc}>{Animal.Breed}</Link></td>
+				</tr>
+			)
+		});
 
 		return(
 			<div className="listContent content">

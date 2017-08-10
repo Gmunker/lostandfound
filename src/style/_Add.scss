@@ -2,3 +2,11 @@
     box-sizing: border-box;
     padding-top: 1em;
 }
+.addContent .mapContainer {
+    width: 100%;
+}
+.addContent #map {
+    height: 300px;
+    box-sizing: border-box;
+    border: 2px solid $Primary;
+}

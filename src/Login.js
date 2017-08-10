@@ -63,9 +63,8 @@ class Login extends Component {
                 style={this.state.password ? {background: "green"} : null}
               />
             </div>
-            
-            <button className="formButton" onClick={this.props.user.uid ? this.handleLogout : null}>Logout</button>
             <button className="formButton" onClick={this.state.email ? this.handleLogin : null}>Login</button>
+            <button className="formButton" onClick={this.props.user.uid ? this.handleLogout : null}>Logout</button>
             
           </div>
         </div>

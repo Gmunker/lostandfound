@@ -18,7 +18,7 @@ export function fetchAnimals() {
         let animalsWithPics = parsedAnimals.filter(animal => animal.Image)
         // let random = Math.round(Math.random() * animalsWithPics.length - 1);
 
-        console.log(animalsWithPics)
+        // console.log(animalsWithPics)
         dispatch({type: "FETCH_ANIMALS_FULLFILLED",payload: parsedAnimals}) 
         dispatch({type: "SET_ANIMALS_WITH_PICS", payload: animalsWithPics})
       })
