@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Navigation from './Navigation';
 import firebase from './firebase';
-// import dateFormat from 'dateformat';
-// import Map from './Map';
-
 import { connect } from 'react-redux';
 import { animalInfo } from './actions/animalActions';
+import Gmap from './GoogleMap/Gmap';
 
 
 class Add extends Component {
@@ -79,8 +77,6 @@ class Add extends Component {
     }
 
     render() {
-        console.log(this.props.match)
-        // const { fireRedirect } = this.state;
         let newAnimal = this.props.newAnimal;
         return(
             <div className="addContent content">
@@ -88,72 +84,6 @@ class Add extends Component {
                 <div className="topContainer">
                     <h2 className="pageHeader">Add New Animal</h2>
                     <form onSubmit={this.handleSubmit}>
-                    <div>
-                            <label htmlFor="name">Name</label>
-                            <input 
-                                name="name"
-                                ref="name"
-                                required
-                                id="name" 
-                                type="text" 
-                                onChange={this.handleChange} 
-                                value={newAnimal.Name}
-                            />
-                        </div>
-                        
-                        <div>
-                            <label htmlFor="location">Location*</label>
-                            <input 
-                                name="location"
-                                ref="location"
-                                required 
-                                id="location" 
-                                type="text"
-                                onChange={this.handleChange} 
-                                value={newAnimal.Location}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="sex">Sex</label>
-                            <select 
-                                name="sex"
-                                ref="gender" 
-                                id="sex" 
-                                onChange={this.handleGender}
-                                value={newAnimal.Gender}
-                            >
-                                <option value=""></option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
-                        </div>
-                        
-                        <div className="formRow">
-                            <div className="formSpanOne">
-                                <label htmlFor="color">Color*</label>
-                                <input 
-                                    name="color"
-                                    ref="color" 
-                                    required
-                                    id="color" 
-                                    type="text" 
-                                    onChange={this.handleChange} 
-                                    value={newAnimal.Color}
-                                />
-                            </div>
-                            <div className="formSpanOne">
-                                <label htmlFor="breed">Breed</label>
-                                <input 
-                                    name="breed"
-                                    ref="breed" 
-                                    id="breed" 
-                                    type="text" 
-                                    onChange={this.handleChange} 
-                                    value={newAnimal.Breed}
-                                />
-                            </div>
-                        </div>
-                        
                         <div className="formRow">
                             <div className="radio">
                                 <span>Lost</span>
@@ -180,7 +110,6 @@ class Add extends Component {
                                 <label htmlFor="statusFound"></label>
                             </div>
                         </div>
-                        
                         <div className="formRow">
                             <div className="radio">
                                 <span>Dog</span>
@@ -207,6 +136,64 @@ class Add extends Component {
                                 <label htmlFor="typeCat"></label>
                             </div>
                         </div>
+                        <div className="formRow">
+                            <label>Location
+                                <p>Click on the map to mark the location where the animal was found.</p>
+                            </label>
+                            <Gmap/>
+                        </div>
+                        <div className="formRow">
+                            <label htmlFor="name">Name</label>
+                            <input 
+                                name="name"
+                                ref="name"
+                                required
+                                id="name" 
+                                type="text" 
+                                onChange={this.handleChange} 
+                                value={newAnimal.Name}
+                            />
+                        </div>
+                        <div className="formRow">
+                            <label htmlFor="sex">Sex</label>
+                            <select 
+                                name="sex"
+                                ref="gender" 
+                                id="sex" 
+                                onChange={this.handleGender}
+                                value={newAnimal.Gender}
+                            >
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="neuteredmale">Neutered Male</option>
+                                <option value="spayedfemale">Spayed Female</option>
+                            </select>
+                        </div>
+                        <div className="formTwoColumn">
+                            <div className="formSpanOne">
+                                <label htmlFor="color">Color*</label>
+                                <input 
+                                    name="color"
+                                    ref="color" 
+                                    required
+                                    id="color" 
+                                    type="text" 
+                                    onChange={this.handleChange} 
+                                    value={newAnimal.Color}
+                                />
+                            </div>
+                            <div className="formSpanOne">
+                                <label htmlFor="breed">Breed</label>
+                                <input 
+                                    name="breed"
+                                    ref="breed" 
+                                    id="breed" 
+                                    type="text" 
+                                    onChange={this.handleChange} 
+                                    value={newAnimal.Breed}
+                                />
+                            </div>
+                        </div>
                         <button type="submit" className="formButton">Save</button>
                         <span className="formIndicia">* Required Field</span>
                     </form>
@@ -222,7 +209,3 @@ export default connect(state => {
         newAnimal: state.animal
     }
 })(Add);
-
-
-//  <form onSubmit={this.handleSubmit}>
-// <Map google={window.google}/>

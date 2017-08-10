@@ -132,8 +132,8 @@ class Gmap extends Component {
   
   render() {
     return (
-      <div>
-        {google ? <div id="map" style={{height: "100vh", width: "100vw"}}></div> : <p>Loading...</p>}        
+      <div className="mapContainer">
+        {google ? <div id="map"></div> : <p>Loading...</p>}        
       </div>
     )
   }
