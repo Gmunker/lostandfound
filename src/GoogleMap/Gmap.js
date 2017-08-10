@@ -135,10 +135,10 @@ class Gmap extends Component {
   
   render() { 
     return (
-      <div>
+
+      <div className="mapContainer">
         {}
         <div ref="map" style={{height: '100vh', width: '100vw'}}></div>
-         
       </div>
     )
   }

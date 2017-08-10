@@ -11,6 +11,7 @@ const Navigation = (props) => {
 				</Link>
 				<Link to="/add"><li>Add New Animal</li></Link>
 				<Link to="/list"><li>View List</li></Link>
+				<Link to="/login"><li>Login</li></Link>
 			</ul>
 		</nav>
 	)

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import logo from './images/logo.jpg';
-
 import { connect } from 'react-redux';
 import { fetchAnimals } from './actions/animalsActions';
 
@@ -34,6 +33,7 @@ class Landing extends Component {
 				<nav className="pageNavigation">
 					<Link className="Button" to="/list">View Full List</Link>
 					<Link className="Button" to="/add">Add New Animal</Link>
+					<Link className="Button" to="/login">Login</Link>
 				</nav>
 			</div>
 		)

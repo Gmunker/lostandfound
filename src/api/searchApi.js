@@ -1,8 +1,8 @@
 module.exports = {
 	filterAnimals(animals, showDog, showCat, showLost, showFound, searchText) {
 		let filteredAnimals = animals;
-		console.log(animals);
-		filteredAnimals = filteredAnimals.filter(animal => {
+		
+		filteredAnimals = animals.filter(animal => {
 			return ((showDog === (animal.Type === "dog")) && 
 					(showCat === (animal.Type === "cat")) && 
 					(showLost === (animal.Status === "lost")) && 
