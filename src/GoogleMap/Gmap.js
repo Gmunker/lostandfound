@@ -65,8 +65,6 @@ class Gmap extends Component {
       googleMap: {},
       dummyData: dummyData
     }
-
-    this.map = null
   }
 
    componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
@@ -74,8 +72,8 @@ class Gmap extends Component {
       if (isScriptLoadSucceed) {
         let google = window.google
         
-        this.map = new google.maps.Map(this.refs.map, {
-          zoom: 8,
+        let map = new google.maps.Map(this.refs.map, {
+          zoom: 16,
           center: {
             lat: 36.170295,
             lng: -86.674846
@@ -91,15 +89,15 @@ class Gmap extends Component {
         animal.Location.position.map((position, index) => {
           return new google.maps.Marker({
             position: position,
-            map: this.map,
+            map: map,
             icon: pullIcon(animal, index)
           })
         })
       });
 
-      this.map.addListener('click', function(e) {
+      map.addListener('click', function(e) {
         findRegion(e.latLng);
-        placeMarkerAndPanTo(e.latLng, this.map);
+        placeMarkerAndPanTo(e.latLng, map);
       });
 
       function findRegion(latLng) {
@@ -120,9 +118,9 @@ class Gmap extends Component {
       function placeMarkerAndPanTo(latLng, map) {
         var marker = new google.maps.Marker({
           position: latLng,
-          map: map,
+          map,
         });
-        this.map.panTo(latLng);
+        map.panTo(latLng);
       }
 
       function pullIcon(animal, index) {
@@ -140,7 +138,7 @@ class Gmap extends Component {
       <div>
         {}
         <div ref="map" style={{height: '100vh', width: '100vw'}}></div>
-        { !this.map && <div className="center-md">Loading...</div> } 
+         
       </div>
     )
   }
