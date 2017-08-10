@@ -42,10 +42,7 @@ class Login extends Component {
         <Navigation navSwitch={this.props.navSwitch} ActivePage="Login"/>
         <div className="topContainer">
           <h2 className="pageHeader">Login</h2>
-<<<<<<< HEAD
-=======
           <div>
->>>>>>> 82a058676a127cf60bfbb9e336aa7b059fb385a6
             <div>
               <label>Username</label>
               <input 
@@ -69,10 +66,7 @@ class Login extends Component {
             <button className="formButton" onClick={this.state.email ? this.handleLogin : null}>Login</button>
             <button className="formButton" onClick={this.props.user.uid ? this.handleLogout : null}>Logout</button>
             
-<<<<<<< HEAD
-=======
           </div>
->>>>>>> 82a058676a127cf60bfbb9e336aa7b059fb385a6
         </div>
       </div>
     )
