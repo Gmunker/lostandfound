@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import validator from 'validator';
+import Navigation from './Navigation';
 
 import { login, logout } from './actions/userActions';
 
@@ -34,30 +35,39 @@ class Login extends Component {
   }
 
   render() {
+    console.log(this.props.user)
     return (
-      <div>
-        <div>
-          <p>Username:</p>
-          <input 
-            type="text"
-            ref="email" 
-            minLength="7" 
-            onChange={this.handleChange}
-            style={this.state.email ? {background: "green"} : null}
-          />
+      <div className="content">
+        <Navigation navSwitch={this.props.navSwitch} ActivePage="Login"/>
+        <div className="topContainer">
+          <h2 className="pageHeader">Login</h2>
+          <form>
+            <div>
+              <label>Username</label>
+              <input 
+                type="text"
+                ref="email" 
+                minLength="7" 
+                onChange={this.handleChange}
+                style={this.state.email ? {background: "green"} : null}
+              />
+            </div>
+            <div>
+              <label>Password</label>
+              <input 
+                type="password" 
+                ref="password" 
+                minLength="7" 
+                onChange={this.handleChange}
+                style={this.state.password ? {background: "green"} : null}
+              />
+            </div>
+            
+            <button className="formButton" onClick={this.props.user.uid ? this.handleLogout : null}>Logout</button>
+            <button className="formButton" onClick={this.state.email ? this.handleLogin : null}>Login</button>
+            
+          </form>
         </div>
-        <div>
-          <p>Password:</p>
-          <input 
-            type="password" 
-            ref="password" 
-            minLength="7" 
-            onChange={this.handleChange}
-            style={this.state.password ? {background: "green"} : null}
-          />
-        </div>
-        <button onClick={this.state.email ? this.handleLogin : null}>Login</button>
-        <button onClick={this.props.user.uid ? this.handleLogout : null}>Logout</button>
       </div>
     )
   }

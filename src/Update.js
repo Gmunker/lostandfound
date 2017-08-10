@@ -47,9 +47,9 @@ class Update extends Component {
 	}
 
 	render() {
-// this.props.updateAnimal(this.state, this.props.Animal.key);
-	console.log(this.props);
+
 	let Animal = this.props.Animal;
+		console.log(Animal)
 	return(
 		<div className="addContent content">
 			<Navigation navSwitch={this.props.navSwitch} ActivePage="Detail"/>

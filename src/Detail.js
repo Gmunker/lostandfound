@@ -14,8 +14,13 @@ function FormatGender(gender) {
 	)
 }
 
-class Detail extends Component {
+function FormatDate() {
+	var date = "2015-07-04"
+	var d = new Date(date + 'T05:00:00Z');
+	console.log(d);
+}
 
+class Detail extends Component {
 	componentWillMount() {
 		let searchParams = this.props.location.search;
 		let id = searchParams.slice(searchParams.indexOf('?id=') + 4);
@@ -31,7 +36,7 @@ class Detail extends Component {
 				<div className="detail">
 					<div className="detail__main">
 						<h2 className="detail__main__status">{Animal.Status}</h2>
-							<h2 className="detail__main__status"> {Animal.Date}</h2>
+							<h2 className="detail__main__status"> {FormatDate(Animal.Date)}</h2>
 						<div>Near</div>
 							<p className="detail__main__location">{Animal.Location}</p>
 							<img className="detail__main__image" src={Animal.Image} alt="" />

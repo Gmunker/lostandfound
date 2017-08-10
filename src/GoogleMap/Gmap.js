@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import regions from './geojson.json';
+const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
 
 const google = window.google;
 
@@ -21,7 +22,9 @@ let dummyData = [
       }],
       key: this.name,
       defaultAnimation: 2
-    }
+    },
+    Type: "Dog",
+    Status: ["Found"]
   },
   {
     Name: "Whiskers",
@@ -35,7 +38,9 @@ let dummyData = [
       }],
       key: this.name,
       defaultAnimation: 2
-    }
+    },
+    Type: "Cat",
+    Status: ["Lost"]
   },
   {
     Name: "Rusty",
@@ -53,7 +58,9 @@ let dummyData = [
       }],
       key: this.name,
       defaultAnimation: 2
-      }
+    },
+    Type: "Dog",
+    Status: ["Lost", "Found"]
   }
 ]
 
@@ -68,47 +75,59 @@ class Gmap extends Component {
 
   componentDidMount() {
     let map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 6,
+      zoom: 8,
       center: Donelson
     });
 
     // Comment out the three lines below to test functionality
-    // var outerCoords0 = regions[0].polygon;
-    // var outerCoords1 = regions[1].polygon;
-    // map.data.add({geometry: new google.maps.Data.Polygon([outerCoords0, outerCoords1])})
+    // for(var i=0;i<regions.length;i++) {
+    //   map.data.add({geometry: new google.maps.Data.Polygon([regions[i].polygon])})
+    // }
 
     let markers = this.state.animals.map(animal => {
-      animal.Location.position.map(position => {
+      animal.Location.position.map((position, index) => {
         return new google.maps.Marker({
           position: position,
-          map: map
+          map: map,
+          icon: pullIcon(animal, index)
         })
       })
     });
 
     map.addListener('click', function(e) {
+      findRegion(e.latLng);
+      placeMarkerAndPanTo(e.latLng, map);
+    });
+
+    function findRegion(latLng) {
       var regionName;
       for(var i=0; i<regions.length;i++) {
         var currentPoly = new google.maps.Polygon({paths: regions[i].polygon});
-        if(google.maps.geometry.poly.containsLocation(e.latLng, currentPoly)) {
+        if(google.maps.geometry.poly.containsLocation(latLng, currentPoly)) {
           regionName = regions[i].name;
         }
       }
       if(regionName) {
-        placeMarkerAndPanTo(e.latLng, map, regionName)
+        console.log(regionName);
       } else {
-        placeMarkerAndPanTo(e.latLng, map, "Outside defined regions")
+        console.log("Outside defined regions");
       }
-    });
+    }
 
-    function placeMarkerAndPanTo(latLng, map, name) {
-      console.log(name)
+    function placeMarkerAndPanTo(latLng, map) {
       var marker = new google.maps.Marker({
         position: latLng,
-        map: map
+        map: map,
       });
       map.panTo(latLng);
     }
+
+    function pullIcon(animal, index) {
+      var status = animal.Status[index] === "Found" ? "found" : "lost";
+      var type = animal.Type === "Cat" ? "Cat" : "Dog";
+      return  baseUrl + status + type + "Icon.png"
+    }
+
   }
   
   render() {

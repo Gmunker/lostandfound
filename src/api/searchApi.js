@@ -1,15 +1,15 @@
 module.exports = {
 	filterAnimals(animals, showDog, showCat, showLost, showFound, searchText) {
 		let filteredAnimals = animals;
-
-		filteredAnimals = animals.filter((animal) => {
+		console.log(animals);
+		filteredAnimals = filteredAnimals.filter(animal => {
 			return ((showDog === (animal.Type === "dog")) && 
 					(showCat === (animal.Type === "cat")) && 
 					(showLost === (animal.Status === "lost")) && 
 					(showFound === (animal.Status === "found"))
 				);
 			})
-
+		
 		//Filter by searchText
 		filteredAnimals = filteredAnimals.filter((animal) => {
 			let name = animal.Name.toLowerCase();
