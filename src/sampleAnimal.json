@@ -1,0 +1,52 @@
+{
+    "FIREBASE_ID": [
+        {
+            "name": "Fluffy",
+            "color": "white, tan",
+            "status": [
+                "lost",
+                "found",
+                "returned to owner", // Owner info can be placed in the owner_info object
+                "vetted",
+                "foster",
+                "adopted", // Adpoter info can be placed in the owner_info object
+                "transfered",
+                "deceased"
+            ],
+            "location": [{
+                "lat": 11.1111, // Lost Location
+                "lng": 11.1111
+            }, {
+                "lat": 22.2222, // Found Location
+                "lng": 22.2222
+            }, 
+                null, // null for returned to owner
+                null, // null for vetted location
+                null, // null for foster location
+                null,  // null for adopted location
+                null, // null for transfered
+                null, // null for deceased
+            ],
+            "date": [
+                "Thu Aug 10 2017 22:11:18 GMT-0500 (Central Daylight Time)", // Lost Date
+                "Thu Aug 12 2017 04:22:02 GMT-0500 (Central Daylight Time)", // Found Date
+                "Thu Aug 15 2017 04:22:02 GMT-0500 (Central Daylight Time)", // Returned to Owner Date
+                "Thu Aug 15 2017 04:22:02 GMT-0500 (Central Daylight Time)", // Vetted Date
+                "Thu Aug 15 2017 04:22:02 GMT-0500 (Central Daylight Time)", // Foster Date
+                "Thu Aug 15 2017 04:22:02 GMT-0500 (Central Daylight Time)", // Adoption Date
+                "Thu Aug 15 2017 04:22:02 GMT-0500 (Central Daylight Time)", // Transfer Date
+                "Thu Aug 15 2017 04:22:02 GMT-0500 (Central Daylight Time)" // Deceased Date
+            ],
+            "type": "dog",
+            "breed": "Corgi",
+            "sex": "f",
+            "foster_info": "Foster Name",
+            "owner_info": {
+                "name": "Nobody",
+                "address": "123 Nowhere Ln, Nashville, TN 37214",
+                "phone": "123-123-1234"
+            },
+            "transfer_info": "MACC"
+        }
+    ]   
+}

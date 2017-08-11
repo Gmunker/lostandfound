@@ -67,7 +67,7 @@ class Gmap extends Component {
     }
   }
 
-   componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
+  componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
     if (isScriptLoaded && !this.props.isScriptLoaded) { // load finished
       if (isScriptLoadSucceed) {
         let google = window.google
@@ -130,7 +130,7 @@ class Gmap extends Component {
       }
     }
   }
-  else this.props.onError()
+  // else this.props.onError()
   }
   
   render() { 
@@ -138,7 +138,7 @@ class Gmap extends Component {
 
       <div className="mapContainer">
         {}
-        <div ref="map" style={{height: '100vh', width: '100vw'}}></div>
+        <div ref="map" id="map"></div>
       </div>
     )
   }
