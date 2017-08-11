@@ -5,7 +5,6 @@ import firebase from './firebase';
 import { connect } from 'react-redux';
 import { animalInfo } from './actions/animalActions';
 import Gmap from './GoogleMap/Gmap';
-import ReactDOM from 'react-dom';
 
 class Add extends Component {
     constructor(props) {
