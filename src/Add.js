@@ -5,12 +5,14 @@ import firebase from './firebase';
 import { connect } from 'react-redux';
 import { animalInfo } from './actions/animalActions';
 import Gmap from './GoogleMap/Gmap';
-
+import ReactDOM from 'react-dom';
 
 class Add extends Component {
     constructor(props) {
     super(props);
-    this.state = {redirect: false};
+    this.state = {
+        redirect: false
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleStatus = this.handleStatus.bind(this);
     this.handleGender = this.handleGender.bind(this);
@@ -29,6 +31,8 @@ class Add extends Component {
             Date: new Date().toString()
         }))
     }
+
+    
 
     handleStatus(e) {
         let Status = e.currentTarget.name === "status" ? e.currentTarget.value : null;
@@ -56,7 +60,6 @@ class Add extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        
         this.setState((state, props) => { return {...this.state, redirect: true }}, () => {
             firebase.database().ref("Animals").push(this.props.newAnimal);
         });
@@ -73,11 +76,16 @@ class Add extends Component {
     }
 
     componentWillUnmount() {
-        this.props.dispatch(animalInfo({}));
+        this.props.dispatch(animalInfo({Type: "dog", Status: "lost"}));
     }
 
     render() {
         let newAnimal = this.props.newAnimal;
+        var statusText;
+        newAnimal.Status === "found" ?
+            statusText = "found" :
+            statusText = "last seen"
+        
         return(
             <div className="addContent content">
                 <Navigation/>
@@ -138,7 +146,7 @@ class Add extends Component {
                         </div>
                         <div className="formRow">
                             <label>Location
-                                <p>Click on the map to mark the location where the animal was found.</p>
+                                <p>Click on the map to mark the location where the {newAnimal.Type.toLowerCase()} was {statusText}.</p>
                             </label>
                             <Gmap/>
                         </div>

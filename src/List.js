@@ -23,7 +23,6 @@ class List extends Component {
    	render() {		
 
 		let { searchText, showDog, showCat, showLost, showFound } = this.props.searchFields;
-		{console.log(this.props.animals)}
 		let filteredAnimals = searchAPI.filterAnimals(this.props.animals, showDog, showCat, showLost, showFound, searchText);
 			
 		let table = filteredAnimals.map((Animal) => {

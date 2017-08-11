@@ -23,6 +23,7 @@ class App extends Component {
 				<ScrollToTop>
 					<Switch>
 						<Route path="/map" component={Gmap} />
+						<Route path="/regions" component={Gmap} />
 						<Route path="/list" component={List} />
 						<Route path="/dog/details" component={Detail} />
 						<Route path="/cat/details" component={Detail} />
