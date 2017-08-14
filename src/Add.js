@@ -79,8 +79,9 @@ class Add extends Component {
     }
 
     render() {
-        // console.log(this.state.regionName);
+        
         let newAnimal = this.props.newAnimal;
+        console.log(newAnimal.location);
         var statusText;
         newAnimal.Status === "found" ?
             statusText = "found" :
@@ -145,7 +146,7 @@ class Add extends Component {
                             </div>
                         </div>
                         <div className="formRow">
-                            <label>Location
+                            <label>Location{newAnimal.location ? <span>: {newAnimal.location.region}</span> : ""}
                                 <p>Click on the map to mark the location where the {newAnimal.Type.toLowerCase()} was {statusText}.</p>
                             </label>
                             
