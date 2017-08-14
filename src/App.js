@@ -6,6 +6,8 @@ import {
 } from 'react-router-dom';
 import './App.css';
 
+import scriptLoader from 'react-async-script-loader'
+
 import Add from './Add';
 import Detail from './Detail';
 import Landing from './Landing';
@@ -17,7 +19,17 @@ import Gmap from './GoogleMap/Gmap';
 
 class App extends Component {
 
+	componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
+    if (isScriptLoaded && !this.props.isScriptLoaded) { // load finished
+      if (isScriptLoadSucceed) {
+				let google = window.google
+				console.log(google)
+			}
+		}
+	}
+
 	render() {
+		console.log(this.props)
 		return (
 			<Router>
 				<ScrollToTop>
@@ -39,5 +51,5 @@ class App extends Component {
 	}
 }
 
-export default App;
+export default scriptLoader("https://maps.googleapis.com/maps/api/js?key=AIzaSyDiUupl6Z9qBY5J_IKupr44xM542C23Xiw&libraries=places,geometry")(App);
 

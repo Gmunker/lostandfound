@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import regions from './geojson.json';
 import scriptLoader from 'react-async-script-loader'
+import { connect } from 'react-redux';
+import { testingMap } from '../actions/mapActions';
 const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
+
+let google = window.google
+
 
 let dummyData = [{
         Name: "Spot",
@@ -70,7 +75,6 @@ class Gmap extends Component {
   componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
     if (isScriptLoaded && !this.props.isScriptLoaded) { // load finished
       if (isScriptLoadSucceed) {
-        let google = window.google
         
         let map = new google.maps.Map(this.refs.map, {
           zoom: 16,
@@ -79,6 +83,7 @@ class Gmap extends Component {
             lng: -86.674846
           }
         });
+
         
       // Comment out the three lines below to test functionality
       // for(var i=0;i<regions.length;i++) {
@@ -98,6 +103,7 @@ class Gmap extends Component {
       map.addListener('click', function(e) {
         findRegion(e.latLng);
         placeMarkerAndPanTo(e.latLng, map);
+        
       });
 
       function findRegion(latLng) {
@@ -133,7 +139,7 @@ class Gmap extends Component {
   // else this.props.onError()
   }
   
-  render() { 
+  render() {
     return (
 
       <div className="mapContainer">
@@ -144,4 +150,4 @@ class Gmap extends Component {
   }
 }
 
-export default scriptLoader(["https://maps.googleapis.com/maps/api/js?key=AIzaSyDiUupl6Z9qBY5J_IKupr44xM542C23Xiw&libraries=places,geometry"])(Gmap);
+export default Gmap;

@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { animalInfo } from './actions/animalActions';
 import Gmap from './GoogleMap/Gmap';
 
+let google = window.google;
+
 class Add extends Component {
     constructor(props) {
     super(props);
@@ -79,6 +81,8 @@ class Add extends Component {
     }
 
     render() {
+
+        {google ? console.log(google.maps) : null}
         let newAnimal = this.props.newAnimal;
         var statusText;
         newAnimal.Status === "found" ?
