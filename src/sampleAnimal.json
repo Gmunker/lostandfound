@@ -15,10 +15,12 @@
             ],
             "location": [{
                 "lat": 11.1111, // Lost Location
-                "lng": 11.1111
+                "lng": 11.1111,
+                "region": "Donelson Hills"
             }, {
                 "lat": 22.2222, // Found Location
-                "lng": 22.2222
+                "lng": 22.2222,
+                "region": "Maplecrest"
             }, 
                 null, // null for returned to owner
                 null, // null for vetted location
