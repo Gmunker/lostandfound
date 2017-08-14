@@ -4,7 +4,7 @@ import Navigation from './Navigation';
 import firebase from './firebase';
 import { connect } from 'react-redux';
 import { animalInfo } from './actions/animalActions';
-import Gmap from './GoogleMap/Gmap';
+import AddGmapLoader from './GoogleMap/AddGmapLoader'; 
 
 let google = window.google;
 
@@ -81,9 +81,9 @@ class Add extends Component {
     }
 
     render() {
-
-        {google ? console.log(google.maps) : null}
+        
         let newAnimal = this.props.newAnimal;
+        console.log(newAnimal.location);
         var statusText;
         newAnimal.Status === "found" ?
             statusText = "found" :
@@ -148,10 +148,11 @@ class Add extends Component {
                             </div>
                         </div>
                         <div className="formRow">
-                            <label>Location
+                            <label>Location{newAnimal.location ? <span>: {newAnimal.location.region}</span> : ""}
                                 <p>Click on the map to mark the location where the {newAnimal.Type.toLowerCase()} was {statusText}.</p>
                             </label>
-                            <Gmap/>
+                            
+                            <AddGmapLoader/>
                         </div>
                         <div className="formRow">
                             <label htmlFor="name">Name</label>
