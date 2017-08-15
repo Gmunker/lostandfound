@@ -20,17 +20,7 @@ import RegionGmap from './GoogleMap/RegionGmap';
 
 class App extends Component {
 
-	componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
-    if (isScriptLoaded && !this.props.isScriptLoaded) { // load finished
-      if (isScriptLoadSucceed) {
-				let google = window.google
-				console.log(google)
-			}
-		}
-	}
-
 	render() {
-		console.log(this.props)
 		return (
 			<Router>
 				<ScrollToTop>
