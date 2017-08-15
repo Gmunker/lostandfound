@@ -4,13 +4,13 @@ import Navigation from './Navigation';
 import firebase from './firebase';
 import { connect } from 'react-redux';
 import { animalInfo } from './actions/animalActions';
-import AddGmapLoader from './GoogleMap/AddGmapLoader'; 
 
 class Add extends Component {
     constructor(props) {
     super(props);
     this.state = {
-        redirect: false
+        redirect: false,
+        pos: null
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleStatus = this.handleStatus.bind(this);
@@ -24,7 +24,6 @@ class Add extends Component {
         this.props.dispatch(animalInfo({
             ...this.props.newAnimal,
             Name: ref.name.value,
-            Location: ref.location.value,
             Color: ref.color.value,
             Breed: ref.breed.value,
             Date: new Date().toString()
@@ -76,6 +75,80 @@ class Add extends Component {
 
     componentWillUnmount() {
         this.props.dispatch(animalInfo({Type: "dog", Status: "lost"}));
+    }
+
+//This must be in componentDidUpdate in order for window.google to be present, any lifecycle prior to this, and the script is not loaded. So in ANY component we can make a map just like this, and do whatever we want with data going in or ... 
+
+//Read below with my issue about data going out.
+
+    componentDidUpdate() {
+        let mapData = this.props.mapData;
+        if (window.google.maps) {
+            let map = new window.google.maps.Map(document.getElementById("map"), {
+                zoom: 13,
+                center: {
+                    lat: 36.170295,
+                    lng: -86.674846
+                }
+            });
+
+            map.addListener('click', function(e) {
+                findRegion(e.latLng);
+                placeMarkerAndPanTo(e.latLng, map);
+            });
+
+            function findRegion(latLng) {
+                console.log(latLng.lat())
+                var regionName;
+                for(var i=0; i<mapData.geoJson.length;i++) {
+                    var currentPoly = new window.google.maps.Polygon({paths: mapData.geoJson[i].polygon});
+                if(window.google.maps.geometry.poly.containsLocation(latLng, currentPoly)) {
+                    regionName = mapData.geoJson[i].name;
+                    }
+                }
+                if(regionName) {
+                    console.log(regionName);
+
+
+
+// Losing "this" for the disptach will need to figure this out tomorrow. Need to get some sleep, 
+// hopefully this is setup enough for you to follow where i was going with it.
+
+// Everything is working perfect if you comment this dispatch call out. 
+
+                    this.props.dispatch(animalInfo({
+                        ...this.props.newAnimal,
+                        Location: {
+                            position: this.props.newAnimal.Location.position.push({
+                                lat: latLng.lat(), 
+                                lng: latLng.lng(), 
+                                date: new Date().toString(),
+                                // region: regionName || "Outside Defined Regions"
+                            }),
+                            key: this.props.newAnimal.name,
+                            defaultAnimation: 2                            
+                        }
+                    }))
+// Left out the custom markers for now since I havent even looked at how they function yet and were 
+// throwing an error for me before. I figured this could be added in after we get the main 
+// functionality working with this.
+
+
+
+                } else {
+                    console.log("Outside defined regions");
+                }
+            }
+
+            function placeMarkerAndPanTo(latLng, map) {
+                var marker = new window.google.maps.Marker({
+                position: latLng,
+                map,
+                });
+                map.panTo(latLng);
+            }
+
+        }
     }
 
     render() {
@@ -150,7 +223,7 @@ class Add extends Component {
                                 <p>Click on the map to mark the location where the {newAnimal.Type.toLowerCase()} was {statusText}.</p>
                             </label>
                             
-                            <AddGmapLoader/>
+                            {window.google ? <div ref="map" id="map" style={{height: "250px", width:"100%"}}></div> : null}
                         </div>
                         <div className="formRow">
                             <label htmlFor="name">Name</label>
@@ -216,6 +289,7 @@ class Add extends Component {
 
 export default connect(state => {
     return {
-        newAnimal: state.animal
+        newAnimal: state.animal,
+        mapData: state.mapData
     }
 })(Add);
