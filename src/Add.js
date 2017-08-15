@@ -24,14 +24,11 @@ class Add extends Component {
         this.props.dispatch(animalInfo({
             ...this.props.newAnimal,
             Name: ref.name.value,
-            Location: ref.location.value,
             Color: ref.color.value,
             Breed: ref.breed.value,
             Date: new Date().toString()
         }))
-    }
-
-    
+    }    
 
     handleStatus(e) {
         let Status = e.currentTarget.name === "status" ? e.currentTarget.value : null;
@@ -63,15 +60,6 @@ class Add extends Component {
             firebase.database().ref("Animals").push(this.props.newAnimal);
         });
         
-    }
-
-    submitForm() {
-        // validation
-        if(this.state.Location !== "" || this.state.Color !== "" || this.state.Breed !== "") {
-            this.props.addAnimal(this.state)
-            // this.setState({ fireRedirect: true })
-            // <Redirect to="/list"/>
-        }
     }
 
     componentWillUnmount() {
@@ -149,7 +137,6 @@ class Add extends Component {
                             <label>Location{newAnimal.location ? <span>: {newAnimal.location.region}</span> : ""}
                                 <p>Click on the map to mark the location where the {newAnimal.Type.toLowerCase()} was {statusText}.</p>
                             </label>
-                            
                             <AddGmapLoader/>
                         </div>
                         <div className="formRow">
