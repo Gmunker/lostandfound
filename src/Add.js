@@ -3,13 +3,16 @@ import { Redirect } from 'react-router-dom';
 import Navigation from './Navigation';
 import firebase from './firebase';
 import { connect } from 'react-redux';
+import regions from './GoogleMap/geojson.json';
 import { animalInfo } from './actions/animalActions';
 import scriptLoader from 'react-async-script-loader';
-import AddMap from './GoogleMap/AddMap';
-// import Loader from './GoogleMap/LoaderComponent';
+
+const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
 
 var google
 var map
+var marker
+var currentPoly
 
 class Add extends Component {
     constructor(props) {
@@ -23,6 +26,8 @@ class Add extends Component {
     this.handleGender = this.handleGender.bind(this);
     this.handleType = this.handleType.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.placeMarkerAndPanTo = this.placeMarkerAndPanTo.bind(this);
+    this.findRegion = this.findRegion.bind(this);
 }
 
     handleChange(e) {
@@ -83,11 +88,58 @@ class Add extends Component {
                         lng: -86.674846
                     }
                 })
+                map.addListener('click', function(e) {
+                    this.findRegion(e.latLng, google);
+                    
+                    this.placeMarkerAndPanTo(e.latLng, map);
+                }.bind(this));
             }
         }
     }
 
+    placeMarkerAndPanTo(latLng, map) {
+        if(marker !== undefined) {
+            marker.setMap(null)
+        }
+        marker = new google.maps.Marker({
+            position: latLng,
+            map,
+            icon: baseUrl + this.props.newAnimal.Status + this.props.newAnimal.Type + "Icon.png"
+        });
+        map.panTo(latLng);
+    }
+
+    findRegion(latLng, google) {
+        var regionName;
+        for(var i=0; i<regions.length;i++) {
+            currentPoly = new google.maps.Polygon({paths: regions[i].polygon});
+            if(google.maps.geometry.poly.containsLocation(latLng, currentPoly)) {
+                regionName = regions[i].name;
+            }
+        }
+        if(regionName) {
+            this.props.dispatch(animalInfo({
+                ...this.props.newAnimal,
+                location: {
+                    lat: latLng.lat(),
+                    lng: latLng.lng(),
+                    region: regionName
+                }
+            }));
+        } else {
+            this.props.dispatch(animalInfo({
+                ...this.props.newAnimal,
+                location: {
+                    lat: latLng.lat(),
+                    lng: latLng.lng(),
+                    region: "Outside Defined Regions"
+                }
+            }));
+        }
+    }
+
     render() {
+        
         let newAnimal = this.props.newAnimal;
         var statusText;
         newAnimal.Status === "found" ?
@@ -155,10 +207,7 @@ class Add extends Component {
                             <label>Location{newAnimal.location ? <span>: {newAnimal.location.region}</span> : ""}
                                 <p>Click on the map to mark the location where the {newAnimal.Type.toLowerCase()} was {statusText}.</p>
                             </label>
-                            <div ref="map" id="map" style={{height: "250px", width:"100%"}}>
-                                <AddMap google={google} map={map}/>
-                            </div>
-                        </div>
+                            <div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
                         <div className="formRow">
                             <label htmlFor="name">Name</label>
                             <input 
@@ -213,6 +262,7 @@ class Add extends Component {
                         </div>
                         <button type="submit" className="formButton">Save</button>
                         <span className="formIndicia">* Required Field</span>
+                        </div>
                     </form>
                     {this.state.redirect ? <Redirect to="/list" /> : null}
                 </div>
@@ -228,4 +278,4 @@ const LoadConnector = connect(state => {
     }
 })(Add)
 
-export default scriptLoader(["https://maps.googleapis.com/maps/api/js?key=AIzaSyDiUupl6Z9qBY5J_IKupr44xM542C23Xiw&libraries=places,geometry"])(LoadConnector)
+export default scriptLoader(["https://maps.googleapis.com/maps/api/js?key=AIzaSyDiUupl6Z9qBY5J_IKupr44xM542C23Xiw&libraries=geometry"])(LoadConnector)
