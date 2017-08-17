@@ -5,10 +5,10 @@ import scriptLoader from 'react-async-script-loader';
 import { connect } from 'react-redux';
 import { fetchAnimal } from './actions/animalsActions';
 
-var google
-var map
-var marker
-var Animal
+let google
+let map
+let marker
+let Animal
 
 function FormatGender(gender) {
 	return (
@@ -19,8 +19,8 @@ function FormatGender(gender) {
 }
 
 function FormatDate() {
-	var date = "2015-07-04"
-	var d = new Date(date + 'T05:00:00Z');
+	let date = "2015-07-04"
+	let d = new Date(date + 'T05:00:00Z');
 }
 
 class Detail extends Component {
@@ -35,21 +35,25 @@ class Detail extends Component {
 		this.props.dispatch(fetchAnimal(id));
 	}
 
-	componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
+	shouldComponentUpdate(nextProps) {
+		return (this.props.Animal.Location != nextProps.Animal.Location)
+	}
+
+	componentWillUpdate (nextProps, nextState) {
+		let { isScriptLoaded, isScriptLoadSucceed } = this.props;
+		console.log(this.props.Animal)
 		
-		if(google === undefined) {
-			if (isScriptLoaded && isScriptLoadSucceed) { // load finished
-                google = window.google
-                map = new google.maps.Map(this.refs.map, {
-                    zoom: 12,
-                    gestureHandling: 'greedy',
-                    center: {
-                        lat: 36.170295,
-                        lng: -86.674846
-                    }
-                })
-            }
-        }
+		if (isScriptLoaded && isScriptLoadSucceed) { // load finished
+			google = window.google;
+			map = new google.maps.Map(this.refs.map, {
+				zoom: 12,
+				gestureHandling: 'greedy',
+				center: {
+						lat: 36.170295,
+						lng: -86.674846
+				}
+			})
+		}
 	}	
 
 	render() {
@@ -87,7 +91,7 @@ class Detail extends Component {
 
 const LoadConnector = connect(state => {
   return{
-  	Animal: state.animals.animal
+  	Animal: state.animal
   }
 })(Detail)
 
