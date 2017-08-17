@@ -13,6 +13,8 @@ var google
 var map
 var marker
 var currentPoly
+var currentStatus
+var currentType
 
 class Add extends Component {
     constructor(props) {
@@ -28,6 +30,7 @@ class Add extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.placeMarkerAndPanTo = this.placeMarkerAndPanTo.bind(this);
     this.findRegion = this.findRegion.bind(this);
+    this.replaceMarkerIcon = this.replaceMarkerIcon.bind(this);
 }
 
     handleChange(e) {
@@ -47,6 +50,10 @@ class Add extends Component {
             ...this.props.newAnimal,
             Status
         }))
+        if(marker) {
+            var location = new google.maps.LatLng(this.props.newAnimal.location.lat, this.props.newAnimal.location.lng)
+            this.replaceMarkerIcon(location, map, Status, this.props.newAnimal.Type)
+        }
     }
 
     handleType(e) {
@@ -55,6 +62,10 @@ class Add extends Component {
             ...this.props.newAnimal,
             Type
         }));
+        if(marker) {
+            var location = new google.maps.LatLng(this.props.newAnimal.location.lat, this.props.newAnimal.location.lng)
+            this.replaceMarkerIcon(location, map, this.props.newAnimal.Status, Type)
+        }
     }
 
     handleGender(e) {
@@ -83,6 +94,7 @@ class Add extends Component {
                 google = window.google
                 map = new google.maps.Map(this.refs.map, {
                     zoom: 12,
+                    gestureHandling: 'greedy',
                     center: {
                         lat: 36.170295,
                         lng: -86.674846
@@ -95,6 +107,15 @@ class Add extends Component {
                 }.bind(this));
             }
         }
+    }
+
+    replaceMarkerIcon(latLng, map, Status, Type) {
+        marker.setMap(null)
+        marker = new google.maps.Marker({
+            position: latLng,
+            map,
+            icon: baseUrl + Status + Type + "Icon.png"
+        });
     }
 
     placeMarkerAndPanTo(latLng, map) {
