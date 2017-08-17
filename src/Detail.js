@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
-// import dateFormat from 'dateformat';
-
+import scriptLoader from 'react-async-script-loader';
 import { connect } from 'react-redux';
 import { fetchAnimal } from './actions/animalsActions';
+
+var google
+var map
+var marker
+var Animal
 
 function FormatGender(gender) {
 	return (
@@ -17,22 +21,44 @@ function FormatGender(gender) {
 function FormatDate() {
 	var date = "2015-07-04"
 	var d = new Date(date + 'T05:00:00Z');
-	console.log(d);
 }
 
 class Detail extends Component {
+	constructor(props) {
+		super(props);
+	}
+
 	componentWillMount() {
 		let searchParams = this.props.location.search;
 		let id = searchParams.slice(searchParams.indexOf('?id=') + 4);
-			// let animalID = this.props.match.params.Id;
-			this.props.dispatch(fetchAnimal(id));
+		// let animalID = this.props.match.params.Id;
+		this.props.dispatch(fetchAnimal(id));
 	}
 
+	componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
+		
+		if(google === undefined) {
+			if (isScriptLoaded && isScriptLoadSucceed) { // load finished
+                google = window.google
+                map = new google.maps.Map(this.refs.map, {
+                    zoom: 12,
+                    gestureHandling: 'greedy',
+                    center: {
+                        lat: 36.170295,
+                        lng: -86.674846
+                    }
+                })
+            }
+        }
+	}	
+
 	render() {
-		let Animal = this.props.Animal;
+		Animal = this.props.Animal;
 		let loc = Animal.Type === "dog" ? "/dog/update?id" + Animal.Id : "/cat/update?id=" + Animal.Id;
-		const CurrentAnimal = () => {
-			return(
+		
+		return(
+			<div className="content">
+				<Navigation/>
 				<div className="detail">
 					<div className="detail__main">
 						<h2 className="detail__main__status">{Animal.Status}</h2>
@@ -41,6 +67,7 @@ class Detail extends Component {
 							<p className="detail__main__location">{Animal.Location}</p>
 							<img className="detail__main__image" src={Animal.Image} alt="" />
 						</div>
+						<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
 						<div className="detail__sub">
 							<div className="detail__sub__name">{Animal.Name}</div>
 							<div className="detail__sub__color">{Animal.Color}</div>
@@ -51,20 +78,17 @@ class Detail extends Component {
 							<Link className="Button" to={loc}>Update</Link>
 						</div>
 				</div>
-			)
-		}
-
-		return(
-			<div className="content">
-				<Navigation/>
-				{Animal ? <CurrentAnimal /> : <h1>Loading...</h1>}
 			</div>
-		)	
+		)
 	}
 }
 
-export default connect(state => {
+
+
+const LoadConnector = connect(state => {
   return{
   	Animal: state.animals.animal
   }
-})(Detail);
+})(Detail)
+
+export default scriptLoader(["https://maps.googleapis.com/maps/api/js?key=AIzaSyDiUupl6Z9qBY5J_IKupr44xM542C23Xiw&libraries=geometry"])(LoadConnector)
