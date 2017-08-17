@@ -89,6 +89,7 @@ class Add extends Component {
     }
 
     componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
+        console.log(this.props)
         if(google === undefined) {
             if (isScriptLoaded && isScriptLoadSucceed) { // load finished
                 google = window.google
@@ -142,9 +143,9 @@ class Add extends Component {
             this.props.dispatch(animalInfo({
                 ...this.props.newAnimal,
                 location: {
-                    lat: latLng.lat(),
-                    lng: latLng.lng(),
-                    region: regionName
+                    lat: [latLng.lat()],
+                    lng: [latLng.lng()],
+                    region: [regionName]
                 }
             }));
         } else {
