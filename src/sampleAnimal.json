@@ -1,5 +1,4 @@
-{
-    "FIREBASE_ID": [
+{   "FIREBASE_ID": [
         {
             "name": "Fluffy", //String
             "color": "white, tan", //String
