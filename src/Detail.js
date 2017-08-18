@@ -36,12 +36,12 @@ class Detail extends Component {
 	}
 
 	shouldComponentUpdate(nextProps) {
-		return (this.props.Animal.Location != nextProps.Animal.Location)
+		return (this.props.animal.history[0].region != nextProps.animal.history[0].region)
 	}
 
 	componentWillUpdate (nextProps, nextState) {
 		let { isScriptLoaded, isScriptLoadSucceed } = this.props;
-		console.log(this.props.Animal)
+		console.log(this.props.animal)
 		
 		if (isScriptLoaded && isScriptLoadSucceed) { // load finished
 			google = window.google;
@@ -57,28 +57,28 @@ class Detail extends Component {
 	}	
 
 	render() {
-		Animal = this.props.Animal;
-		let loc = Animal.Type === "dog" ? "/dog/update?id" + Animal.Id : "/cat/update?id=" + Animal.Id;
+		animal = this.props.animal;
+		let loc = animal.type === "dog" ? "/dog/update?id" + animal.id : "/cat/update?id=" + animal.id;
 		
 		return(
 			<div className="content">
 				<Navigation/>
 				<div className="detail">
 					<div className="detail__main">
-						<h2 className="detail__main__status">{Animal.Status}</h2>
-							<h2 className="detail__main__status"> {FormatDate(Animal.Date)}</h2>
+						<h2 className="detail__main__status">{animal.history[0].status}</h2>
+							<h2 className="detail__main__status"> {FormatDate(animal.Date)}</h2>
 						<div>Near</div>
-							<p className="detail__main__location">{Animal.Location}</p>
-							<img className="detail__main__image" src={Animal.Image} alt="" />
+							<p className="detail__main__location">{animal.history[0].region}</p>
+							<img className="detail__main__image" src={animal.Image} alt="" />
 						</div>
 						<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
 						<div className="detail__sub">
-							<div className="detail__sub__name">{Animal.Name}</div>
-							<div className="detail__sub__color">{Animal.Color}</div>
+							<div className="detail__sub__name">{animal.name}</div>
+							<div className="detail__sub__color">{animal.color}</div>
 							<div className="detail__sub__gender">
-								{FormatGender(Animal.Gender)}
+								{FormatGender(animal.gender)}
 							</div>
-							<div className="detail__sub__breed">{Animal.Breed}</div>
+							<div className="detail__sub__breed">{animal.breed}</div>
 							<Link className="Button" to={loc}>Update</Link>
 						</div>
 				</div>
@@ -91,7 +91,7 @@ class Detail extends Component {
 
 const LoadConnector = connect(state => {
   return{
-  	Animal: state.animal
+  	animal: state.animal
   }
 })(Detail)
 

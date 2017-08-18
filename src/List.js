@@ -19,21 +19,22 @@ class List extends Component {
 	componentWillMount() {
 		this.props.dispatch(fetchAnimals());
 	}
+
 	
    	render() {		
 
 		let { searchText, showDog, showCat, showLost, showFound } = this.props.searchFields;
 		let filteredAnimals = searchAPI.filterAnimals(this.props.animals, showDog, showCat, showLost, showFound, searchText);
 			
-		let table = filteredAnimals.map((Animal) => {
-			let loc = Animal.Type === "dog" ? "/dog/details?id" + Animal.Id : "/cat/details?id=" + Animal.Id;
+		let table = filteredAnimals.map((animal) => {
+			let loc = animal.type === "dog" ? "/dog/details?id" + animal.id : "/cat/details?id=" + animal.id;
 			return(
-				<tr key={Animal.Id}>
+				<tr key={animal.id}>
 					<td className="loctd">
-						<Link id={Animal.Id} to={loc}>{Animal.Location}</Link>
+						<Link id={animal.id} to={loc}>{animal.history[0].region}</Link> 
 					</td>
-					<td className="colortd"><Link to={loc}>{Animal.Color}</Link></td>
-					<td className="breedtd"><Link to={loc}>{Animal.Breed}</Link></td>
+					<td className="colortd"><Link to={loc}>{animal.color}</Link></td>
+					<td className="breedtd"><Link to={loc}>{animal.breed}</Link></td>
 				</tr>
 			)
 		});

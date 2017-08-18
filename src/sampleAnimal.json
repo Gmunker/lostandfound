@@ -26,7 +26,7 @@
             },
             "type": "dog", //string
             "breed": "Corgi", //string
-            "sex": "male",  // String set to male or female (algorthim if needed to parse their data) 
+            "gender": "male",  // String set to male or female (algorthim if needed to parse their data) 
             "foster_info": {
                 "name": "", //Foster's name (String)
                 "phone": "", // Fosters Phone (String)
