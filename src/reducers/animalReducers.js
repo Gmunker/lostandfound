@@ -1,6 +1,6 @@
 const initialState = {
-  Type: "dog",
-  Status: "lost"
+  type: "dog",
+  status: "lost"
 }
 export default function reducer(state=initialState, action) {
 
