@@ -2,8 +2,7 @@
         {
             "name": "Fluffy", //String
             "color": "white, tan", //String
-            "history": {
-                "positions": [{ 
+            "history": [{ 
                     // By adding in a Date for each location pin we can sort by date, allowing us to just pull out the marker for last position on the Edit page, but also giving the possiblity of showing ALL pins in order (maybe show pin labels with the index) showing a pattern.
                     // Option for heat map on all pins for one or all animals.
                     // It will also allow for the list page to pull off the most recent of all found or lost animals locations
@@ -21,11 +20,10 @@
                     "date":"Thu Aug 17 2017 11:50:24 GMT-0700 (US Mountain Standard Time)",
                     "status": "lost", //string - auto populated by dropdown, lost, found, returnedToOwner...
                     "UID": "" //string populated by UID of logged in user
-                }]
-            },
+                }],
             "type": "dog", //string
             "breed": "Corgi", //string
-            "sex": "male",  // String set to male or female (algorthim if needed to parse their data) 
+            "gender": "male",  // String set to male or female (algorthim if needed to parse their data) 
             "foster_info": {
                 "name": "", //Foster's name (String)
                 "phone": "", // Fosters Phone (String)
