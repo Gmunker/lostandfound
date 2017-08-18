@@ -3,7 +3,7 @@ const firebaseRef = firebase.database();
 
 export function fetchAnimals() {
   return function(dispatch) {
-     firebaseRef.ref('Animals')
+     firebaseRef.ref('HipD')
       .on('value', (snapshot) => {
         let animals = snapshot.val() || {};
         let parsedAnimals = [];
@@ -27,7 +27,7 @@ export function fetchAnimals() {
 
 export function fetchAnimal(id) {
   return function(dispatch) {
-    firebaseRef.ref('/Animals/' + id)
+    firebaseRef.ref('/HipD/' + id)
     .on('value', (snapshot) => {
       let animal = {...snapshot.val(), Id: id} || {};
       

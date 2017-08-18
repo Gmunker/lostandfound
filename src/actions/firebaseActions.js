@@ -1,5 +1,5 @@
 import firebase from '../firebase';
-let firebaseRef = firebase.database().ref("Animals");
+let firebaseRef = firebase.database().ref("HipD");
 
 export function addAnimal(animal) {
   firebaseRef.push(animal);
