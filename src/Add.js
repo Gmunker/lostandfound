@@ -48,10 +48,13 @@ class Add extends Component {
         let Status = e.currentTarget.name === "status" ? e.currentTarget.value : null;
         this.props.dispatch(animalInfo({
             ...this.props.newAnimal,
-            status: Status
+            history: [{
+                ...this.props.newAnimal.history[0],
+                status: Status
+            }]
         }))
         if(marker) {
-            var location = new google.maps.LatLng(this.props.newAnimal.location.lat, this.props.newAnimal.location.lng)
+            var location = new google.maps.LatLng(this.props.newAnimal.history[0].lat, this.props.newAnimal.history[0].lng)
             this.replaceMarkerIcon(location, map, Status, this.props.newAnimal.type)
         }
     }
@@ -63,8 +66,8 @@ class Add extends Component {
             type: Type
         }));
         if(marker) {
-            var location = new google.maps.LatLng(this.props.newAnimal.location.lat, this.props.newAnimal.location.lng)
-            this.replaceMarkerIcon(location, map, this.props.newAnimal.status, Type)
+            var location = new google.maps.LatLng(this.props.newAnimal.history[0].lat, this.props.newAnimal.history[0].lng)
+            this.replaceMarkerIcon(location, map, this.props.newAnimal.history[0].status, Type)
         }
     }
 
@@ -79,7 +82,7 @@ class Add extends Component {
     handleSubmit(e) {
         e.preventDefault();
         this.setState((state, props) => { return {...this.state, redirect: true }}, () => {
-            firebase.database().ref("Animals").push(this.props.newAnimal);
+            firebase.database().ref("HipD").push(this.props.newAnimal);
         });
     }
 
@@ -90,6 +93,9 @@ class Add extends Component {
                 map = new google.maps.Map(this.refs.map, {
                     zoom: 12,
                     gestureHandling: 'greedy',
+                    disableDefaultUI: true,
+                    fullscreenControl: true,
+
                     center: {
                         lat: 36.170295,
                         lng: -86.674846
@@ -125,7 +131,7 @@ class Add extends Component {
         marker = new google.maps.Marker({
             position: latLng,
             map,
-            icon: baseUrl + this.props.newAnimal.status + this.props.newAnimal.type + "Icon.png"
+            icon: baseUrl + this.props.newAnimal.history[0].status + this.props.newAnimal.type + "Icon.png"
         });
         map.panTo(latLng);
     }
@@ -138,32 +144,23 @@ class Add extends Component {
                 regionName = regions[i].name;
             }
         }
-        if(regionName) {
-            this.props.dispatch(animalInfo({
-                ...this.props.newAnimal,
-                location: {
-                    lat: [latLng.lat()],
-                    lng: [latLng.lng()],
-                    region: [regionName]
-                }
-            }));
-        } else {
-            this.props.dispatch(animalInfo({
-                ...this.props.newAnimal,
-                location: {
-                    lat: latLng.lat(),
-                    lng: latLng.lng(),
-                    region: "Outside Defined Regions"
-                }
-            }));
-        }
+        var region = regionName !== undefined ? regionName : "Outside Defined Regions"
+        this.props.dispatch(animalInfo({
+            ...this.props.newAnimal,
+            history: [{
+                ...this.props.newAnimal.history[0],
+                lat: latLng.lat(),
+                lng: latLng.lng(),
+                region: region
+            }]
+        }))
     }
 
     render() {
-        
         let newAnimal = this.props.newAnimal;
+        console.log(newAnimal.history[0].status);
         var statusText;
-        newAnimal.status === "found" ?
+        newAnimal.history[0].status === "found" ?
             statusText = "found" :
             statusText = "last seen"
         return(
@@ -181,7 +178,7 @@ class Add extends Component {
                                     name="status" 
                                     value="lost"
                                     onChange={this.handleStatus}
-                                    checked={newAnimal.status === "lost"}
+                                    checked={newAnimal.history[0].status === "lost"}
                                 />
                                 <label htmlFor="statusLost"></label>
                             </div>
@@ -193,7 +190,7 @@ class Add extends Component {
                                     name="status"
                                     value="found" 
                                     onChange={this.handleStatus}
-                                    checked={newAnimal.status === "found"}
+                                    checked={newAnimal.history[0].status === "found"}
                                 />
                                 <label htmlFor="statusFound"></label>
                             </div>
@@ -224,11 +221,12 @@ class Add extends Component {
                                 <label htmlFor="typeCat"></label>
                             </div>
                         </div>
-                        <div className="formRow">
-                            <label>Location{newAnimal.location ? <span>: {newAnimal.location.region}</span> : ""}
-                                <p>Click on the map to mark the location where the {newAnimal.type.toLowerCase()} was {statusText}.</p>
+                        <div className="mapRow">
+                            <label>Location{newAnimal.history[0].region ? <span>: {newAnimal.history[0].region}</span> : null}
+                                <p>Click on the map to mark the location where the {newAnimal.type} was {statusText}.</p>
                             </label>
                             <div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
+                        </div>
                         <div className="formRow">
                             <label htmlFor="name">Name</label>
                             <input 
@@ -283,7 +281,7 @@ class Add extends Component {
                         </div>
                         <button type="submit" className="formButton">Save</button>
                         <span className="formIndicia">* Required Field</span>
-                        </div>
+                        
                     </form>
                     {this.state.redirect ? <Redirect to="/list" /> : null}
                 </div>

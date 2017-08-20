@@ -2,28 +2,6 @@
         {
             "name": "Fluffy", //String
             "color": "white, tan", //String
-<<<<<<< HEAD
-            "history": [{
-                // By adding in a Date for each location pin we can sort by date, allowing us to just pull out the marker for last position on the Edit page, but also giving the possiblity of showing ALL pins in order (maybe show pin labels with the index) showing a pattern.
-                // Option for heat map on all pins for one or all animals.
-                // It will also allow for the list page to pull off the most recent of all found or lost animals locations
-                // Lots of options based on just lat, lng, and date. Add in the region to a sort/filter to create a map, we could show just lost animals in one reguion (option on the search component), sort by region...
-                "lat": 11.1111, //Auto Populated from GoogleMaps
-                "lng": 11.1111, //Auto Populated from GoogleMaps
-                "region": "Donelson Hills", //Auto Populated from GoogleMaps
-                "date": "Thu Aug 12 2017 3:50:24 GMT-0700 (US Mountain Standard Time)",
-                "status": "lost", //string - auto populated by dropdown, lost, found, returnedToOwner...
-                "UID": "" //string populated by UID of logged in user
-            }, {
-                "lat": 22.2222, //Auto Populated from GoogleMaps
-                "lng": 22.2222, //Auto Populated from GoogleMaps
-                "region": "Maplecrest", //Auto Populated from GoogleMaps
-                "date":"Thu Aug 17 2017 11:50:24 GMT-0700 (US Mountain Standard Time)",
-                "status": "lost", //string - auto populated by dropdown, lost, found, returnedToOwner...
-                "UID": "" //string populated by UID of logged in user
-            }],
-            "images": [], //Array containing links to the images associated with this animal
-=======
             "history": [{ 
                     // By adding in a Date for each location pin we can sort by date, allowing us to just pull out the marker for last position on the Edit page, but also giving the possiblity of showing ALL pins in order (maybe show pin labels with the index) showing a pattern.
                     // Option for heat map on all pins for one or all animals.
@@ -43,7 +21,6 @@
                     "status": "lost", //string - auto populated by dropdown, lost, found, returnedToOwner...
                     "UID": "" //string populated by UID of logged in user
                 }],
->>>>>>> d36d7a552116ff1e56e79e4e1fbfc8ef69f424ce
             "type": "dog", //string
             "breed": "Corgi", //string
             "gender": "male",  // String set to male or female (algorthim if needed to parse their data) 
@@ -57,7 +34,8 @@
                 "phone": "", //Owners's name (String)
                 "address": "" //Owners's name (String)
             },
-            "transfer_info": "MACC" //Not sure what this, but i'm assuming string.
+            "transfer_info": "MACC", //Not sure what this, but i'm assuming string.
+            "images": [] // http://BaseUrl/DogImages/Year/Month/FIREBASE_ID.jpg
         }
     ]   
 }

@@ -1,21 +1,14 @@
 const initialState = {
-<<<<<<< HEAD
-  type: "dog",
-  status: "lost"
-}
-=======
           "name": "", 
           "color": "",
-          "history": {
-              "positions": [{
-                  "lat": null, 
-                  "lng": null, 
-                  "region": "", 
-                  "date": "",
-                  "status": "dog", 
-                  "UID": "" 
-              }]
-          },
+          "history": [{
+                "lat": null, 
+                "lng": null, 
+                "region": "", 
+                "date": "",
+                "status": "lost", 
+                "UID": "" 
+          }],
           "type": "dog", 
           "breed": "", 
           "sex": "",  
@@ -32,7 +25,6 @@ const initialState = {
           "transfer_info": ""
       }
 
->>>>>>> d36d7a552116ff1e56e79e4e1fbfc8ef69f424ce
 export default function reducer(state=initialState, action) {
 
   switch(action.type) {

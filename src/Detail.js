@@ -8,7 +8,6 @@ import { fetchAnimal } from './actions/animalsActions';
 let google
 let map
 let marker
-let Animal
 
 function FormatGender(gender) {
 	return (
@@ -57,7 +56,7 @@ class Detail extends Component {
 	}	
 
 	render() {
-		animal = this.props.animal;
+		let animal = this.props.animal;
 		let loc = animal.type === "dog" ? "/dog/update?id" + animal.id : "/cat/update?id=" + animal.id;
 		
 		return(

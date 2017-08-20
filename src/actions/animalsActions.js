@@ -14,7 +14,7 @@ export function fetchAnimals() {
             ...animals[animalId]
           });
         });
-
+        
         let animalsWithPics = parsedAnimals.filter(animal => animal.Image)
         // let random = Math.round(Math.random() * animalsWithPics.length - 1);
 
