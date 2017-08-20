@@ -3,19 +3,19 @@ module.exports = {
 		let filteredAnimals = animals;
 		
 		filteredAnimals = animals.filter(animal => {
-			return ((showDog === (animal.Type === "dog")) && 
-					(showCat === (animal.Type === "cat")) && 
-					(showLost === (animal.Status === "lost")) && 
-					(showFound === (animal.Status === "found"))
+			return ((showDog === (animal.type === "dog")) && 
+					(showCat === (animal.type === "cat")) && 
+					(showLost === (animal.history[animal.history.length - 1].status === "lost")) && 
+					(showFound === (animal.history[animal.history.length - 1].status === "found"))
 				);
 			})
 		
 		//Filter by searchText
 		filteredAnimals = filteredAnimals.filter((animal) => {
-			let name = animal.Name.toLowerCase();
+			let name = animal.name.toLowerCase();
 			// let loc = animal.Location.toLowerCase();
-			let breed = animal.Breed.toLowerCase();
-			let color = animal.Color.toLowerCase();
+			let breed = animal.breed.toLowerCase();
+			let color = animal.color.toLowerCase();
 
 			return (searchText.length === 0 || 
 				(name.indexOf(searchText.toLowerCase()) > -1) ||
