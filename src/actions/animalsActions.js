@@ -10,7 +10,7 @@ export function fetchAnimals() {
 
         Object.keys(animals).forEach((animalId) => {
           parsedAnimals.push({
-            Id: animalId,
+            id: animalId,
             ...animals[animalId]
           });
         });
@@ -29,7 +29,7 @@ export function fetchAnimal(id) {
   return function(dispatch) {
     firebaseRef.ref('/HipD/' + id)
     .on('value', (snapshot) => {
-      let animal = {...snapshot.val(), Id: id} || {};
+      let animal = {...snapshot.val(), id: id} || {};
       
       dispatch({type: "FETCH_ANIMAL_FULLFILLED",payload: animal})
       dispatch({type: "SET_ANIMAL_INFO", payload: animal})

@@ -22,10 +22,9 @@ class List extends Component {
 
 	
    	render() {		
-
+		
 		let { searchText, showDog, showCat, showLost, showFound } = this.props.searchFields;
 		let filteredAnimals = searchAPI.filterAnimals(this.props.animals, showDog, showCat, showLost, showFound, searchText);
-			
 		let table = filteredAnimals.map((animal) => {
 			let loc = animal.type === "dog" ? "/dog/details?id" + animal.id : "/cat/details?id=" + animal.id;
 			return(

@@ -40,16 +40,17 @@ class Detail extends Component {
 
 	componentWillUpdate (nextProps, nextState) {
 		let { isScriptLoaded, isScriptLoadSucceed } = this.props;
-		console.log(this.props.animal)
 		
 		if (isScriptLoaded && isScriptLoadSucceed) { // load finished
 			google = window.google;
+			console.log(this.props.animal)
+			let animalHistory = this.props.animal.history
 			map = new google.maps.Map(this.refs.map, {
 				zoom: 12,
 				gestureHandling: 'greedy',
 				center: {
-						lat: 36.170295,
-						lng: -86.674846
+						lat: this.props.animal.history[this.props.animal.history.length - 1].lat,
+						lng: this.props.animal.history[this.props.animal.history.length - 1].lng
 				}
 			})
 		}
@@ -58,7 +59,7 @@ class Detail extends Component {
 	render() {
 		let animal = this.props.animal;
 		let loc = animal.type === "dog" ? "/dog/update?id" + animal.id : "/cat/update?id=" + animal.id;
-		
+		console.log(animal)
 		return(
 			<div className="content">
 				<Navigation/>
