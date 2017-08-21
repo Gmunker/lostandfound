@@ -40,7 +40,10 @@ class Add extends Component {
             name: ref.name.value,
             color: ref.color.value,
             breed: ref.breed.value,
-            date: new Date().toString()
+            history: [{
+                ...this.props.newAnimal.history[0],
+                date: new Date().toString()
+            }]
         }))
     }    
 
@@ -134,6 +137,7 @@ class Add extends Component {
             icon: baseUrl + this.props.newAnimal.history[0].status + this.props.newAnimal.type + "Icon.png"
         });
         map.panTo(latLng);
+        console.log(latLng.lat() + " - " + latLng.lng())
     }
 
     findRegion(latLng, google) {

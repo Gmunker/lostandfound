@@ -41,7 +41,9 @@ class Detail extends Component {
 
 	componentWillUpdate (nextProps, nextState) {
 		let { isScriptLoaded, isScriptLoadSucceed } = this.props;
-		let animalHistory = nextProps.animal.history
+		let animalHistory = nextProps.animal.history.sort(function(a,b) {
+			return new Date(b.date) - new Date(a.date)
+		})
 		if (isScriptLoaded && isScriptLoadSucceed) { // load finished
 			google = window.google;
 			map = new google.maps.Map(this.refs.map, {
@@ -54,48 +56,63 @@ class Detail extends Component {
 						lng: animalHistory[0].lng
 				}
 			})
-			marker = new google.maps.Marker({
-				position: {
-					lat: animalHistory[0].lat,
-					lng: animalHistory[0].lng
-				},
-				map,
-				icon: {
-					path: google.maps.SymbolPath.CIRCLE,
-					scale: 12,
-					strokeWeight: 0,
-					fillColor: animalHistory[0].status === "lost" ? "red" : "green",
-					fillOpacity: 0.4
-				},
-				label: "1"
+			let arrLength = animalHistory.length;
+			animalHistory.map((event, index) => {
+				marker = new google.maps.Marker({
+					position: {
+						lat: event.lat,
+						lng: event.lng
+					},
+					map,
+					icon: {
+						path: google.maps.SymbolPath.CIRCLE,
+						scale: 15,
+						strokeWeight: 0,
+						fillColor: event.status === "lost" ? "red" : "green",
+						fillOpacity: 0.4
+					},
+					label: arrLength.toString()
+				})
+				arrLength -= 1
 			})
 		}
-	}	
+	}
 
 	render() {
 		let animal = this.props.animal;
 		let loc = animal.type === "dog" ? "/dog/update?id" + animal.id : "/cat/update?id=" + animal.id;
+
+		const eventList = animal.history.map((event, index) => {
+			return(
+				<div>
+					<span>Index</span>
+					<span>Month - date - time</span>
+					<span>Status</span>
+				</div>
+			)
+		})
+
 		return(
 			<div className="content">
 				<Navigation/>
 				<div className="detail">
 					<div className="detail__main">
 						<h2 className="detail__main__status">{animal.history[0].status}</h2>
-							<h2 className="detail__main__status"> {FormatDate(animal.Date)}</h2>
+						<h2 className="detail__main__status"> {FormatDate(animal.Date)}</h2>
 						<div>Near</div>
 							<p className="detail__main__location">{animal.history[0].region}</p>
 							<img className="detail__main__image" src={animal.Image} alt="" />
+					</div>
+					<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
+					<div className="detail__sub">
+						<div className="detail__sub__name">{animal.name}</div>
+						<div className="detail__sub__color">{animal.color}</div>
+						<div className="detail__sub__gender">
+							{FormatGender(animal.gender)}
 						</div>
-						<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
-						<div className="detail__sub">
-							<div className="detail__sub__name">{animal.name}</div>
-							<div className="detail__sub__color">{animal.color}</div>
-							<div className="detail__sub__gender">
-								{FormatGender(animal.gender)}
-							</div>
-							<div className="detail__sub__breed">{animal.breed}</div>
-							<Link className="Button" to={loc}>Update</Link>
-						</div>
+						<div className="detail__sub__breed">{animal.breed}</div>
+						<Link className="Button" to={loc}>Update</Link>
+					</div>
 				</div>
 			</div>
 		)
