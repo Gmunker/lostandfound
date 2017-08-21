@@ -36,30 +36,38 @@ class Detail extends Component {
 	}
 
 	shouldComponentUpdate(nextProps) {
-		return (this.props.animal.history[this.props.animal.history.length - 1].region != nextProps.animal.history[this.props.animal.history.length - 1].region)
+		return (this.props.animal.history[0].region != nextProps.animal.history[0].region)
 	}
 
 	componentWillUpdate (nextProps, nextState) {
-		console.log("literally anything")
 		let { isScriptLoaded, isScriptLoadSucceed } = this.props;
+		let animalHistory = nextProps.animal.history
 		if (isScriptLoaded && isScriptLoadSucceed) { // load finished
 			google = window.google;
-			let animalHistory = nextProps.animal.history
 			map = new google.maps.Map(this.refs.map, {
 				zoom: 14,
 				gestureHandling: 'greedy',
+				disableDefaultUI: true,
+				fullscreenControl: true,
 				center: {
-						lat: animalHistory[animalHistory.length - 1].lat,
-						lng: animalHistory[animalHistory.length - 1].lng
+						lat: animalHistory[0].lat,
+						lng: animalHistory[0].lng
 				}
 			})
 			marker = new google.maps.Marker({
 				position: {
-					lat: animalHistory[animalHistory.length - 1].lat,
-					lng: animalHistory[animalHistory.length - 1].lng
+					lat: animalHistory[0].lat,
+					lng: animalHistory[0].lng
 				},
 				map,
-				icon: baseUrl + animalHistory[animalHistory.length - 1].status + nextProps.animal.type + "Icon.png"
+				icon: {
+					path: google.maps.SymbolPath.CIRCLE,
+					scale: 12,
+					strokeWeight: 0,
+					fillColor: animalHistory[0].status === "lost" ? "red" : "green",
+					fillOpacity: 0.4
+				},
+				label: "1"
 			})
 		}
 	}	
@@ -93,8 +101,6 @@ class Detail extends Component {
 		)
 	}
 }
-
-
 
 const LoadConnector = connect(state => {
   return{
