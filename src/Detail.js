@@ -5,6 +5,7 @@ import scriptLoader from 'react-async-script-loader';
 import { connect } from 'react-redux';
 import { fetchAnimal } from './actions/animalsActions';
 
+const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
 let google
 let map
 let marker
@@ -35,23 +36,30 @@ class Detail extends Component {
 	}
 
 	shouldComponentUpdate(nextProps) {
-		return (this.props.animal.history[0].region != nextProps.animal.history[0].region)
+		return (this.props.animal.history[this.props.animal.history.length - 1].region != nextProps.animal.history[this.props.animal.history.length - 1].region)
 	}
 
 	componentWillUpdate (nextProps, nextState) {
+		console.log("literally anything")
 		let { isScriptLoaded, isScriptLoadSucceed } = this.props;
-		
 		if (isScriptLoaded && isScriptLoadSucceed) { // load finished
 			google = window.google;
-			console.log(this.props.animal)
-			let animalHistory = this.props.animal.history
+			let animalHistory = nextProps.animal.history
 			map = new google.maps.Map(this.refs.map, {
-				zoom: 12,
+				zoom: 14,
 				gestureHandling: 'greedy',
 				center: {
-						lat: this.props.animal.history[this.props.animal.history.length - 1].lat,
-						lng: this.props.animal.history[this.props.animal.history.length - 1].lng
+						lat: animalHistory[animalHistory.length - 1].lat,
+						lng: animalHistory[animalHistory.length - 1].lng
 				}
+			})
+			marker = new google.maps.Marker({
+				position: {
+					lat: animalHistory[animalHistory.length - 1].lat,
+					lng: animalHistory[animalHistory.length - 1].lng
+				},
+				map,
+				icon: baseUrl + animalHistory[animalHistory.length - 1].status + nextProps.animal.type + "Icon.png"
 			})
 		}
 	}	
@@ -59,7 +67,6 @@ class Detail extends Component {
 	render() {
 		let animal = this.props.animal;
 		let loc = animal.type === "dog" ? "/dog/update?id" + animal.id : "/cat/update?id=" + animal.id;
-		console.log(animal)
 		return(
 			<div className="content">
 				<Navigation/>
