@@ -137,7 +137,6 @@ class Add extends Component {
             icon: baseUrl + this.props.newAnimal.history[0].status + this.props.newAnimal.type + "Icon.png"
         });
         map.panTo(latLng);
-        console.log(latLng.lat() + " - " + latLng.lng())
     }
 
     findRegion(latLng, google) {
