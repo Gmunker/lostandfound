@@ -23,6 +23,7 @@ class Update extends Component {
 	}
 	this.handleChange = this.handleChange.bind(this);
 	this.handleStatus = this.handleStatus.bind(this);
+	this.handleSex = this.handleSex.bind(this);
 }
 
 	componentWillMount() {
@@ -49,12 +50,15 @@ class Update extends Component {
 		
 		this.setState((state, props) => { return { ...state, newHistory: {status} }});
 		
-
-		// if(marker) {
-		// 		var location = new google.maps.LatLng(this.props.newAnimal.history[0].lat, this.props.newAnimal.history[0].lng)
-		// 		this.replaceMarkerIcon(location, map, Status, this.props.newAnimal.type)
-		// }
 	}
+
+	handleSex(e) {
+		let sex = e.currentTarget.name === "sex" ? e.currentTarget.value : null;
+		this.props.dispatch(animalInfo({
+				...this.props.newAnimal,
+				sex
+		}));
+}
 
 componentWillUnmount() {
 	this.props.dispatch(animalInfo({history: [{status: "lost"}], type: "dog"}))
@@ -93,20 +97,6 @@ componentWillUnmount() {
 							value={animal.history[recentHistory].region} 
 							required
 						/>
-					</div>
-					<div>
-						<label htmlFor="sex">Sex</label>
-						<select 
-							name="sex" 
-							id="sex" 
-							ref="gender" 
-							onChange={this.handleChange} 
-							value={animal.sex}
-						>
-							<option value={""}></option>
-							<option value={"m"}>Male</option>
-							<option value={"f"}>Female</option>
-						</select>
 					</div>
 					<div className="formRow">
 						<div className="formSpanOne">
@@ -158,6 +148,32 @@ componentWillUnmount() {
 								checked={this.state.newHistory.status === "found"}
 							/>
 							<label htmlFor="statusFound"></label>
+						</div>
+					</div>
+					<div className="formRow">
+						<div className="radio">
+								<span>Male</span>
+								<input 
+										type="radio"
+										value="male"
+										id="sexMale"
+										name="sex"
+										checked={animal.sex === "male"}
+										onChange={this.handleSex}
+								/>
+								<label htmlFor="sexMale"></label>
+						</div>
+						<div className="radio">
+								<span>Female</span>
+								<input 
+										type="radio"
+										value="female"
+										id="sexFemale"
+										name="sex"
+										checked={animal.sex === "female"}
+										onChange={this.handleSex}
+								/>
+								<label htmlFor="sexFemale"></label>
 						</div>
 					</div>
 					<Link

@@ -25,7 +25,7 @@ class Add extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleStatus = this.handleStatus.bind(this);
-    this.handleGender = this.handleGender.bind(this);
+    this.handleSex = this.handleSex.bind(this);
     this.handleType = this.handleType.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.placeMarkerAndPanTo = this.placeMarkerAndPanTo.bind(this);
@@ -70,12 +70,12 @@ class Add extends Component {
         }
     }
 
-    handleGender(e) {
-        let Gender = e.target.value;
+    handleSex(e) {
+        let sex = e.currentTarget.name === "sex" ? e.currentTarget.value : null;
         this.props.dispatch(animalInfo({
             ...this.props.newAnimal,
-            Gender
-        }))
+            sex
+        }));
     }
 
     handleSubmit(e) {
@@ -221,6 +221,32 @@ class Add extends Component {
                                 <label htmlFor="typeCat"></label>
                             </div>
                         </div>
+                        <div className="formRow">
+                            <div className="radio">
+                                <span>Male</span>
+                                <input 
+                                    type="radio"
+                                    value="male"
+                                    id="sexMale"
+                                    name="sex"
+                                    checked={newAnimal.sex === "male"}
+                                    onChange={this.handleSex}
+                                />
+                                <label htmlFor="sexMale"></label>
+                            </div>
+                            <div className="radio">
+                                <span>Female</span>
+                                <input 
+                                    type="radio"
+                                    value="female"
+                                    id="sexFemale"
+                                    name="sex"
+                                    checked={newAnimal.sex === "female"}
+                                    onChange={this.handleSex}
+                                />
+                                <label htmlFor="sexFemale"></label>
+                            </div>
+                        </div>
                         <div className="mapRow">
                             <label>Location{newAnimal.history[0].region ? <span>: {newAnimal.history[0].region}</span> : null}
                                 <p>Click on the map to mark the location where the {newAnimal.type} was {statusText}.</p>
@@ -239,21 +265,7 @@ class Add extends Component {
                                 value={newAnimal.name}
                             />
                         </div>
-                        <div className="formRow">
-                            <label htmlFor="sex">Sex</label>
-                            <select 
-                                name="sex"
-                                ref="gender" 
-                                id="sex" 
-                                onChange={this.handleGender}
-                                value={newAnimal.Gender}
-                            >
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="neuteredmale">Neutered Male</option>
-                                <option value="spayedfemale">Spayed Female</option>
-                            </select>
-                        </div>
+                        
                         <div className="formTwoColumn">
                             <div className="formSpanOne">
                                 <label htmlFor="color">Color*</label>
