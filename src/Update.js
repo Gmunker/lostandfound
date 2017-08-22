@@ -8,9 +8,19 @@ import { animalInfo } from './actions/animalActions';
 import { updateAnimal, deleteAnimal } from './actions/firebaseActions';
 import { connect } from 'react-redux';
 
+
+
 class Update extends Component {
 	constructor(props) {
 	super(props);
+	this.state = {
+		newHistory: {
+			lat: null,
+			lng: null,
+			status: null,
+			date: null
+		}
+	}
 	this.handleChange = this.handleChange.bind(this);
 	this.handleStatus = this.handleStatus.bind(this);
 }
@@ -20,36 +30,41 @@ class Update extends Component {
 		let id = searchParams.slice(searchParams.indexOf('?id=') + 4);
 			// let animalID = this.props.match.params.Id;
 			this.props.dispatch(fetchAnimal(id));
-  }
-
-	handleChange(event) {	
+			this.setState((state, props) => { return { ...state, newHistory: {status: this.props.animal.history[(this.props.animal.history.length - 1)].status }}});
+			
+	}
+	
+	handleChange(e) {
 		let ref = this.refs;
 		this.props.dispatch(animalInfo({
-				...this.props.Animal,
-				Name: ref.name.value,
-				Location: ref.location.value,
-				Color: ref.color.value,
-				Breed: ref.breed.value,
-				Date: new Date().toString()
+				...this.props.animal,
+				name: ref.name.value,
+				color: ref.color.value,
+				breed: ref.breed.value
 		}))
-	}
+	} 
 
 	handleStatus(e) {
-		let Status = e.currentTarget.name === "status" ? e.currentTarget.value : null;
-		this.props.dispatch(animalInfo({
-			...this.props.Animal,
-			Status
-		}))
+		let status = e.currentTarget.name === "status" ? e.currentTarget.value : null;
+		
+		this.setState((state, props) => { return { ...state, newHistory: {status} }});
+		
+
+		// if(marker) {
+		// 		var location = new google.maps.LatLng(this.props.newAnimal.history[0].lat, this.props.newAnimal.history[0].lng)
+		// 		this.replaceMarkerIcon(location, map, Status, this.props.newAnimal.type)
+		// }
 	}
 
-	componentWillUnmount() {
-		this.props.dispatch(animalInfo({}));
-	}
+componentWillUnmount() {
+	this.props.dispatch(animalInfo({history: [{status: "lost"}], type: "dog"}))
+	// google = undefined
+}
 
 	render() {
 
-	let Animal = this.props.Animal;
-		console.log(Animal)
+	let animal = this.props.animal;
+	let recentHistory = animal.history.length - 1;
 	return(
 		<div className="addContent content">
 			<Navigation navSwitch={this.props.navSwitch} ActivePage="Detail"/>
@@ -64,7 +79,7 @@ class Update extends Component {
 							ref="name" 
 							type="text" 
 							onChange={this.handleChange} 
-							value={Animal.Name}
+							value={animal.name}
 						/>
 					</div>
 					<div>
@@ -75,7 +90,7 @@ class Update extends Component {
 							ref="location" 
 							type="text" 
 							onChange={this.handleChange} 
-							value={Animal.Location} 
+							value={animal.history[recentHistory].region} 
 							required
 						/>
 					</div>
@@ -86,8 +101,9 @@ class Update extends Component {
 							id="sex" 
 							ref="gender" 
 							onChange={this.handleChange} 
-							value={Animal.Gender}
+							value={animal.sex}
 						>
+							<option value={""}></option>
 							<option value={"m"}>Male</option>
 							<option value={"f"}>Female</option>
 						</select>
@@ -101,7 +117,7 @@ class Update extends Component {
 								ref="color" 
 								type="text" 
 								onChange={this.handleChange} 
-								value={Animal.Color} 
+								value={animal.color} 
 								required
 							/>
 						</div>
@@ -113,7 +129,7 @@ class Update extends Component {
 								ref="breed" 
 								type="text" 
 								onChange={this.handleChange} 
-								value={Animal.Breed}
+								value={animal.breed}
 							/>
 						</div>
 					</div>
@@ -126,7 +142,7 @@ class Update extends Component {
 								name="status" 
 								onChange={this.handleStatus} 
 								value="lost" 
-								checked={Animal.Status==="lost"}
+								checked={this.state.newHistory.status === "lost"}
 							/>
 							<label htmlFor="statusLost"></label>
 						</div>
@@ -139,7 +155,7 @@ class Update extends Component {
 								name="status" 
 								onChange={this.handleStatus} 
 								value="found" 
-								checked={Animal.Status==="found"}
+								checked={this.state.newHistory.status === "found"}
 							/>
 							<label htmlFor="statusFound"></label>
 						</div>
@@ -147,12 +163,12 @@ class Update extends Component {
 					<Link
 						to="/list"
 						className="formButton" 
-						onClick={ () => this.props.dispatch(updateAnimal(Animal.Id, Animal))} 
+						onClick={ () => this.props.dispatch(updateAnimal(animal.id, animal))} 
 					>Update</Link>
 					<Link
 						to="/list"
 						className="formButton" 
-						onClick={() => this.props.dispatch(deleteAnimal(Animal.Id))}
+						onClick={() => this.props.dispatch(deleteAnimal(animal.id))}
 					>Delete</Link>
 					<span className="formIndicia">* Required Field</span>
 				</form>
@@ -163,6 +179,6 @@ class Update extends Component {
 
 export default connect(state => {
 	return {
-		Animal: state.animal
+		animal: state.animal
 	}
 })(Update);

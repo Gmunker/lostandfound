@@ -5,7 +5,6 @@ import scriptLoader from 'react-async-script-loader';
 import { connect } from 'react-redux';
 import { animalInfo } from './actions/animalActions';
 import { fetchAnimal } from './actions/animalsActions';
-import { animalInfo } from './actions/animalActions';
 
 const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
 let google
@@ -28,7 +27,7 @@ function FormatDate() {
 class Detail extends Component {
 	constructor(props) {
 		super(props);
-		this.pan = this.pan.bind(this)
+		// this.pan = this.pan.bind(this)
 	}
 
 	componentWillMount() {

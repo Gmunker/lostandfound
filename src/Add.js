@@ -39,11 +39,7 @@ class Add extends Component {
             ...this.props.newAnimal,
             name: ref.name.value,
             color: ref.color.value,
-            breed: ref.breed.value,
-            history: [{
-                ...this.props.newAnimal.history[0],
-                date: new Date().toString()
-            }]
+            breed: ref.breed.value
         }))
     }    
 
