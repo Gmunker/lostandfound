@@ -5,7 +5,6 @@ import scriptLoader from 'react-async-script-loader';
 import { connect } from 'react-redux';
 import { animalInfo } from './actions/animalActions';
 import { fetchAnimal } from './actions/animalsActions';
-import { animalInfo } from './actions/animalActions';
 
 const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
 let google
@@ -30,6 +29,7 @@ class Detail extends Component {
 		super(props);
 		this.pan = this.pan.bind(this)
 	}
+	
 
 	componentWillMount() {
 		let searchParams = this.props.location.search;
@@ -62,20 +62,25 @@ class Detail extends Component {
 			})
 			let arrLength = animalHistory.length;
 			animalHistory.map((event, index) => {
+				var customMarker = {
+					url: baseUrl + event.status + nextProps.animal.type + "IconLabel.png",
+					size: new google.maps.Size(53, 40),
+					origin: new google.maps.Point(0, 0),
+					anchor: new google.maps.Point(21, 41),
+					labelOrigin: new google.maps.Point(40, 16) //40, 16
+				}
+				var markerLabel = arrLength.toString()
 				marker = new google.maps.Marker({
 					position: {
 						lat: event.lat,
 						lng: event.lng
 					},
 					map,
-					icon: {
-						path: google.maps.SymbolPath.CIRCLE,
-						scale: 15,
-						strokeWeight: 0,
-						fillColor: event.status === "lost" ? "red" : "green",
-						fillOpacity: 0.4
-					},
-					label: arrLength.toString()
+					icon: customMarker,
+					label: {
+						text: markerLabel,
+						fontWeight: "bold"
+					}
 				})
 				arrLength -= 1
 			})
@@ -84,7 +89,11 @@ class Detail extends Component {
 
 	componentWillUnmount() {
 		this.props.dispatch(animalInfo({history: [{status: "lost"}], type: "dog"}))
-    google = undefined
+		google = undefined
+	}
+
+	pan(latLng) {
+		map.panTo(latLng)
 	}
 
 	render() {
