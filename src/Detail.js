@@ -5,6 +5,7 @@ import scriptLoader from 'react-async-script-loader';
 import { connect } from 'react-redux';
 import { animalInfo } from './actions/animalActions';
 import { fetchAnimal } from './actions/animalsActions';
+import { animalInfo } from './actions/animalActions';
 
 const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
 let google
@@ -27,6 +28,7 @@ function FormatDate() {
 class Detail extends Component {
 	constructor(props) {
 		super(props);
+		this.pan = this.pan.bind(this)
 	}
 
 	componentWillMount() {
@@ -82,25 +84,28 @@ class Detail extends Component {
 
 	componentWillUnmount() {
 		this.props.dispatch(animalInfo({history: [{status: "lost"}], type: "dog"}))
+    google = undefined
 	}
 
 	render() {
-		let animal = this.props.animal;
-		let loc = animal.type === "dog" ? "/dog/update?id" + animal.id : "/cat/update?id=" + animal.id;
-
-		
-// I'm assuming this is for the history list to compliment the markers, this will need a conditional for when it's actually populated. This is the cause of the error you were finding. 
-		// const eventList = animal.history.map((event, index) => {
-		// 	return(
-		// 		<div>
-		// 			<span>Index</span>
-		// 			<span>Month - date - time</span>
-		// 			<span>Status</span>
-		// 		</div>
-		// 	)
-		// })
-
-
+		var animal = this.props.animal;
+		let loc = animal.type === "dog" ? "/dog/update?id" + animal.id : "/cat/update?id=" + animal.id;		
+		let arrLength = animal.history.length
+		const eventList = animal.history.map((event, index) => {
+			var eventDate = new Date(event.date).toDateString()
+			var eventIndex = arrLength - index
+			var latLng = {
+				lat: event.lat,
+				lng: event.lng
+			}
+			return(
+				<div onClick={() => {this.pan(latLng)}}>
+					<span className={event.status === "lost" ? "red" : "green"}>{eventIndex}</span>
+					<span>{eventDate}</span>
+					<span>{event.status}</span>
+				</div>
+			)
+		})
 		return(
 			<div className="content">
 				<Navigation/>
@@ -113,6 +118,7 @@ class Detail extends Component {
 							<img className="detail__main__image" src={animal.Image ? animal.Image : null} alt="" />
 					</div>
 					<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
+					{eventList}
 					<div className="detail__sub">
 						<div className="detail__sub__name">{animal.name ? animal.name : "No Name Provided"}</div>
 						<div className="detail__sub__color">{animal.color ? animal.color : "No Color Provided"}</div>
