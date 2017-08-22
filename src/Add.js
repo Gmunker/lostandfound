@@ -113,10 +113,9 @@ class Add extends Component {
         }
     }
 
-    componentWillUnmount() {
-        this.props.dispatch(animalInfo({type: "dog", status: "lost"}));
-        google = undefined
-    }
+	componentWillUnmount() {
+		this.props.dispatch(animalInfo({history: [{status: "lost"}], type: "dog"}))
+	}
 
     replaceMarkerIcon(latLng, map, Status, Type) {
         marker.setMap(null)
@@ -155,7 +154,8 @@ class Add extends Component {
                 ...this.props.newAnimal.history[0],
                 lat: latLng.lat(),
                 lng: latLng.lng(),
-                region: region
+                region: region,
+                date: new Date()
             }]
         }))
     }
