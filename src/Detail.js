@@ -4,6 +4,7 @@ import Navigation from './Navigation';
 import scriptLoader from 'react-async-script-loader';
 import { connect } from 'react-redux';
 import { fetchAnimal } from './actions/animalsActions';
+import { animalInfo } from './actions/animalActions';
 
 const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
 let google
@@ -79,13 +80,24 @@ class Detail extends Component {
 		}
 	}
 
+	componentWillUnmount() {
+		this.props.dispatch(animalInfo({
+            type: "dog",
+            history: [{
+                status: "lost"
+            }]
+        }));
+        google = undefined
+    }
+
 	pan(latLng) {
 		map.panTo(latLng);
 	}
 
 	render() {
-		let animal = this.props.animal;
+		var animal = this.props.animal;
 		let loc = animal.type === "dog" ? "/dog/update?id" + animal.id : "/cat/update?id=" + animal.id;
+		
 		let arrLength = animal.history.length
 		const eventList = animal.history.map((event, index) => {
 			var eventDate = new Date(event.date).toDateString()
@@ -102,7 +114,7 @@ class Detail extends Component {
 				</div>
 			)
 		})
-
+		
 		return(
 			<div className="content">
 				<Navigation/>

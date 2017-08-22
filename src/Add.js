@@ -114,7 +114,12 @@ class Add extends Component {
     }
 
     componentWillUnmount() {
-        this.props.dispatch(animalInfo({type: "dog", status: "lost"}));
+        this.props.dispatch(animalInfo({
+            type: "dog",
+            history: [{
+                status: "lost"
+            }]
+        }));
         google = undefined
     }
 
