@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 import scriptLoader from 'react-async-script-loader';
 import { connect } from 'react-redux';
+import { animalInfo } from './actions/animalActions';
 import { fetchAnimal } from './actions/animalsActions';
 import { animalInfo } from './actions/animalActions';
 
@@ -46,6 +47,7 @@ class Detail extends Component {
 		let animalHistory = nextProps.animal.history.sort(function(a,b) {
 			return new Date(b.date) - new Date(a.date)
 		})
+		
 		if (isScriptLoaded && isScriptLoadSucceed) { // load finished
 			google = window.google;
 			map = new google.maps.Map(this.refs.map, {
@@ -81,23 +83,13 @@ class Detail extends Component {
 	}
 
 	componentWillUnmount() {
-		this.props.dispatch(animalInfo({
-            type: "dog",
-            history: [{
-                status: "lost"
-            }]
-        }));
-        google = undefined
-    }
-
-	pan(latLng) {
-		map.panTo(latLng);
+		this.props.dispatch(animalInfo({history: [{status: "lost"}], type: "dog"}))
+    google = undefined
 	}
 
 	render() {
 		var animal = this.props.animal;
-		let loc = animal.type === "dog" ? "/dog/update?id" + animal.id : "/cat/update?id=" + animal.id;
-		
+		let loc = animal.type === "dog" ? "/dog/update?id" + animal.id : "/cat/update?id=" + animal.id;		
 		let arrLength = animal.history.length
 		const eventList = animal.history.map((event, index) => {
 			var eventDate = new Date(event.date).toDateString()
@@ -114,27 +106,30 @@ class Detail extends Component {
 				</div>
 			)
 		})
-		
 		return(
 			<div className="content">
 				<Navigation/>
 				<div className="detail">
 					<div className="detail__main">
-						<h2 className="detail__main__status">{animal.history[0].status}</h2>
-						<h2 className="detail__main__status"> {FormatDate(animal.Date)}</h2>
-						<div>Near</div>
-							<p className="detail__main__location">{animal.history[0].region}</p>
-							<img className="detail__main__image" src={animal.Image} alt="" />
+						<h2 className="detail__main__status">{animal.history[0].status ? animal.history[0].status : null}</h2>
+						<h2 className="detail__main__status"> {animal.history[0].date ? animal.history[0].date : null }</h2>
+						<div>{animal.history[0].region === "Outside Defined Regions" ? null : "In the Region:"}</div>
+							<p className="detail__main__location">{animal.history[0].region ? animal.history[0].region : null}</p>
+							<img className="detail__main__image" src={animal.Image ? animal.Image : null} alt="" />
 					</div>
 					<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
 					{eventList}
 					<div className="detail__sub">
-						<div className="detail__sub__name">{animal.name}</div>
-						<div className="detail__sub__color">{animal.color}</div>
+						<div className="detail__sub__name">{animal.name ? animal.name : "No Name Provided"}</div>
+						<div className="detail__sub__color">{animal.color ? animal.color : "No Color Provided"}</div>
+						
+						
 						<div className="detail__sub__gender">
 							{FormatGender(animal.gender)}
 						</div>
-						<div className="detail__sub__breed">{animal.breed}</div>
+						
+						
+						<div className="detail__sub__breed">{animal.breed ? animal.breed : "No Breed Provided"}</div>
 						<Link className="Button" to={loc}>Update</Link>
 					</div>
 				</div>
