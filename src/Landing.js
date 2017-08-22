@@ -11,7 +11,7 @@ class Landing extends Component {
 		this.props.dispatch(fetchAnimals());
 	}
 	render() {
-
+		console.log(this.props)
 		let randomAnimals = () => {
 			return this.props.animalsWithPics.map((animal) => {
 					return (

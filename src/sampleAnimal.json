@@ -1,54 +1,41 @@
-{
-    "FIREBASE_ID": [
+{   "FIREBASE_ID": [
         {
-            "name": "Fluffy",
-            "color": "white, tan",
-            "status": [
-                "lost",
-                "found",
-                "returned to owner", // Owner info can be placed in the owner_info object
-                "vetted",
-                "foster",
-                "adopted", // Adpoter info can be placed in the owner_info object
-                "transfered",
-                "deceased"
-            ],
-            "location": [{
-                "lat": 11.1111, // Lost Location
-                "lng": 11.1111,
-                "region": "Donelson Hills"
-            }, {
-                "lat": 22.2222, // Found Location
-                "lng": 22.2222,
-                "region": "Maplecrest"
-            }, 
-                null, // null for returned to owner
-                null, // null for vetted location
-                null, // null for foster location
-                null,  // null for adopted location
-                null, // null for transfered
-                null, // null for deceased
-            ],
-            "date": [
-                "Thu Aug 10 2017 22:11:18 GMT-0500 (Central Daylight Time)", // Lost Date
-                "Thu Aug 12 2017 04:22:02 GMT-0500 (Central Daylight Time)", // Found Date
-                "Thu Aug 15 2017 04:22:02 GMT-0500 (Central Daylight Time)", // Returned to Owner Date
-                "Thu Aug 15 2017 04:22:02 GMT-0500 (Central Daylight Time)", // Vetted Date
-                "Thu Aug 15 2017 04:22:02 GMT-0500 (Central Daylight Time)", // Foster Date
-                "Thu Aug 15 2017 04:22:02 GMT-0500 (Central Daylight Time)", // Adoption Date
-                "Thu Aug 15 2017 04:22:02 GMT-0500 (Central Daylight Time)", // Transfer Date
-                "Thu Aug 15 2017 04:22:02 GMT-0500 (Central Daylight Time)" // Deceased Date
-            ],
-            "type": "dog",
-            "breed": "Corgi",
-            "sex": "f",
-            "foster_info": "Foster Name",
-            "owner_info": {
-                "name": "Nobody",
-                "address": "123 Nowhere Ln, Nashville, TN 37214",
-                "phone": "123-123-1234"
+            "name": "Fluffy", //String
+            "color": "white, tan", //String
+            "history": [{ 
+                    // By adding in a Date for each location pin we can sort by date, allowing us to just pull out the marker for last position on the Edit page, but also giving the possiblity of showing ALL pins in order (maybe show pin labels with the index) showing a pattern.
+                    // Option for heat map on all pins for one or all animals.
+                    // It will also allow for the list page to pull off the most recent of all found or lost animals locations
+                    // Lots of options based on just lat, lng, and date. Add in the region to a sort/filter to create a map, we could show just lost animals in one reguion (option on the search component), sort by region...
+                    "lat": 11.1111, //Auto Populated from GoogleMaps
+                    "lng": 11.1111, //Auto Populated from GoogleMaps
+                    "region": "Donelson Hills", //Auto Populated from GoogleMaps
+                    "date": "Thu Aug 12 2017 3:50:24 GMT-0700 (US Mountain Standard Time)",
+                    "status": "lost", //string - auto populated by dropdown, lost, found, returnedToOwner...
+                    "UID": "" //string populated by UID of logged in user
+                }, {
+                    "lat": 22.2222, //Auto Populated from GoogleMaps
+                    "lng": 22.2222, //Auto Populated from GoogleMaps
+                    "region": "Maplecrest", //Auto Populated from GoogleMaps
+                    "date":"Thu Aug 17 2017 11:50:24 GMT-0700 (US Mountain Standard Time)",
+                    "status": "lost", //string - auto populated by dropdown, lost, found, returnedToOwner...
+                    "UID": "" //string populated by UID of logged in user
+                }],
+            "type": "dog", //string
+            "breed": "Corgi", //string
+            "gender": "male",  // String set to male or female (algorthim if needed to parse their data) 
+            "foster_info": {
+                "name": "", //Foster's name (String)
+                "phone": "", // Fosters Phone (String)
+                "address": "" // Fosters Address (string)
             },
-            "transfer_info": "MACC"
+            "owner_info": {
+                "name": "", //Owners's name (String)
+                "phone": "", //Owners's name (String)
+                "address": "" //Owners's name (String)
+            },
+            "transfer_info": "MACC", //Not sure what this, but i'm assuming string.
+            "images": [] // http://BaseUrl/DogImages/Year/Month/FIREBASE_ID.jpg
         }
     ]   
 }

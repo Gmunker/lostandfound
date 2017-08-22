@@ -5,10 +5,10 @@ import scriptLoader from 'react-async-script-loader';
 import { connect } from 'react-redux';
 import { fetchAnimal } from './actions/animalsActions';
 
-var google
-var map
-var marker
-var Animal
+const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
+let google
+let map
+let marker
 
 function FormatGender(gender) {
 	return (
@@ -19,13 +19,14 @@ function FormatGender(gender) {
 }
 
 function FormatDate() {
-	var date = "2015-07-04"
-	var d = new Date(date + 'T05:00:00Z');
+	let date = "2015-07-04"
+	let d = new Date(date + 'T05:00:00Z');
 }
 
 class Detail extends Component {
 	constructor(props) {
 		super(props);
+		this.pan = this.pan.bind(this)
 	}
 
 	componentWillMount() {
@@ -35,59 +36,105 @@ class Detail extends Component {
 		this.props.dispatch(fetchAnimal(id));
 	}
 
-	componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
-		
-		if(google === undefined) {
-			if (isScriptLoaded && isScriptLoadSucceed) { // load finished
-                google = window.google
-                map = new google.maps.Map(this.refs.map, {
-                    zoom: 12,
-                    gestureHandling: 'greedy',
-                    center: {
-                        lat: 36.170295,
-                        lng: -86.674846
-                    }
-                })
-            }
-        }
-	}	
+	shouldComponentUpdate(nextProps) {
+		return (this.props.animal.history[0].region != nextProps.animal.history[0].region)
+	}
+
+	componentWillUpdate (nextProps, nextState) {
+		let { isScriptLoaded, isScriptLoadSucceed } = this.props;
+		let animalHistory = nextProps.animal.history.sort(function(a,b) {
+			return new Date(b.date) - new Date(a.date)
+		})
+		console.log(animalHistory)
+		if (isScriptLoaded && isScriptLoadSucceed) { // load finished
+			google = window.google;
+			map = new google.maps.Map(this.refs.map, {
+				zoom: 14,
+				gestureHandling: 'greedy',
+				disableDefaultUI: true,
+				fullscreenControl: true,
+				center: {
+						lat: animalHistory[0].lat,
+						lng: animalHistory[0].lng
+				}
+			})
+			let arrLength = animalHistory.length;
+			animalHistory.map((event, index) => {
+				marker = new google.maps.Marker({
+					position: {
+						lat: event.lat,
+						lng: event.lng
+					},
+					map,
+					icon: {
+						path: google.maps.SymbolPath.CIRCLE,
+						scale: 15,
+						strokeWeight: 0,
+						fillColor: event.status === "lost" ? "red" : "green",
+						fillOpacity: 0.4
+					},
+					label: arrLength.toString()
+				})
+				arrLength -= 1
+			})
+		}
+	}
+
+	pan(latLng) {
+		map.panTo(latLng);
+	}
 
 	render() {
-		Animal = this.props.Animal;
-		let loc = Animal.Type === "dog" ? "/dog/update?id" + Animal.Id : "/cat/update?id=" + Animal.Id;
-		
+		let animal = this.props.animal;
+		let loc = animal.type === "dog" ? "/dog/update?id" + animal.id : "/cat/update?id=" + animal.id;
+		let arrLength = animal.history.length
+		const eventList = animal.history.map((event, index) => {
+			var eventDate = new Date(event.date).toDateString()
+			var eventIndex = arrLength - index
+			var latLng = {
+				lat: event.lat,
+				lng: event.lng
+			}
+			return(
+				<div onClick={() => {this.pan(latLng)}}>
+					<span className={event.status === "lost" ? "red" : "green"}>{eventIndex}</span>
+					<span>{eventDate}</span>
+					<span>{event.status}</span>
+				</div>
+			)
+		})
+
 		return(
 			<div className="content">
 				<Navigation/>
 				<div className="detail">
 					<div className="detail__main">
-						<h2 className="detail__main__status">{Animal.Status}</h2>
-							<h2 className="detail__main__status"> {FormatDate(Animal.Date)}</h2>
+						<h2 className="detail__main__status">{animal.history[0].status}</h2>
+						<h2 className="detail__main__status"> {FormatDate(animal.Date)}</h2>
 						<div>Near</div>
-							<p className="detail__main__location">{Animal.Location}</p>
-							<img className="detail__main__image" src={Animal.Image} alt="" />
+							<p className="detail__main__location">{animal.history[0].region}</p>
+							<img className="detail__main__image" src={animal.Image} alt="" />
+					</div>
+					<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
+					{eventList}
+					<div className="detail__sub">
+						<div className="detail__sub__name">{animal.name}</div>
+						<div className="detail__sub__color">{animal.color}</div>
+						<div className="detail__sub__gender">
+							{FormatGender(animal.gender)}
 						</div>
-						<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
-						<div className="detail__sub">
-							<div className="detail__sub__name">{Animal.Name}</div>
-							<div className="detail__sub__color">{Animal.Color}</div>
-							<div className="detail__sub__gender">
-								{FormatGender(Animal.Gender)}
-							</div>
-							<div className="detail__sub__breed">{Animal.Breed}</div>
-							<Link className="Button" to={loc}>Update</Link>
-						</div>
+						<div className="detail__sub__breed">{animal.breed}</div>
+						<Link className="Button" to={loc}>Update</Link>
+					</div>
 				</div>
 			</div>
 		)
 	}
 }
 
-
-
 const LoadConnector = connect(state => {
   return{
-  	Animal: state.animals.animal
+  	animal: state.animal
   }
 })(Detail)
 

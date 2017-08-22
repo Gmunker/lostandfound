@@ -142,8 +142,12 @@ select {
   border: 1px solid #423837;
   border-radius: 4px; }
 
-form div, .formRow div {
+.formRow div {
   margin-bottom: 1em; }
+
+.mapRow {
+  max-width: 330px;
+  margin: 0 auto 1em auto; }
 
 .radio {
   width: 50%;

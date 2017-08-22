@@ -3,18 +3,18 @@ const firebaseRef = firebase.database();
 
 export function fetchAnimals() {
   return function(dispatch) {
-     firebaseRef.ref('Animals')
+     firebaseRef.ref('HipD')
       .on('value', (snapshot) => {
         let animals = snapshot.val() || {};
         let parsedAnimals = [];
 
         Object.keys(animals).forEach((animalId) => {
           parsedAnimals.push({
-            Id: animalId,
+            id: animalId,
             ...animals[animalId]
           });
         });
-
+        
         let animalsWithPics = parsedAnimals.filter(animal => animal.Image)
         // let random = Math.round(Math.random() * animalsWithPics.length - 1);
 
@@ -27,9 +27,9 @@ export function fetchAnimals() {
 
 export function fetchAnimal(id) {
   return function(dispatch) {
-    firebaseRef.ref('/Animals/' + id)
+    firebaseRef.ref('/HipD/' + id)
     .on('value', (snapshot) => {
-      let animal = {...snapshot.val(), Id: id} || {};
+      let animal = {...snapshot.val(), id: id} || {};
       
       dispatch({type: "FETCH_ANIMAL_FULLFILLED",payload: animal})
       dispatch({type: "SET_ANIMAL_INFO", payload: animal})
