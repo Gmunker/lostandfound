@@ -37,15 +37,14 @@ class Detail extends Component {
 	}
 
 	shouldComponentUpdate(nextProps) {
-		return (this.props.animal.history[0].region != nextProps.animal.history[0].region)
+		return this.props.animal.history.length
 	}
 
 	componentWillUpdate (nextProps, nextState) {
-		let { isScriptLoaded, isScriptLoadSucceed } = this.props;
+		let { isScriptLoaded, isScriptLoadSucceed } = nextProps;
 		let animalHistory = nextProps.animal.history.sort(function(a,b) {
 			return new Date(b.date) - new Date(a.date)
 		})
-		console.log(animalHistory)
 		if (isScriptLoaded && isScriptLoadSucceed) { // load finished
 			google = window.google;
 			map = new google.maps.Map(this.refs.map, {
