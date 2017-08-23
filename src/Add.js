@@ -8,6 +8,7 @@ import { animalInfo } from './actions/animalActions';
 import scriptLoader from 'react-async-script-loader';
 
 const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
+const iconUrl = './images/mapIcons/'
 
 var google
 var map
@@ -98,7 +99,6 @@ class Add extends Component {
                     gestureHandling: 'greedy',
                     disableDefaultUI: true,
                     fullscreenControl: true,
-
                     center: {
                         lat: 36.170295,
                         lng: -86.674846
@@ -115,7 +115,7 @@ class Add extends Component {
 
 	componentWillUnmount() {
 		this.props.dispatch(animalInfo({history: [{status: "lost"}], type: "dog"}))
-    google = undefined
+        google = undefined
 	}
 
     replaceMarkerIcon(latLng, map, Status, Type) {
@@ -123,7 +123,7 @@ class Add extends Component {
         marker = new google.maps.Marker({
             position: latLng,
             map,
-            icon: baseUrl + Status + Type + "Icon.png"
+            icon: require(`./images/mapIcons/${Status}${Type}Icon.png`)
         });
     }
 
@@ -134,7 +134,7 @@ class Add extends Component {
         marker = new google.maps.Marker({
             position: latLng,
             map,
-            icon: baseUrl + this.props.newAnimal.history[0].status + this.props.newAnimal.type + "Icon.png"
+            icon: require(`./images/mapIcons/${this.props.newAnimal.history[0].status}${this.props.newAnimal.type}Icon.png`)
         });
         map.panTo(latLng);
     }
@@ -252,10 +252,10 @@ class Add extends Component {
                                 onChange={this.handleGender}
                                 value={newAnimal.Gender}
                             >
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="neuteredmale">Neutered Male</option>
-                                <option value="spayedfemale">Spayed Female</option>
+                                <option value={"male"}>Male</option>
+                                <option value={"female"}>Female</option>
+                                <option value={"neutered male"}>Neutered Male</option>
+                                <option value={"spayed female"}>Spayed Female</option>
                             </select>
                         </div>
                         <div className="formTwoColumn">
