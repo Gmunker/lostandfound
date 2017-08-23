@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import { animalInfo } from './actions/animalActions';
 import { fetchAnimal } from './actions/animalsActions';
 
-const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
+// const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
+const iconUrl = '/images/mapIcons/'
 let google
 let map
 let marker
@@ -44,46 +45,50 @@ class Detail extends Component {
 
 	componentWillUpdate (nextProps, nextState) {
 		let { isScriptLoaded, isScriptLoadSucceed } = nextProps;
-		let animalHistory = nextProps.animal.history.sort(function(a,b) {
-			return new Date(b.date) - new Date(a.date)
-		})
-		
-		if (isScriptLoaded && isScriptLoadSucceed) { // load finished
-			google = window.google;
-			map = new google.maps.Map(this.refs.map, {
-				zoom: 14,
-				gestureHandling: 'greedy',
-				disableDefaultUI: true,
-				fullscreenControl: true,
-				center: {
-						lat: animalHistory[0].lat,
-						lng: animalHistory[0].lng
-				}
+		var animal = nextProps.animal
+		if (animal.history[0].lat !== null) {
+			animal = nextProps.animal
+			let animalHistory = animal.history.sort(function(a,b) {
+				return new Date(b.date) - new Date(a.date)
 			})
-			let arrLength = animalHistory.length;
-			animalHistory.map((event, index) => {
-				var customMarker = {
-					url: baseUrl + event.status + nextProps.animal.type + "IconLabel.png",
-					size: new google.maps.Size(53, 40),
-					origin: new google.maps.Point(0, 0),
-					anchor: new google.maps.Point(21, 41),
-					labelOrigin: new google.maps.Point(40, 16) //40, 16
-				}
-				var markerLabel = arrLength.toString()
-				marker = new google.maps.Marker({
-					position: {
-						lat: event.lat,
-						lng: event.lng
-					},
-					map,
-					icon: customMarker,
-					label: {
-						text: markerLabel,
-						fontWeight: "bold"
+			if (isScriptLoaded && isScriptLoadSucceed) { // load finished
+				google = window.google;
+				map = new google.maps.Map(this.refs.map, {
+					zoom: 14,
+					gestureHandling: 'greedy',
+					disableDefaultUI: true,
+					fullscreenControl: true,
+					center: {
+							lat: animalHistory[0].lat,
+							lng: animalHistory[0].lng
 					}
 				})
-				arrLength -= 1
-			})
+				let arrLength = animalHistory.length;
+				animalHistory.map((event, index) => {
+					var customMarker = {
+						url: require(`./images/mapIcons/${animalHistory[index].status}${animal.type}IconLabel.png`),
+						size: new google.maps.Size(53, 40),
+						origin: new google.maps.Point(0, 0),
+						anchor: new google.maps.Point(21, 41),
+						labelOrigin: new google.maps.Point(40, 16)
+					}
+				
+					var markerLabel = arrLength.toString()
+					marker = new google.maps.Marker({
+						position: {
+							lat: event.lat,
+							lng: event.lng
+						},
+						map,
+						icon: customMarker,
+						label: {
+							text: markerLabel,
+							fontWeight: "bold"
+						}
+					})
+					arrLength -= 1
+				})
+			}
 		}
 	}
 
@@ -108,7 +113,7 @@ class Detail extends Component {
 				lng: event.lng
 			}
 			return(
-				<div onClick={() => {this.pan(latLng)}}>
+				<div key={index} onClick={() => {this.pan(latLng)}}>
 					<span className={event.status === "lost" ? "red" : "green"}>{eventIndex}</span>
 					<span>{eventDate}</span>
 					<span>{event.status}</span>
