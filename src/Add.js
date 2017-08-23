@@ -9,12 +9,10 @@ import scriptLoader from 'react-async-script-loader';
 
 const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
 
-var google
-var map
-var marker
-var currentPoly
-var currentStatus
-var currentType
+let google
+let map
+let marker
+let currentPoly
 
 class Add extends Component {
     constructor(props) {
@@ -71,7 +69,7 @@ class Add extends Component {
     }
 
     handleSex(e) {
-        let sex = e.currentTarget.name === "sex" ? e.currentTarget.value : null;
+        let sex = e.targt.value;
         this.props.dispatch(animalInfo({
             ...this.props.newAnimal,
             sex
@@ -158,7 +156,6 @@ class Add extends Component {
 
     render() {
         let newAnimal = this.props.newAnimal;
-        console.log(newAnimal.history[0].status);
         var statusText;
         newAnimal.history[0].status === "found" ?
             statusText = "found" :
@@ -221,32 +218,6 @@ class Add extends Component {
                                 <label htmlFor="typeCat"></label>
                             </div>
                         </div>
-                        <div className="formRow">
-                            <div className="radio">
-                                <span>Male</span>
-                                <input 
-                                    type="radio"
-                                    value="male"
-                                    id="sexMale"
-                                    name="sex"
-                                    checked={newAnimal.sex === "male"}
-                                    onChange={this.handleSex}
-                                />
-                                <label htmlFor="sexMale"></label>
-                            </div>
-                            <div className="radio">
-                                <span>Female</span>
-                                <input 
-                                    type="radio"
-                                    value="female"
-                                    id="sexFemale"
-                                    name="sex"
-                                    checked={newAnimal.sex === "female"}
-                                    onChange={this.handleSex}
-                                />
-                                <label htmlFor="sexFemale"></label>
-                            </div>
-                        </div>
                         <div className="mapRow">
                             <label>Location{newAnimal.history[0].region ? <span>: {newAnimal.history[0].region}</span> : null}
                                 <p>Click on the map to mark the location where the {newAnimal.type} was {statusText}.</p>
@@ -264,6 +235,16 @@ class Add extends Component {
                                 onChange={this.handleChange} 
                                 value={newAnimal.name}
                             />
+                        </div>
+                        <div className="formRow">
+                            <label htmlFor="name">Sex</label>
+                            <select id="sex" onChange={this.handleSex}>
+                                <option value={null}></option>
+                                <option value="male">Male</option>
+                                <option value="female">female</option>
+                                <option value="neutured">Neutured</option>
+                                <option value="spayed">Spayed</option>
+                            </select>
                         </div>
                         
                         <div className="formTwoColumn">

@@ -53,12 +53,12 @@ class Update extends Component {
 	}
 
 	handleSex(e) {
-		let sex = e.currentTarget.name === "sex" ? e.currentTarget.value : null;
+		let sex = e.targt.value;
 		this.props.dispatch(animalInfo({
 				...this.props.newAnimal,
 				sex
 		}));
-}
+	}
 
 componentWillUnmount() {
 	this.props.dispatch(animalInfo({history: [{status: "lost"}], type: "dog"}))
@@ -124,6 +124,16 @@ componentWillUnmount() {
 						</div>
 					</div>
 					<div className="formRow">
+						<label htmlFor="name">Sex</label>
+							<select id="sex" onChange={this.handleSex}>
+									<option value={null}></option>
+									<option value="male">Male</option>
+									<option value="female">female</option>
+									<option value="neutured">Neutured</option>
+									<option value="spayed">Spayed</option>
+							</select>
+					</div>
+					<div className="formRow">
 						<div className="radio">
 							<span>Lost</span>
 							<input 
@@ -148,32 +158,6 @@ componentWillUnmount() {
 								checked={this.state.newHistory.status === "found"}
 							/>
 							<label htmlFor="statusFound"></label>
-						</div>
-					</div>
-					<div className="formRow">
-						<div className="radio">
-								<span>Male</span>
-								<input 
-										type="radio"
-										value="male"
-										id="sexMale"
-										name="sex"
-										checked={animal.sex === "male"}
-										onChange={this.handleSex}
-								/>
-								<label htmlFor="sexMale"></label>
-						</div>
-						<div className="radio">
-								<span>Female</span>
-								<input 
-										type="radio"
-										value="female"
-										id="sexFemale"
-										name="sex"
-										checked={animal.sex === "female"}
-										onChange={this.handleSex}
-								/>
-								<label htmlFor="sexFemale"></label>
 						</div>
 					</div>
 					<Link

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import regions from './geojson.json';
-import scriptLoader from 'react-async-script-loader'
+// import scriptLoader from 'react-async-script-loader'
 
 class RegionGmap extends Component {
   constructor(props) {

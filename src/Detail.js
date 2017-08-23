@@ -19,11 +19,6 @@ function FormatGender(gender) {
 	)
 }
 
-function FormatDate() {
-	let date = "2015-07-04"
-	let d = new Date(date + 'T05:00:00Z');
-}
-
 class Detail extends Component {
 	constructor(props) {
 		super(props);
@@ -41,7 +36,7 @@ class Detail extends Component {
 		return this.props.animal.history.length
 	}
 
-	componentWillUpdate (nextProps, nextState) {
+	componentDidUpdate (nextProps, nextState) {
 		let { isScriptLoaded, isScriptLoadSucceed } = nextProps;
 		let animalHistory = nextProps.animal.history.sort(function(a,b) {
 			return new Date(b.date) - new Date(a.date)
@@ -114,7 +109,7 @@ class Detail extends Component {
 						<h2 className="detail__main__status"> {animal.history[0].date ? animal.history[0].date : null }</h2>
 						<div>{animal.history[0].region === "Outside Defined Regions" ? null : "In the Region:"}</div>
 							<p className="detail__main__location">{animal.history[0].region ? animal.history[0].region : null}</p>
-							<img className="detail__main__image" src={animal.Image ? animal.Image : null} alt="" />
+							<img className="detail__main__image" src={animal.image ? animal.image : null} alt="" />
 					</div>
 					<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
 					{eventList}

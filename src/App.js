@@ -15,7 +15,6 @@ import List from './List';
 import Update from './Update';
 import ScrollToTop from './ScrollToTop';
 import Login from './Login';
-import Gmap from './GoogleMap/Gmap';
 import RegionGmap from './GoogleMap/RegionGmap';
 
 class App extends Component {
@@ -25,7 +24,6 @@ class App extends Component {
 			<Router>
 				<ScrollToTop>
 					<Switch>
-						<Route path="/map" component={Gmap} />
 						<Route path="/regions" component={RegionGmap} />
 						<Route path="/list" component={List} />
 						<Route path="/dog/details" component={Detail} />
