@@ -7,11 +7,11 @@ const initialState = {
                 "region": "", 
                 "date": "",
                 "status": "lost", 
-                "UID": "" 
+                "UID": "",
+                "sex": ""
           }],
           "type": "dog", 
-          "breed": "", 
-          "sex": "",  
+          "breed": "",   
           "foster_info": {
               "name": "", 
               "phone": "", 

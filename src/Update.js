@@ -16,6 +16,7 @@ class Update extends Component {
 	super(props);
 	this.handleChange = this.handleChange.bind(this);
 	this.handleStatus = this.handleStatus.bind(this);
+	this.placeMarkerAndPanTo = this.placeMarkerAndPanTo.bind(this)
 }
 
 	componentWillMount() {
@@ -25,32 +26,62 @@ class Update extends Component {
 		this.props.dispatch(fetchAnimal(id));
 	}
 	  
-	componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
-        if(google === undefined) {
-            if (isScriptLoaded && isScriptLoadSucceed) {
-                google = window.google
-                map = new google.maps.Map(this.refs.map, {
-                    zoom: 12,
-                    gestureHandling: 'greedy',
-                    disableDefaultUI: true,
-                    fullscreenControl: true,
-                    center: {
-                        lat: 36.170295,
-                        lng: -86.674846
-                    }
-				})
-				// Add all previous markers
-				console.log(this.Animal)
-				// marker = new google.maps.Map({
-
-				// })
-                map.addListener('click', function(e) {                    
-                    this.placeMarkerAndPanTo(e.latLng, map);
-                }.bind(this));
-            }
-        }
+	shouldComponentUpdate(nextProps) {
+		return this.props.animal.history.length
 	}
-	
+
+	componentWillUpdate (nextProps, nextState) {
+		let { isScriptLoaded, isScriptLoadSucceed } = nextProps;
+		var animal = nextProps.animal
+		if (animal.history[0].lat !== null) {
+			animal = nextProps.animal
+			let animalHistory = animal.history.sort(function(a,b) {
+				return new Date(b.date) - new Date(a.date)
+			})
+			if (isScriptLoaded && isScriptLoadSucceed) { // load finished
+				google = window.google;
+				map = new google.maps.Map(this.refs.map, {
+					zoom: 14,
+					gestureHandling: 'greedy',
+					disableDefaultUI: true,
+					fullscreenControl: true,
+					center: {
+							lat: animalHistory[0].lat,
+							lng: animalHistory[0].lng
+					}
+				})
+				let arrLength = animalHistory.length;
+				animalHistory.map((event, index) => {
+					var customMarker = {
+						url: require(`./images/mapIcons/${animalHistory[index].status}${animal.type}IconLabel.png`),
+						size: new google.maps.Size(53, 40),
+						origin: new google.maps.Point(0, 0),
+						anchor: new google.maps.Point(21, 41),
+						labelOrigin: new google.maps.Point(40, 16)
+					}
+				
+					var markerLabel = arrLength.toString()
+					marker = new google.maps.Marker({
+						position: {
+							lat: event.lat,
+							lng: event.lng
+						},
+						map,
+						icon: customMarker,
+						label: {
+							text: markerLabel,
+							fontWeight: "bold"
+						}
+					})
+					arrLength -= 1
+				})
+				map.addListener('click', function(e) {
+                    this.placeMarkerAndPanTo(e.latLng, map, animalHistory);
+                }.bind(this));
+			}
+		}
+	}
+
 	componentWillUnmount() {
 		this.props.dispatch(animalInfo({history: [{status: "lost"}], type: "dog"}))
         google = undefined
@@ -59,30 +90,48 @@ class Update extends Component {
 	handleChange(event) {	
 		let ref = this.refs;
 		this.props.dispatch(animalInfo({
-				...this.props.Animal,
-				Name: ref.name.value,
-				Location: ref.location.value,
-				Color: ref.color.value,
-				Breed: ref.breed.value,
-				Date: new Date().toString()
+			...this.props.animal,
+			name: ref.name.value,
+			color: ref.color.value,
+			breed: ref.breed.value,
+			history: [{
+				...this.props.animal.history,
+				date: new Date().toString()
+			}]
 		}))
 	}
 
 	handleStatus(e) {
-		let Status = e.currentTarget.name === "status" ? e.currentTarget.value : null;
+		let status = e.currentTarget.name === "status" ? e.currentTarget.value : null;
 		this.props.dispatch(animalInfo({
-			...this.props.Animal,
-			Status
+			...this.props.animal.history[0], // Need to set state instead
+			status
 		}))
 	}
 
-	placeMarkerAndPanTo(latLng, map) {
+	placeMarkerAndPanTo(latLng, map, animalHistory) {
 		// Make sure it only writes to the same position appended to the end of history
+		let index = this.props.animal.history.length
+		console.log(index)
+		marker = new google.maps.Marker({
+            position: latLng,
+            map,
+            icon: require(`./images/mapIcons/${animalHistory[0].status}${this.props.animal.type}IconLabel.png`)
+        });
+		map.panTo(latLng);
+		this.setState({
+			animalUpdate: {
+				history: [{
+					lat: latLng.lat(),
+					lng: latLng.lng()
+				}]
+			}
+		})
 	}
 
 	render() {
 
-	let Animal = this.props.Animal;
+	let animal = this.props.animal;
 	return(
 		<div className="addContent content">
 			<Navigation navSwitch={this.props.navSwitch} ActivePage="Detail"/>
@@ -97,7 +146,7 @@ class Update extends Component {
 							ref="name" 
 							type="text" 
 							onChange={this.handleChange} 
-							value={Animal.Name}
+							value={animal.name}
 						/>
 					</div>
 					<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
@@ -108,7 +157,7 @@ class Update extends Component {
 							id="sex" 
 							ref="gender" 
 							onChange={this.handleChange} 
-							value={Animal.Gender}
+							value={animal.history[0].sex}
 						>
 							<option value={"male"}>Male</option>
 							<option value={"female"}>Female</option>
@@ -125,7 +174,7 @@ class Update extends Component {
 								ref="color" 
 								type="text" 
 								onChange={this.handleChange} 
-								value={Animal.Color} 
+								value={animal.color} 
 								required
 							/>
 						</div>
@@ -137,7 +186,7 @@ class Update extends Component {
 								ref="breed" 
 								type="text" 
 								onChange={this.handleChange} 
-								value={Animal.Breed}
+								value={animal.breed}
 							/>
 						</div>
 					</div>
@@ -151,7 +200,7 @@ class Update extends Component {
 								name="status" 
 								onChange={this.handleStatus} 
 								value="lost" 
-								checked={Animal.Status==="lost"}
+								checked={animal.history[0].status==="lost"}
 							/>
 							<label htmlFor="statusLost"></label>
 						</div>
@@ -163,7 +212,7 @@ class Update extends Component {
 								name="status" 
 								onChange={this.handleStatus} 
 								value="found" 
-								checked={Animal.Status==="found"}
+								checked={animal.history[0].status==="found"}
 							/>
 							<label htmlFor="statusFound"></label>
 						</div>
@@ -172,12 +221,12 @@ class Update extends Component {
 					<Link
 						to="/list"
 						className="formButton" 
-						onClick={ () => this.props.dispatch(updateAnimal(Animal.Id, Animal))} 
+						onClick={ () => this.props.dispatch(updateAnimal(animal.Id, animal))} 
 					>Update</Link>
 					<Link
 						to="/list"
 						className="formButton" 
-						onClick={() => this.props.dispatch(deleteAnimal(Animal.Id))}
+						onClick={() => this.props.dispatch(deleteAnimal(animal.Id))}
 					>Delete</Link>
 					<span className="formIndicia">* Required Field</span>
 				</form>
@@ -188,7 +237,7 @@ class Update extends Component {
 
 const LoadConnector = connect(state => {
 	return {
-		Animal: state.animal
+		animal: state.animal
 	}
 })(Update);
 
