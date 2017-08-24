@@ -138,6 +138,36 @@ class Update extends Component {
 			<div className="topContainer">
 				<h2 className="pageHeader">Update Animal</h2>
 				<form>
+
+				<div className="formTwoColumn">
+						<div className="formSpanOne radio">
+							<span>Lost</span>
+							<input 
+								type="radio" 
+								id="statusLost" 
+								name="status" 
+								onChange={this.handleStatus} 
+								value="lost" 
+								checked={animal.history[0].status==="lost"}
+							/>
+							<label htmlFor="statusLost"></label>
+						</div>
+						<div className="formSpanOne radio">
+							<span>Found</span>
+							<input 
+								type="radio" 
+								id="statusFound" 
+								name="status" 
+								onChange={this.handleStatus} 
+								value="found" 
+								checked={animal.history[0].status==="found"}
+							/>
+							<label htmlFor="statusFound"></label>
+						</div>
+					</div>
+
+					
+					<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
 					<div className="formRow">
 						<label htmlFor="name">Name</label>
 						<input 
@@ -149,7 +179,6 @@ class Update extends Component {
 							value={animal.name}
 						/>
 					</div>
-					<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
 					<div className="formRow">
 						<label htmlFor="sex">Sex</label>
 						<select 
@@ -191,32 +220,7 @@ class Update extends Component {
 						</div>
 					</div>
 
-					<div className="formTwoColumn">
-						<div className="formSpanOne radio">
-							<span>Lost</span>
-							<input 
-								type="radio" 
-								id="statusLost" 
-								name="status" 
-								onChange={this.handleStatus} 
-								value="lost" 
-								checked={animal.history[0].status==="lost"}
-							/>
-							<label htmlFor="statusLost"></label>
-						</div>
-						<div className="formSpanOne radio">
-							<span>Found</span>
-							<input 
-								type="radio" 
-								id="statusFound" 
-								name="status" 
-								onChange={this.handleStatus} 
-								value="found" 
-								checked={animal.history[0].status==="found"}
-							/>
-							<label htmlFor="statusFound"></label>
-						</div>
-					</div>
+					
 					
 					<Link
 						to="/list"
