@@ -6,24 +6,21 @@ import { connect } from 'react-redux';
 import { animalInfo } from './actions/animalActions';
 import { fetchAnimal } from './actions/animalsActions';
 
-const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
+const iconUrl = '/images/mapIcons/'
 let google
 let map
 let marker
 
-function FormatGender(gender) {
-	return (
-		<div>
-			{gender === "f" ? "Female" : "Male"}
-		</div>
-	)
+function FormatDate() {
+	let date = "2015-07-04"
+	let d = new Date(date + 'T05:00:00Z');
 }
 
 class Detail extends Component {
 	constructor(props) {
 		super(props);
-		// this.pan = this.pan.bind(this)
-	}
+		this.pan = this.pan.bind(this)
+	}	
 
 	componentWillMount() {
 		let searchParams = this.props.location.search;
@@ -38,47 +35,60 @@ class Detail extends Component {
 
 	componentDidUpdate (nextProps, nextState) {
 		let { isScriptLoaded, isScriptLoadSucceed } = nextProps;
-		let animalHistory = nextProps.animal.history.sort(function(a,b) {
-			return new Date(b.date) - new Date(a.date)
-		})
-		
-		if (isScriptLoaded && isScriptLoadSucceed) { // load finished
-			google = window.google;
-			map = new google.maps.Map(this.refs.map, {
-				zoom: 14,
-				gestureHandling: 'greedy',
-				disableDefaultUI: true,
-				fullscreenControl: true,
-				center: {
-						lat: animalHistory[0].lat,
-						lng: animalHistory[0].lng
-				}
+		var animal = nextProps.animal
+		if (animal.history[0].lat !== null) {
+			animal = nextProps.animal
+			let animalHistory = animal.history.sort(function(a,b) {
+				return new Date(b.date) - new Date(a.date)
 			})
-			let arrLength = animalHistory.length;
-			animalHistory.map((event, index) => {
-				marker = new google.maps.Marker({
-					position: {
-						lat: event.lat,
-						lng: event.lng
-					},
-					map,
-					icon: {
-						path: google.maps.SymbolPath.CIRCLE,
-						scale: 15,
-						strokeWeight: 0,
-						fillColor: event.status === "lost" ? "red" : "green",
-						fillOpacity: 0.4
-					},
-					label: arrLength.toString()
+			if (isScriptLoaded && isScriptLoadSucceed) { // load finished
+				google = window.google;
+				map = new google.maps.Map(this.refs.map, {
+					zoom: 14,
+					gestureHandling: 'greedy',
+					disableDefaultUI: true,
+					fullscreenControl: true,
+					center: {
+							lat: animalHistory[0].lat,
+							lng: animalHistory[0].lng
+					}
 				})
-				arrLength -= 1
-			})
+				let arrLength = animalHistory.length;
+				animalHistory.map((event, index) => {
+					var customMarker = {
+						url: require(`./images/mapIcons/${animalHistory[index].status}${animal.type}IconLabel.png`),
+						size: new google.maps.Size(53, 40),
+						origin: new google.maps.Point(0, 0),
+						anchor: new google.maps.Point(21, 41),
+						labelOrigin: new google.maps.Point(40, 16)
+					}
+				
+					var markerLabel = arrLength.toString()
+					marker = new google.maps.Marker({
+						position: {
+							lat: event.lat,
+							lng: event.lng
+						},
+						map,
+						icon: customMarker,
+						label: {
+							text: markerLabel,
+							fontWeight: "bold"
+						}
+					})
+					arrLength -= 1
+				})
+			}
 		}
 	}
 
 	componentWillUnmount() {
 		this.props.dispatch(animalInfo({history: [{status: "lost"}], type: "dog"}))
-    google = undefined
+		google = undefined
+	}
+
+	pan(latLng) {
+		map.panTo(latLng)
 	}
 
 	render() {
@@ -93,7 +103,7 @@ class Detail extends Component {
 				lng: event.lng
 			}
 			return(
-				<div onClick={() => {this.pan(latLng)}}>
+				<div key={index} onClick={() => {this.pan(latLng)}}>
 					<span className={event.status === "lost" ? "red" : "green"}>{eventIndex}</span>
 					<span>{eventDate}</span>
 					<span>{event.status}</span>
@@ -116,13 +126,9 @@ class Detail extends Component {
 					<div className="detail__sub">
 						<div className="detail__sub__name">{animal.name ? animal.name : "No Name Provided"}</div>
 						<div className="detail__sub__color">{animal.color ? animal.color : "No Color Provided"}</div>
-						
-						
 						<div className="detail__sub__gender">
-							{FormatGender(animal.gender)}
+							{animal.history[0].sex}
 						</div>
-						
-						
 						<div className="detail__sub__breed">{animal.breed ? animal.breed : "No Breed Provided"}</div>
 						<Link className="Button" to={loc}>Update</Link>
 					</div>

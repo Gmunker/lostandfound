@@ -8,6 +8,7 @@ import { animalInfo } from './actions/animalActions';
 import scriptLoader from 'react-async-script-loader';
 
 const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
+const iconUrl = './images/mapIcons/'
 
 let google
 let map
@@ -69,11 +70,14 @@ class Add extends Component {
     }
 
     handleSex(e) {
-        let sex = e.targt.value;
+        let sex = e.target.value;
         this.props.dispatch(animalInfo({
             ...this.props.newAnimal,
-            sex
-        }));
+            history: [{
+                ...this.props.newAnimal.history[0],
+                sex
+            }]
+        }))
     }
 
     handleSubmit(e) {
@@ -92,7 +96,6 @@ class Add extends Component {
                     gestureHandling: 'greedy',
                     disableDefaultUI: true,
                     fullscreenControl: true,
-
                     center: {
                         lat: 36.170295,
                         lng: -86.674846
@@ -109,7 +112,7 @@ class Add extends Component {
 
 	componentWillUnmount() {
 		this.props.dispatch(animalInfo({history: [{status: "lost"}], type: "dog"}))
-    google = undefined
+        google = undefined
 	}
 
     replaceMarkerIcon(latLng, map, Status, Type) {
@@ -117,7 +120,7 @@ class Add extends Component {
         marker = new google.maps.Marker({
             position: latLng,
             map,
-            icon: baseUrl + Status + Type + "Icon.png"
+            icon: require(`./images/mapIcons/${Status}${Type}Icon.png`)
         });
     }
 
@@ -128,7 +131,7 @@ class Add extends Component {
         marker = new google.maps.Marker({
             position: latLng,
             map,
-            icon: baseUrl + this.props.newAnimal.history[0].status + this.props.newAnimal.type + "Icon.png"
+            icon: require(`./images/mapIcons/${this.props.newAnimal.history[0].status}${this.props.newAnimal.type}Icon.png`)
         });
         map.panTo(latLng);
     }
@@ -237,13 +240,18 @@ class Add extends Component {
                             />
                         </div>
                         <div className="formRow">
-                            <label htmlFor="name">Sex</label>
-                            <select id="sex" onChange={this.handleSex}>
-                                <option value={null}></option>
-                                <option value="male">Male</option>
-                                <option value="female">female</option>
-                                <option value="neutured">Neutured</option>
-                                <option value="spayed">Spayed</option>
+                            <label htmlFor="sex">Sex</label>
+                            <select 
+                                name="sex"
+                                ref="sex" 
+                                id="sex" 
+                                onChange={this.handleSex}
+                                value={newAnimal.sex}
+                            >
+                                <option value={"male"}>Male</option>
+                                <option value={"female"}>Female</option>
+                                <option value={"neutered male"}>Neutered Male</option>
+                                <option value={"spayed female"}>Spayed Female</option>
                             </select>
                         </div>
                         
