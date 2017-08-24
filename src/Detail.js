@@ -33,7 +33,7 @@ class Detail extends Component {
 		return this.props.animal.history.length
 	}
 
-	componentDidUpdate (nextProps, nextState) {
+	componentWillUpdate (nextProps, nextState) {
 		let { isScriptLoaded, isScriptLoadSucceed } = nextProps;
 		var animal = nextProps.animal
 		if (animal.history[0].lat !== null) {
@@ -119,7 +119,7 @@ class Detail extends Component {
 						<h2 className="detail__main__status"> {animal.history[0].date ? animal.history[0].date : null }</h2>
 						<div>{animal.history[0].region === "Outside Defined Regions" ? null : "In the Region:"}</div>
 							<p className="detail__main__location">{animal.history[0].region ? animal.history[0].region : null}</p>
-							<img className="detail__main__image" src={animal.image ? animal.image : null} alt="" />
+							<img className="detail__main__image" src={animal.Image ? animal.Image : null} alt="" />
 					</div>
 					<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
 					{eventList}
