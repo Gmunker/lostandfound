@@ -26,7 +26,7 @@ class Add extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleStatus = this.handleStatus.bind(this);
-    this.handleGender = this.handleGender.bind(this);
+    this.handleSex = this.handleSex.bind(this);
     this.handleType = this.handleType.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.placeMarkerAndPanTo = this.placeMarkerAndPanTo.bind(this);
@@ -75,11 +75,14 @@ class Add extends Component {
         }
     }
 
-    handleGender(e) {
-        let Gender = e.target.value;
+    handleSex(e) {
+        let sex = e.target.value;
         this.props.dispatch(animalInfo({
             ...this.props.newAnimal,
-            Gender
+            history: [{
+                ...this.props.newAnimal.history[0],
+                sex
+            }]
         }))
     }
 
@@ -162,7 +165,6 @@ class Add extends Component {
 
     render() {
         let newAnimal = this.props.newAnimal;
-        console.log(newAnimal.history[0].status);
         var statusText;
         newAnimal.history[0].status === "found" ?
             statusText = "found" :
@@ -247,10 +249,10 @@ class Add extends Component {
                             <label htmlFor="sex">Sex</label>
                             <select 
                                 name="sex"
-                                ref="gender" 
+                                ref="sex" 
                                 id="sex" 
-                                onChange={this.handleGender}
-                                value={newAnimal.Gender}
+                                onChange={this.handleSex}
+                                value={newAnimal.sex}
                             >
                                 <option value={"male"}>Male</option>
                                 <option value={"female"}>Female</option>

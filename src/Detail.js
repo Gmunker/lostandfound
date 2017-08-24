@@ -6,19 +6,10 @@ import { connect } from 'react-redux';
 import { animalInfo } from './actions/animalActions';
 import { fetchAnimal } from './actions/animalsActions';
 
-// const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
 const iconUrl = '/images/mapIcons/'
 let google
 let map
 let marker
-
-function FormatGender(gender) {
-	return (
-		<div>
-			{gender === "f" ? "Female" : "Male"}
-		</div>
-	)
-}
 
 function FormatDate() {
 	let date = "2015-07-04"
@@ -29,8 +20,7 @@ class Detail extends Component {
 	constructor(props) {
 		super(props);
 		this.pan = this.pan.bind(this)
-	}
-	
+	}	
 
 	componentWillMount() {
 		let searchParams = this.props.location.search;
@@ -136,13 +126,9 @@ class Detail extends Component {
 					<div className="detail__sub">
 						<div className="detail__sub__name">{animal.name ? animal.name : "No Name Provided"}</div>
 						<div className="detail__sub__color">{animal.color ? animal.color : "No Color Provided"}</div>
-						
-						
 						<div className="detail__sub__gender">
-							{FormatGender(animal.gender)}
+							{animal.history[0].sex}
 						</div>
-						
-						
 						<div className="detail__sub__breed">{animal.breed ? animal.breed : "No Breed Provided"}</div>
 						<Link className="Button" to={loc}>Update</Link>
 					</div>
