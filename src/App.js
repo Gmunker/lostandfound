@@ -26,11 +26,11 @@ class App extends Component {
 					<Switch>
 						<Route path="/regions" component={RegionGmap} />
 						<Route path="/list" component={List} />
-						<Route path="/dog/details" component={Detail} />
-						<Route path="/cat/details" component={Detail} />
+						<Route path="/dog/details/:id" component={Detail} />
+						<Route path="/cat/details/:id" component={Detail} />
 						<Route path="/add" component={Add} />
-						<Route path="/dog/update" component={Update} />
-						<Route path="/cat/update" component={Update} />
+						<Route path="/dog/update/:id" component={Update} />
+						<Route path="/cat/update/:id" component={Update} />
 						<Route path="/login" component={Login} />>		
 						<Route path="/" component={Landing}/>
 					</Switch>

@@ -23,10 +23,8 @@ class Detail extends Component {
 	}	
 
 	componentWillMount() {
-		let searchParams = this.props.location.search;
-		let id = searchParams.slice(searchParams.indexOf('?id=') + 4);
-		// let animalID = this.props.match.params.Id;
-		this.props.dispatch(fetchAnimal(id));
+		let animalID = this.props.match.params.id;
+		this.props.dispatch(fetchAnimal(animalID));
 	}
 
 	shouldComponentUpdate(nextProps) {
@@ -93,7 +91,7 @@ class Detail extends Component {
 
 	render() {
 		var animal = this.props.animal;
-		let loc = animal.type === "dog" ? "/dog/update?id" + animal.id : "/cat/update?id=" + animal.id;		
+		let loc = animal.type === "dog" ? `/dog/update/${animal.id}` : `/cat/update/${animal.id}`;		
 		let arrLength = animal.history.length
 		const eventList = animal.history.map((event, index) => {
 			var eventDate = new Date(event.date).toDateString()

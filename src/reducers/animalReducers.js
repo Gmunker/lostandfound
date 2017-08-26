@@ -22,7 +22,7 @@ const initialState = {
               "phone": "", 
               "address": "" 
           },
-          "transfer_info": ""
+          "transfer_info": "",
       }
 
 export default function reducer(state=initialState, action) {

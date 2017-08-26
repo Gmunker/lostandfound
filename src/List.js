@@ -21,12 +21,11 @@ class List extends Component {
 	}
 
 	
-   	render() {		
-		
+   	render() {
 		let { searchText, showDog, showCat, showLost, showFound } = this.props.searchFields;
 		let filteredAnimals = searchAPI.filterAnimals(this.props.animals, showDog, showCat, showLost, showFound, searchText);
 		let table = filteredAnimals.map((animal) => {
-			let loc = animal.type === "dog" ? "/dog/details?id" + animal.id : "/cat/details?id=" + animal.id;
+			let loc = animal.type === "dog" ? `/dog/details/${animal.id}` : `/cat/details/${animal.id}`;
 			return(
 				<tr key={animal.id}>
 					<td className="nametd"><Link id={animal.id} to={loc}>{animal.name}</Link></td>
