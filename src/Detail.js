@@ -111,13 +111,8 @@ class Detail extends Component {
 	}
 
 	render() {
-<<<<<<< HEAD
-		var animal = this.props.animal;
-		let loc = animal.type === "dog" ? `/dog/update/${animal.id}` : `/cat/update/${animal.id}`;		
-=======
 		var animal = this.props.animal
-		let loc = animal.type === "dog" ? "/dog/update?id" + animal.id : "/cat/update?id=" + animal.id;		
->>>>>>> ee07a0f58ee47c5f63f85af0584b3a8b8d336beb
+		let loc = animal.type === "dog" ? `/dog/update/${animal.id}` : `/cat/update/${animal.id}`;		
 		let arrLength = animal.history.length
 		const eventList = animal.history.map((event, index) => {
 		var eventIndex = arrLength - index
