@@ -63,7 +63,7 @@ class Search extends Component {
               <label htmlFor="typeCat"></label>
             </div>
           </div>
-          <div>
+          <div className="formRow">
             <label>Search</label>
             <input 
               id="search" 

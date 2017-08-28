@@ -43,7 +43,7 @@ class Login extends Component {
         <div className="topContainer">
           <h2 className="pageHeader">Login</h2>
           <div>
-            <div>
+            <div className="formRow">
               <label>Username</label>
               <input 
                 type="text"
@@ -53,7 +53,7 @@ class Login extends Component {
                 style={this.state.email ? {background: "green"} : null}
               />
             </div>
-            <div>
+            <div className="formRow">
               <label>Password</label>
               <input 
                 type="password" 
