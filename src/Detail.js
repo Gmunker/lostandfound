@@ -33,10 +33,8 @@ class Detail extends Component {
 	}	
 
 	componentWillMount() {
-		let searchParams = this.props.location.search;
-		let id = searchParams.slice(searchParams.indexOf('?id=') + 4);
-		// let animalID = this.props.match.params.Id;
-		this.props.dispatch(fetchAnimal(id));
+		let animalID = this.props.match.params.id;
+		this.props.dispatch(fetchAnimal(animalID));
 	}
 
 	shouldComponentUpdate(nextProps) {
@@ -113,8 +111,13 @@ class Detail extends Component {
 	}
 
 	render() {
+<<<<<<< HEAD
+		var animal = this.props.animal;
+		let loc = animal.type === "dog" ? `/dog/update/${animal.id}` : `/cat/update/${animal.id}`;		
+=======
 		var animal = this.props.animal
 		let loc = animal.type === "dog" ? "/dog/update?id" + animal.id : "/cat/update?id=" + animal.id;		
+>>>>>>> ee07a0f58ee47c5f63f85af0584b3a8b8d336beb
 		let arrLength = animal.history.length
 		const eventList = animal.history.map((event, index) => {
 		var eventIndex = arrLength - index
@@ -210,7 +213,7 @@ class EventItem extends Component {
 
 const LoadConnector = connect(state => {
   return{
-  	animal: state.animal
+  	animal: state.animal.animal
   }
 })(Detail)
 

@@ -10,12 +10,10 @@ import scriptLoader from 'react-async-script-loader';
 const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
 const iconUrl = './images/mapIcons/'
 
-var google
-var map
-var marker
-var currentPoly
-var currentStatus
-var currentType
+let google
+let map
+let marker
+let currentPoly
 
 class Add extends Component {
     constructor(props) {
@@ -40,11 +38,7 @@ class Add extends Component {
             ...this.props.newAnimal,
             name: ref.name.value,
             color: ref.color.value,
-            breed: ref.breed.value,
-            history: [{
-                ...this.props.newAnimal.history[0],
-                date: new Date().toString()
-            }]
+            breed: ref.breed.value
         }))
     }    
 
@@ -260,6 +254,7 @@ class Add extends Component {
                                 <option value={"spayed female"}>Spayed Female</option>
                             </select>
                         </div>
+                        
                         <div className="formTwoColumn">
                             <div className="formSpanOne">
                                 <label htmlFor="color">Color*</label>
