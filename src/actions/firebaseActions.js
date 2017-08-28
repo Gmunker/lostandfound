@@ -15,8 +15,3 @@ export function updateAnimal(id, animal) {
       console.log('Updated Successfully!')
     })
 }
-
-export function updateAnimalTest(id, animal) {
-  console.log(id)
-  console.log(animal)
-}

@@ -29,13 +29,18 @@ export function fetchAnimal(id) {
   return function(dispatch) {
     firebaseRef.ref('/HipD/' + id)
     .on('value', (snapshot) => {
-      let animal = {...snapshot.val(), id: id} || {};
-      
-      dispatch({type: "FETCH_ANIMAL_FULLFILLED",payload: animal})
+      let animal = {
+        ...snapshot.val(), 
+        id: id,
+        history: snapshot.val().history.sort((a,b) => new Date(b.date) - new Date(a.date))
+      } || {}; 
       dispatch({type: "SET_ANIMAL_INFO", payload: animal})
+      dispatch({type: "SET_CURRENT_ANIMAL", payload: animal})
+      dispatch({type: "SET_NEW_HISTORY", payload: animal.history[0]})
     })
   }
 }
+
 
 
 // this.firebaseRef = firebase.database().ref("Animals");

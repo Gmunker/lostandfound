@@ -138,7 +138,7 @@ class Detail extends Component {
 
 const LoadConnector = connect(state => {
   return{
-  	animal: state.animal
+  	animal: state.animal.animal
   }
 })(Detail)
 
