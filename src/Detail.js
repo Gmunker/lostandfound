@@ -11,15 +11,25 @@ let google
 let map
 let marker
 
-function FormatDate() {
-	let date = "2015-07-04"
-	let d = new Date(date + 'T05:00:00Z');
-}
+var options = {  
+    weekday: "short", year: "numeric", month: "short",  
+    day: "numeric", hour: "2-digit", minute: "2-digit"
+};
+
+// function FormatDate() {
+// 	let date = "2015-07-04"
+// 	let d = new Date(date + 'T05:00:00Z');
+// }
 
 class Detail extends Component {
 	constructor(props) {
 		super(props);
-		this.pan = this.pan.bind(this)
+		this.state = {
+			activeIndex: null,
+			activeRegion: null
+		}
+		this.handleClick = this.handleClick.bind(this)
+		this.panTo = this.panTo.bind(this)
 	}	
 
 	componentWillMount() {
@@ -39,7 +49,7 @@ class Detail extends Component {
 			let animalHistory = animal.history.sort(function(a,b) {
 				return new Date(b.date) - new Date(a.date)
 			})
-			if (isScriptLoaded && isScriptLoadSucceed) { // load finished
+			if (isScriptLoaded && isScriptLoadSucceed) {
 				google = window.google;
 				map = new google.maps.Map(this.refs.map, {
 					zoom: 14,
@@ -85,27 +95,54 @@ class Detail extends Component {
 		google = undefined
 	}
 
-	pan(latLng) {
-		map.panTo(latLng)
+	handleClick = (index, latLng, region) => {
+		this.setState({
+			activeIndex: index,
+			activeRegion: region
+		}, () => {
+			this.panTo(latLng)
+		})
+	}
+
+	panTo(latLng) {
+		if(map) {
+			map.panTo(latLng)
+		}
 	}
 
 	render() {
+<<<<<<< HEAD
 		var animal = this.props.animal;
 		let loc = animal.type === "dog" ? `/dog/update/${animal.id}` : `/cat/update/${animal.id}`;		
+=======
+		var animal = this.props.animal
+		let loc = animal.type === "dog" ? "/dog/update?id" + animal.id : "/cat/update?id=" + animal.id;		
+>>>>>>> ee07a0f58ee47c5f63f85af0584b3a8b8d336beb
 		let arrLength = animal.history.length
 		const eventList = animal.history.map((event, index) => {
-			var eventDate = new Date(event.date).toDateString()
-			var eventIndex = arrLength - index
-			var latLng = {
-				lat: event.lat,
-				lng: event.lng
-			}
+		var eventIndex = arrLength - index
+		var latLng = {
+			lat: event.lat,
+			lng: event.lng
+		}
+		var zeroEvent
+		if (animal.history[0].lat !== null) {
+			zeroEvent = animal.history[0]
+		}
 			return(
-				<div key={index} onClick={() => {this.pan(latLng)}}>
-					<span className={event.status === "lost" ? "red" : "green"}>{eventIndex}</span>
-					<span>{eventDate}</span>
-					<span>{event.status}</span>
-				</div>
+				<EventItem 
+					key={index} 
+					onClick={(event) => {this.handleClick(); this.panTo(latLng);}}
+					index={index}
+					isActive={this.state.activeIndex === index}
+					event={event}
+					eventIndex={eventIndex}
+					latLng={latLng}
+					map={map}
+					handleClick={this.handleClick}
+					panTo={this.panTo}
+					zeroEvent={zeroEvent}
+				/>
 			)
 		})
 		return(
@@ -113,25 +150,63 @@ class Detail extends Component {
 				<Navigation/>
 				<div className="detail">
 					<div className="detail__main">
-						<h2 className="detail__main__status">{animal.history[0].status ? animal.history[0].status : null}</h2>
-						<h2 className="detail__main__status"> {animal.history[0].date ? animal.history[0].date : null }</h2>
-						<div>{animal.history[0].region === "Outside Defined Regions" ? null : "In the Region:"}</div>
-							<p className="detail__main__location">{animal.history[0].region ? animal.history[0].region : null}</p>
-							<img className="detail__main__image" src={animal.Image ? animal.Image : null} alt="" />
+					<div className="detail__sub__name">{animal.name ? animal.name : "No Name Provided"}</div>
+						{/* <div>{animal.history[0].region === "Outside Defined Regions" ? null : "In the Region:"}</div> */}
+						{/* <p className="detail__main__location">{animal.history[0].region ? animal.history[0].region : null}</p> */}
+						{/* <img className="detail__main__image" src={animal.Image ? animal.Image : null} alt="" /> */}
 					</div>
-					<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
-					{eventList}
 					<div className="detail__sub">
-						<div className="detail__sub__name">{animal.name ? animal.name : "No Name Provided"}</div>
 						<div className="detail__sub__color">{animal.color ? animal.color : "No Color Provided"}</div>
 						<div className="detail__sub__gender">
 							{animal.history[0].sex}
 						</div>
 						<div className="detail__sub__breed">{animal.breed ? animal.breed : "No Breed Provided"}</div>
-						<Link className="Button" to={loc}>Update</Link>
 					</div>
+					<div className="mapRow">
+						<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
+						<div className="detailList__region">
+							<span>Area: &nbsp;{this.state.activeRegion}</span>
+						</div>
+						<table className="detailList">
+							<tbody>
+								{animal.history[0].lat !== null ? eventList : null}
+							</tbody>
+						</table>
+					</div>
+					<Link className="Button" to={loc}>Update</Link>
 				</div>
 			</div>
+		)
+	}
+}
+
+class EventItem extends Component {
+
+	componentWillMount() {
+		if (this.props.zeroEvent) {
+			console.log(this.props.zeroEvent)
+			var zeroEvent = this.props.zeroEvent
+			var zeroLatLng = {
+				lat: zeroEvent.lat,
+				lng: zeroEvent.lng
+			}
+			var zeroRegion = zeroEvent.region
+			this.props.handleClick(0, zeroLatLng, zeroRegion)
+		}
+	}
+
+	handleClick = () => {
+		this.props.handleClick(this.props.index, this.props.latLng, this.props.event.region)
+	}
+
+	render() {
+		return(
+			<tr className={this.props.isActive ? "detailList__item active " + this.props.event.status : "detailList__item"}
+				onClick={this.handleClick}
+			>
+				<td className="detailList__item__status">{this.props.event.status}</td>
+				<td className="detailList__item__date">{new Date(this.props.event.date).toLocaleTimeString("en-us", options)}</td>
+			</tr>
 		)
 	}
 }

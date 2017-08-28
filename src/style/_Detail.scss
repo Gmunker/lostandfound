@@ -18,6 +18,34 @@
 .detail__main__image {
 	width: 100%;
 }
+.detailList__region {
+    text-align: left;
+    background: $Primary;
+    color: white;
+    padding: 0.25em 0;
+    width: 100%;
+    font: 1.25em 'Bree Serif', Times, serif;
+    span {
+        margin-left: 1em;
+    }
+}
+table.detailList {
+    td {
+        text-align: center;
+        padding: 0.5em;
+        &:first-child {
+            width: 45px;
+        }
+    }
+    .detailList__item.active.lost td {
+        background: red;
+        color: white;
+    }
+    .detailList__item.active.found td {
+        background: green;
+        color: white;
+    }
+}
 
 .detail-navigation {
     position: relative;
