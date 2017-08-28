@@ -122,9 +122,9 @@ class Detail extends Component {
 			lat: event.lat,
 			lng: event.lng
 		}
-		var zeroLatLng
+		var zeroEvent
 		if (animal.history[0].lat !== null) {
-			var zeroEvent = animal.history[0]
+			zeroEvent = animal.history[0]
 		}
 			return(
 				<EventItem 
@@ -166,7 +166,7 @@ class Detail extends Component {
 						</div>
 						<table className="detailList">
 							<tbody>
-								{eventList}
+								{animal.history[0].lat !== null ? eventList : null}
 							</tbody>
 						</table>
 					</div>
@@ -181,6 +181,7 @@ class EventItem extends Component {
 
 	componentWillMount() {
 		if (this.props.zeroEvent) {
+			console.log(this.props.zeroEvent)
 			var zeroEvent = this.props.zeroEvent
 			var zeroLatLng = {
 				lat: zeroEvent.lat,
