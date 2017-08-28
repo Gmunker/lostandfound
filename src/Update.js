@@ -26,11 +26,17 @@ class Update extends Component {
 		this.props.dispatch(fetchAnimal(this.props.match.params.id))
 	}
 
-	componentWillUpdate (nextProps, nextState) {
+	shouldComponentUpdate(nextProps) {
+		return this.props.newHistory !== nextProps.newHistory;
+	}
+
+	componentWillUpdate (nextProps, nextState) {		
 		let { isScriptLoaded, isScriptLoadSucceed } = nextProps;
-		var animal = this.props.currentAnimal;
+		var newHistory = nextProps.newHistory;
 		
-		if (animal.history[0].lat !== null) {
+		console.log(newHistory)
+
+		if (nextProps.newHistory.lat !== null) {
 			if (isScriptLoaded && isScriptLoadSucceed) { // load finished
 				google = window.google;
 				map = new google.maps.Map(this.refs.map, {
@@ -39,23 +45,24 @@ class Update extends Component {
 					disableDefaultUI: true,
 					fullscreenControl: true,
 					center: {
-						lat: animal.history[animal.history.length - 1].lat,
-						lng: animal.history[animal.history.length - 1].lng
+						lat: newHistory.lat,
+						lng: newHistory.lng
 					}
 				})
 				
+				let allMarkers = [...this.props.currentAnimal.history, ...this.props.newHistory]
+				console.log(allMarkers)
 
-
-				animal.history.map((event, index) => {
+				allMarkers.map((event, index) => {
 					let customMarker = {
-						url: require(`./images/mapIcons/${animal.history[index].status}${animal.type}IconLabel.png`),
+						url: require(`./images/mapIcons/${newHistory.status}${this.props.currentAnimal.type}IconLabel.png`),
 						size: new google.maps.Size(53, 40),
 						origin: new google.maps.Point(0, 0),
 						anchor: new google.maps.Point(21, 41),
 						labelOrigin: new google.maps.Point(40, 16)
 					}
 					
-					let markerLabel = animal.history.length.toString();
+					let markerLabel = (index + 1).toString();
 					marker = new google.maps.Marker({
 						position: {
 							lat: event.lat,
@@ -68,12 +75,12 @@ class Update extends Component {
 							fontWeight: "bold"
 						}
 					})
-					animal.history.length -= 1
+					newHistory.length -= 1
 				})
 				
 				map.addListener('click', function(e) {
 					this.findRegion(e.latLng, google)
-					this.placeMarkerAndPanTo(e.latLng, map, animal.history)
+					this.placeMarkerAndPanTo(e.latLng, map, newHistory)
 				}.bind(this))
 			}
 		}
@@ -88,12 +95,11 @@ class Update extends Component {
 		event.preventDefault();
 			let ref = this.refs;
 			this.props.dispatch(currentAnimal({
-				animal: {
 					...this.props.currentAnimal,
 					name: ref.name.value,
 					color: ref.color.value,
 					breed: ref.breed.value
-				}
+				
 			}))
 	}
 
@@ -112,7 +118,7 @@ class Update extends Component {
 		marker = new google.maps.Marker({
 			position: latLng,
 			map,
-			icon: require(`./images/mapIcons/${animalHistory[0].status}${this.props.animal.type}IconLabel.png`)
+			icon: require(`./images/mapIcons/${this.props.newHistory.status}${this.props.currentAnimal.type}IconLabel.png`)
 		});
 		map.panTo(latLng);
 	}
@@ -127,19 +133,83 @@ class Update extends Component {
 		}
 		
 		let region = regionName !== undefined ? regionName : "Outside Defined Regions"
-		this.setState((state, props) => { 
-			return { 
-				newHistory: {
-					...state.newHistory,
-					lat: latLng.lat(),
-					lng: latLng.lng(),
-					region: region
-				}
-			}
-		});
+		this.props.dispatch(setNewHistory({
+			...this.props.newHistory,
+			lat: latLng.lat(),
+			lng: latLng.lng(),
+			region: region
+		}))
 	}
 
 	handleSubmit(e) {
+		// e.preventDefault();
+
+		// let currentHistoryLength = this.props.currentAnimal.history.length
+		
+		// var setDate = new Promise((resolve, reject) => {
+		// 		this.props.setNewHistory({
+		// 			...this.props.newHistory,
+		// 			date: new Date()
+		// 		})
+				
+		// 		if(this.props.newHistory.date) {
+		// 				resolve("Successfully Set Date");
+		// 		}
+		// 		else {
+		// 				reject('Failure!');
+		// 		}
+		// });
+		
+		// let pushHistory = new Promise((resolve, reject) => {
+		// 	this.props.currentAnimal.history.push(this.props.newHistory)
+		// 	if(currentHistoryLength !== this.props.currentAnimal.history.length){
+		// 		resolve("Successfully pushed newHistory")
+		// 	} else {
+		// 		reject("No History Pushed")
+		// 	}
+		// })
+		
+		
+		// let updateAnimal = new Promise((resolve, reject) => {
+		// 	this.props.dispatch(updateAnimal(this.props.currentAnimal));
+		// })
+		
+		
+		// setDate
+		// 	.then(() =>  { 
+		// 		pushHistory
+		// 			.then(() => {
+		// 				updateAnimal
+		// 			})
+		// }).catch(function() {
+		// 		/* error :( */
+		// })
+
+
+
+		// let newHistory = this.state.newHistory
+		// let history = this.props.animal.history
+
+		// let addNewHistory = new Promise((resolve, reject) => {
+		// 	if (newHistory.status !== history[0].status || 
+		// 		newHistory.lat !== history[0].lat || 
+		// 		newHistory.lng !== history[0].lng || 
+		// 		newHistory.sex !== history[0].sex) {
+		// 			this.setState((state, props) => { 
+		// 				return { 
+		// 					newHistory: {
+		// 						...state.newHistory, 
+		// 						date: new Date()} }
+		// 					},
+		// 					this.props.animal.history.push(this.state.newHistory)
+		// 				);
+
+		// 				resolve()	
+
+		// 		} else {
+		// 			reject("No changes to history to add")
+		// 		}
+		// })
 		e.preventDefault();
 
 		let currentHistoryLength = this.props.currentAnimal.history.length
