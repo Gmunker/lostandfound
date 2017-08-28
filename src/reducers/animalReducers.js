@@ -46,7 +46,7 @@ export default function reducer(state=initialState, action) {
     case "SET_CURRENT_ANIMAL": {
       return {
         ...state,
-       currentAnimal: action.payload
+        currentAnimal: action.payload
       } 
      }
      case "SET_NEW_HISTORY": {

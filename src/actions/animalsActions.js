@@ -36,7 +36,7 @@ export function fetchAnimal(id) {
       } || {}; 
       dispatch({type: "SET_ANIMAL_INFO", payload: animal})
       dispatch({type: "SET_CURRENT_ANIMAL", payload: animal})
-      dispatch({type: "SET_NEW_HISTORY", payload: animal.history[0]})
+      dispatch({type: "SET_NEW_HISTORY", payload: animal.history[animal.history.length - 1]})
     })
   }
 }

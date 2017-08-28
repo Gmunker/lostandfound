@@ -7,7 +7,7 @@ export function animalInfo(animalInfo) {
 
 export function currentAnimal(animal) {
   return {
-    type: "SET_ANIMAL_INFO",
+    type: "SET_CURRENT_ANIMAL",
     payload: animal
   }
 }
