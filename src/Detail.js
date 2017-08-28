@@ -111,6 +111,7 @@ class Detail extends Component {
 	}
 
 	render() {
+    new-update-page
 		var animal = this.props.animal;
 		let loc = animal.type === "dog" ? `/dog/update/${animal.id}` : `/cat/update/${animal.id}`;		
 		let arrLength = animal.history.length

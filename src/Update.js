@@ -15,11 +15,11 @@ class Update extends Component {
 	constructor(props) {
 		super(props)
 		this.handleChange = this.handleChange.bind(this);
-    this.handleStatus = this.handleStatus.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleSex = this.handleSex.bind(this);
-    this.placeMarkerAndPanTo = this.placeMarkerAndPanTo.bind(this);
-    this.findRegion = this.findRegion.bind(this);
+		this.handleStatus = this.handleStatus.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleSex = this.handleSex.bind(this);
+		this.placeMarkerAndPanTo = this.placeMarkerAndPanTo.bind(this);
+		this.findRegion = this.findRegion.bind(this);
 	}
 	
 	componentWillMount() {
@@ -114,7 +114,7 @@ class Update extends Component {
 	}
 	
 	placeMarkerAndPanTo(latLng, map, animalHistory) {
-		// Make sure it only writes to the same position appended to the end of history
+		let index = this.props.currentAnimal.history.length
 		marker = new google.maps.Marker({
 			position: latLng,
 			map,
@@ -210,15 +210,49 @@ class Update extends Component {
 		// 			reject("No changes to history to add")
 		// 		}
 		// })
+		e.preventDefault();
 
-		// addNewHistory
-		// 	.then(() => {
-		// 		this.props.dispatch(updateAnimal(this.state.animal.id, this.state.animal))
-		// 	})
-		// 	.catch((err) => {
-		// 		this.props.dispatch(updateAnimal(this.state.animal.id, this.state.animal))
-		// 		console.log(err)
-		// 	})
+		let currentHistoryLength = this.props.currentAnimal.history.length
+        
+        var setDate = new Promise((resolve, reject) => {
+                this.props.setNewHistory({
+                    ...this.props.newHistory,
+                    date: new Date()
+                })
+                
+                if(this.props.newHistory.date) {
+                        resolve("Successfully Set Date");
+                }
+                else {
+                        reject('Failure!');
+                }
+        });
+        
+        let pushHistory = new Promise((resolve, reject) => {
+            this.props.currentAnimal.history.push(this.props.newHistory)
+            if(currentHistoryLength !== this.props.currentAnimal.history.length){
+                resolve("Successfully pushed newHistory")
+            } else {
+                reject("No History Pushed")
+            }
+        })
+        
+        
+        let updateAnimal = new Promise((resolve, reject) => {
+            this.props.dispatch(updateAnimal(this.props.currentAnimal));
+        })
+        
+        
+        setDate
+            .then(() =>  { 
+                pushHistory
+                    .then(() => {
+                        updateAnimal
+                    })
+        }).catch(function() {
+                /* error :disappointed: */
+        })
+
 	}
 		
 	render() {
