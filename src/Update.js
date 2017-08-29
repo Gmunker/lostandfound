@@ -27,7 +27,7 @@ class Update extends Component {
 	}
 
 	shouldComponentUpdate(nextProps) {
-		return this.props.newHistory !== nextProps.newHistory;
+		return this.props.newHistory !== nextProps.newHistory || true;
 	}
 
 	componentWillUpdate (nextProps, nextState) {		
@@ -114,7 +114,6 @@ class Update extends Component {
 	}
 	
 	placeMarkerAndPanTo(latLng, map, animalHistory) {
-		// Make sure it only writes to the same position appended to the end of history
 		marker = new google.maps.Marker({
 			position: latLng,
 			map,
@@ -142,86 +141,37 @@ class Update extends Component {
 	}
 
 	handleSubmit(e) {
-		// e.preventDefault();
+		e.preventDefault();
+		let newHistory = this.props.newHistory
+		let currentAnimal = this.props.currentAnimal
 
-		// let currentHistoryLength = this.props.currentAnimal.history.length
+		let setDate = new Promise((resolve, reject) => {
+			newHistory.date = new Date().toString()
+			if(newHistory.date) {
+				resolve();
+			} else {
+				reject()
+			}
+		})
 		
-		// var setDate = new Promise((resolve, reject) => {
-		// 		this.props.setNewHistory({
-		// 			...this.props.newHistory,
-		// 			date: new Date()
-		// 		})
-				
-		// 		if(this.props.newHistory.date) {
-		// 				resolve("Successfully Set Date");
-		// 		}
-		// 		else {
-		// 				reject('Failure!');
-		// 		}
-		// });
+		let setNewHistory = new Promise ((resolve, reject) => {
+			currentAnimal.history.push(newHistory)
+			currentAnimal.history.indexOf(newHistory) > 0 ? resolve() : reject();
+		})
 		
-		// let pushHistory = new Promise((resolve, reject) => {
-		// 	this.props.currentAnimal.history.push(this.props.newHistory)
-		// 	if(currentHistoryLength !== this.props.currentAnimal.history.length){
-		// 		resolve("Successfully pushed newHistory")
-		// 	} else {
-		// 		reject("No History Pushed")
-		// 	}
-		// })
+		setDate
+			.then(() => {
+				setNewHistory
+					.then(() => {
+						console.log(currentAnimal.id)
+						// this.props.dispatch(updateAnimal(currentAnimal.id, currentAnimal))
+					})
+			})
 		
-		
-		// let updateAnimal = new Promise((resolve, reject) => {
-		// 	this.props.dispatch(updateAnimal(this.props.currentAnimal));
-		// })
-		
-		
-		// setDate
-		// 	.then(() =>  { 
-		// 		pushHistory
-		// 			.then(() => {
-		// 				updateAnimal
-		// 			})
-		// }).catch(function() {
-		// 		/* error :( */
-		// })
-
-
-
-		// let newHistory = this.state.newHistory
-		// let history = this.props.animal.history
-
-		// let addNewHistory = new Promise((resolve, reject) => {
-		// 	if (newHistory.status !== history[0].status || 
-		// 		newHistory.lat !== history[0].lat || 
-		// 		newHistory.lng !== history[0].lng || 
-		// 		newHistory.sex !== history[0].sex) {
-		// 			this.setState((state, props) => { 
-		// 				return { 
-		// 					newHistory: {
-		// 						...state.newHistory, 
-		// 						date: new Date()} }
-		// 					},
-		// 					this.props.animal.history.push(this.state.newHistory)
-		// 				);
-
-		// 				resolve()	
-
-		// 		} else {
-		// 			reject("No changes to history to add")
-		// 		}
-		// })
-
-		// addNewHistory
-		// 	.then(() => {
-		// 		this.props.dispatch(updateAnimal(this.state.animal.id, this.state.animal))
-		// 	})
-		// 	.catch((err) => {
-		// 		this.props.dispatch(updateAnimal(this.state.animal.id, this.state.animal))
-		// 		console.log(err)
-		// 	})
 	}
 		
 	render() {
+		console.log(this.props.currentAnimal)
 
 		return(
 			<div className="addContent content">
