@@ -33,7 +33,7 @@ class Detail extends Component {
 	}
 
 	shouldComponentUpdate(nextProps) {
-		return this.props.animal.history.length
+		return nextProps.currentAnimal.history.length
 	}
 
 	componentWillUpdate (nextProps, nextState) {
@@ -106,7 +106,7 @@ class Detail extends Component {
 	}
 
 	render() {
-		var animal = this.props.animal
+		var animal = this.props.animal;
 		let loc = animal.type === "dog" ? `/dog/update/${animal.id}` : `/cat/update/${animal.id}`;		
 		let arrLength = animal.history.length
 		const eventList = animal.history.map((event, index) => {
@@ -174,7 +174,6 @@ class EventItem extends Component {
 
 	componentWillMount() {
 		if (this.props.zeroEvent) {
-			console.log(this.props.zeroEvent)
 			var zeroEvent = this.props.zeroEvent
 			var zeroLatLng = {
 				lat: zeroEvent.lat,
@@ -203,7 +202,8 @@ class EventItem extends Component {
 
 const LoadConnector = connect(state => {
   return{
-  	animal: state.animal.animal
+		animal: state.animal.animal,
+		currentAnimal: state.animal.currentAnimal
   }
 })(Detail)
 

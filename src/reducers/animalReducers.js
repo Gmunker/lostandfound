@@ -1,3 +1,5 @@
+let date = new Date();
+
 const initialState = {
   animal:{
     "history": [{
@@ -11,27 +13,8 @@ const initialState = {
     }],
     "type": "dog"
   },
-  currentAnimal: {
-    "history": [{
-      "lat": null, 
-      "lng": null, 
-      "region": null, 
-      "date": null,
-      "status": "lost", 
-      "UID": null,
-      "sex": null
-    }],
-    "type": "dog"
-  },
-  newHistory: {
-    "lat": null, 
-    "lng": null, 
-    "region": null, 
-    "date": null,
-    "status": null, 
-    "UID": null,
-    "sex": null
-  }
+  currentAnimal: {type: 'dog'},
+  newHistory: {status: "lost"}
 }
 
 export default function reducer(state=initialState, action) {
@@ -46,7 +29,7 @@ export default function reducer(state=initialState, action) {
     case "SET_CURRENT_ANIMAL": {
       return {
         ...state,
-       currentAnimal: action.payload
+        currentAnimal: action.payload
       } 
      }
      case "SET_NEW_HISTORY": {
