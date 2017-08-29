@@ -15,11 +15,11 @@ class Update extends Component {
 	constructor(props) {
 		super(props)
 		this.handleChange = this.handleChange.bind(this);
-    this.handleStatus = this.handleStatus.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleSex = this.handleSex.bind(this);
-    this.placeMarkerAndPanTo = this.placeMarkerAndPanTo.bind(this);
-    this.findRegion = this.findRegion.bind(this);
+		this.handleStatus = this.handleStatus.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleSex = this.handleSex.bind(this);
+		this.placeMarkerAndPanTo = this.placeMarkerAndPanTo.bind(this);
+		this.findRegion = this.findRegion.bind(this);
 	}
 	
 	componentWillMount() {
@@ -167,7 +167,6 @@ class Update extends Component {
 						// this.props.dispatch(updateAnimal(currentAnimal.id, currentAnimal))
 					})
 			})
-		
 	}
 		
 	render() {
