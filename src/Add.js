@@ -4,7 +4,7 @@ import Navigation from './Navigation';
 import firebase from './firebase';
 import { connect } from 'react-redux';
 import regions from './GoogleMap/geojson.json';
-import { animalInfo } from './actions/animalActions';
+import { currentAnimal } from './actions/animalActions';
 import scriptLoader from 'react-async-script-loader';
 
 const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
@@ -34,7 +34,7 @@ class Add extends Component {
 
     handleChange(e) {
         let ref = this.refs;
-        this.props.dispatch(animalInfo({
+        this.props.dispatch(currentAnimal({
             ...this.props.newAnimal,
             name: ref.name.value,
             color: ref.color.value,
@@ -44,7 +44,7 @@ class Add extends Component {
 
     handleStatus(e) {
         let Status = e.currentTarget.name === "status" ? e.currentTarget.value : null;
-        this.props.dispatch(animalInfo({
+        this.props.dispatch(currentAnimal({
             ...this.props.newAnimal,
             history: [{
                 ...this.props.newAnimal.history[0],
@@ -59,7 +59,7 @@ class Add extends Component {
 
     handleType(e) {
         let Type = e.currentTarget.name === "type" ? e.currentTarget.value : null;
-        this.props.dispatch(animalInfo({
+        this.props.dispatch(currentAnimal({
             ...this.props.newAnimal,
             type: Type
         }));
@@ -71,7 +71,7 @@ class Add extends Component {
 
     handleSex(e) {
         let sex = e.target.value;
-        this.props.dispatch(animalInfo({
+        this.props.dispatch(currentAnimal({
             ...this.props.newAnimal,
             history: [{
                 ...this.props.newAnimal.history[0],
@@ -111,7 +111,7 @@ class Add extends Component {
     }
 
 	componentWillUnmount() {
-		this.props.dispatch(animalInfo({history: [{status: "lost"}], type: "dog"}))
+		this.props.dispatch(currentAnimal({history: [{status: "lost"}], type: "dog"}))
         google = undefined
 	}
 
@@ -145,7 +145,7 @@ class Add extends Component {
             }
         }
         var region = regionName !== undefined ? regionName : "Outside Defined Regions"
-        this.props.dispatch(animalInfo({
+        this.props.dispatch(currentAnimal({
             ...this.props.newAnimal,
             history: [{
                 ...this.props.newAnimal.history[0],
@@ -293,7 +293,7 @@ class Add extends Component {
 
 const LoadConnector = connect(state => {
     return {
-        newAnimal: state.animal,
+        newAnimal: state.animal.currentAnimal,
         mapData: state.mapData
     }
 })(Add)

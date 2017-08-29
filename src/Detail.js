@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 import scriptLoader from 'react-async-script-loader';
 import { connect } from 'react-redux';
-import { animalInfo } from './actions/animalActions';
+import { animalInfo, currentAnimal } from './actions/animalActions';
 import { fetchAnimal } from './actions/animalsActions';
 
 const iconUrl = '/images/mapIcons/'
@@ -15,11 +15,6 @@ var options = {
     weekday: "short", year: "numeric", month: "short",  
     day: "numeric", hour: "2-digit", minute: "2-digit"
 };
-
-// function FormatDate() {
-// 	let date = "2015-07-04"
-// 	let d = new Date(date + 'T05:00:00Z');
-// }
 
 class Detail extends Component {
 	constructor(props) {
@@ -91,7 +86,7 @@ class Detail extends Component {
 	}
 
 	componentWillUnmount() {
-		this.props.dispatch(animalInfo({history: [{status: "lost"}], type: "dog"}))
+		this.props.dispatch(currentAnimal({history: [{status: "lost"}], type: "dog"}))
 		google = undefined
 	}
 
