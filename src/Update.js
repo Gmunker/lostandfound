@@ -48,7 +48,7 @@ class Update extends Component {
 					}
 				})
 				
-				let allMarkers = [...this.props.currentAnimal.history, ...this.props.newHistory]
+				let allMarkers = [...this.props.newHistory]
 
 				allMarkers.map((event, index) => {
 					let customMarker = {
@@ -141,9 +141,10 @@ class Update extends Component {
 		e.preventDefault();
 		let newHistory = this.props.newHistory
 		let currentAnimal = this.props.currentAnimal
+		let date = new Date()
 
 		let setDate = new Promise((resolve, reject) => {
-			newHistory.date = new Date().toString()
+			newHistory.date = date.toString()
 			if(newHistory.date) {
 				resolve();
 			} else {
@@ -152,8 +153,9 @@ class Update extends Component {
 		})
 		
 		let setNewHistory = new Promise ((resolve, reject) => {
-			currentAnimal.history.push(newHistory)
-			currentAnimal.history.indexOf(newHistory) > 0 ? resolve() : reject();
+			// currentAnimal.history.push(newHistory)
+			currentAnimal.history[date] = newHistory
+			// currentAnimal.history.indexOf(newHistory) > 0 ? resolve() : reject();
 		})
 		
 		setDate
@@ -162,7 +164,7 @@ class Update extends Component {
 					.then(() => {
 						console.log(currentAnimal.id)
 						console.log(currentAnimal)
-						this.props.dispatch(updateAnimal(currentAnimal.id, currentAnimal))
+						// this.props.dispatch(updateAnimal(currentAnimal.id, currentAnimal))
 					})
 			})
 	}
