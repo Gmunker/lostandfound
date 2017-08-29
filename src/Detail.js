@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 import scriptLoader from 'react-async-script-loader';
 import { connect } from 'react-redux';
-import { animalInfo } from './actions/animalActions';
+import { animalInfo, currentAnimal } from './actions/animalActions';
 import { fetchAnimal } from './actions/animalsActions';
 
 const iconUrl = '/images/mapIcons/'
@@ -91,7 +91,7 @@ class Detail extends Component {
 	}
 
 	componentWillUnmount() {
-		this.props.dispatch(animalInfo({history: [{status: "lost"}], type: "dog"}))
+		this.props.dispatch(currentAnimal({history: [{status: "lost"}], type: "dog"}))
 		google = undefined
 	}
 
@@ -111,7 +111,6 @@ class Detail extends Component {
 	}
 
 	render() {
-    new-update-page
 		var animal = this.props.animal;
 		let loc = animal.type === "dog" ? `/dog/update/${animal.id}` : `/cat/update/${animal.id}`;		
 		let arrLength = animal.history.length
