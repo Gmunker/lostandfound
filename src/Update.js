@@ -33,8 +33,6 @@ class Update extends Component {
 	componentWillUpdate (nextProps, nextState) {		
 		let { isScriptLoaded, isScriptLoadSucceed } = nextProps;
 		var newHistory = nextProps.newHistory;
-		
-		console.log(newHistory)
 
 		if (nextProps.newHistory.lat !== null) {
 			if (isScriptLoaded && isScriptLoadSucceed) { // load finished
@@ -51,7 +49,6 @@ class Update extends Component {
 				})
 				
 				let allMarkers = [...this.props.currentAnimal.history, ...this.props.newHistory]
-				console.log(allMarkers)
 
 				allMarkers.map((event, index) => {
 					let customMarker = {
@@ -164,13 +161,13 @@ class Update extends Component {
 				setNewHistory
 					.then(() => {
 						console.log(currentAnimal.id)
-						// this.props.dispatch(updateAnimal(currentAnimal.id, currentAnimal))
+						console.log(currentAnimal)
+						this.props.dispatch(updateAnimal(currentAnimal.id, currentAnimal))
 					})
 			})
 	}
 		
 	render() {
-		console.log(this.props.currentAnimal)
 
 		return(
 			<div className="addContent content">

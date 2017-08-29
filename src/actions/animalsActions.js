@@ -14,6 +14,8 @@ export function fetchAnimals() {
             ...animals[animalId]
           });
         });
+
+        console.log(animals)
         
         let animalsWithPics = parsedAnimals.filter(animal => animal.Image)
         // let random = Math.round(Math.random() * animalsWithPics.length - 1);
@@ -29,11 +31,20 @@ export function fetchAnimal(id) {
   return function(dispatch) {
     firebaseRef.ref('/HipD/' + id)
     .on('value', (snapshot) => {
+      
+      // let history = snapshot.val().history.sort((a,b) => new Date(b.date) - new Date(a.date))
+
+      // history = history.map((x, i) => {return {...x, length: null}})
+
       let animal = {
-        ...snapshot.val(), 
+        ...snapshot.val(),
         id: id,
-        history: snapshot.val().history.sort((a,b) => new Date(b.date) - new Date(a.date))
-      } || {}; 
+        // history
+      } || {};
+
+      console.log(snapshot.val())
+      console.log(animal)
+      
       dispatch({type: "SET_ANIMAL_INFO", payload: animal})
       dispatch({type: "SET_CURRENT_ANIMAL", payload: animal})
       dispatch({type: "SET_NEW_HISTORY", payload: animal.history[animal.history.length - 1]})
