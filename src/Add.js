@@ -4,7 +4,7 @@ import Navigation from './Navigation';
 import firebase from './firebase';
 import { connect } from 'react-redux';
 import regions from './GoogleMap/geojson.json';
-import { animalInfo, currentAnimal } from './actions/animalActions';
+import { currentAnimal, setNewHistory } from './actions/animalActions';
 import scriptLoader from 'react-async-script-loader';
 
 const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
@@ -43,40 +43,36 @@ class Add extends Component {
     }    
 
     handleStatus(e) {
-        let Status = e.currentTarget.name === "status" ? e.currentTarget.value : null;
-        this.props.dispatch(currentAnimal({
-            ...this.props.newAnimal,
-            history: [{
-                ...this.props.newAnimal.history[0],
-                status: Status
-            }]
+        let status = e.currentTarget.name === "status" ? e.currentTarget.value : null;
+        this.props.dispatch(setNewHistory({
+            ...this.props.newHistory,
+            status
         }))
+
         if(marker) {
-            var location = new google.maps.LatLng(this.props.newAnimal.history[0].lat, this.props.newAnimal.history[0].lng)
-            this.replaceMarkerIcon(location, map, Status, this.props.newAnimal.type)
+            var location = new google.maps.LatLng(this.props.newHistory.lat, this.props.newHistory.lng)
+            this.replaceMarkerIcon(location, map, status, this.props.currentAnimal.type)
         }
     }
 
     handleType(e) {
-        let Type = e.currentTarget.name === "type" ? e.currentTarget.value : null;
+        let type = e.currentTarget.name === "type" ? e.currentTarget.value : null;
         this.props.dispatch(currentAnimal({
-            ...this.props.newAnimal,
-            type: Type
+            ...this.props.currentAnimal,
+            type
         }));
+        
         if(marker) {
-            var location = new google.maps.LatLng(this.props.newAnimal.history[0].lat, this.props.newAnimal.history[0].lng)
-            this.replaceMarkerIcon(location, map, this.props.newAnimal.history[0].status, Type)
+            var location = new google.maps.LatLng(this.props.newHistory.lat, this.props.newHistory.lng)
+            this.replaceMarkerIcon(location, map, this.props.newHistory.status, type)
         }
     }
 
     handleSex(e) {
         let sex = e.target.value;
-        this.props.dispatch(currentAnimal({
-            ...this.props.newAnimal,
-            history: [{
-                ...this.props.newAnimal.history[0],
-                sex
-            }]
+        this.props.dispatch(setNewHistory({
+            ...this.props.newHistory,
+            sex
         }))
     }
 
@@ -111,16 +107,17 @@ class Add extends Component {
     }
 
 	componentWillUnmount() {
-		this.props.dispatch(currentAnimal({history: [{status: "lost"}], type: "dog"}))
+        this.props.dispatch(currentAnimal({}))
+        this.props.dispatch(setNewHistory({}))
         google = undefined
 	}
 
-    replaceMarkerIcon(latLng, map, Status, Type) {
+    replaceMarkerIcon(latLng, map, status, type) {
         marker.setMap(null)
         marker = new google.maps.Marker({
             position: latLng,
             map,
-            icon: require(`./images/mapIcons/${Status}${Type}Icon.png`)
+            icon: require(`./images/mapIcons/${status}${type}Icon.png`)
         });
     }
 
@@ -131,7 +128,7 @@ class Add extends Component {
         marker = new google.maps.Marker({
             position: latLng,
             map,
-            icon: require(`./images/mapIcons/${this.props.newAnimal.history[0].status}${this.props.newAnimal.type}Icon.png`)
+            icon: require(`./images/mapIcons/${this.props.newHistory.status}${this.props.currentAnimal.type}Icon.png`)
         });
         map.panTo(latLng);
     }
@@ -145,24 +142,23 @@ class Add extends Component {
             }
         }
         var region = regionName !== undefined ? regionName : "Outside Defined Regions"
-        this.props.dispatch(currentAnimal({
-            ...this.props.newAnimal,
-            history: [{
-                ...this.props.newAnimal.history[0],
-                lat: latLng.lat(),
-                lng: latLng.lng(),
-                region: region,
-                date: new Date()
-            }]
+        this.props.dispatch(setNewHistory({
+            ...this.props.newHistory,
+            lat: latLng.lat(),
+            lng: latLng.lng(),
+            region: region,
+            date: new Date()
         }))
     }
 
     render() {
-        let newAnimal = this.props.newAnimal;
+        let newAnimal = this.props.currentAnimal;
+        let newHistory = this.props.newHistory
         var statusText;
-        newAnimal.history[0].status === "found" ?
+        newHistory.status === "found" ?
             statusText = "found" :
-            statusText = "last seen"
+            statusText = "last seen";
+
         return(
             <div className="addContent content">
                 <Navigation/>
@@ -178,7 +174,7 @@ class Add extends Component {
                                     name="status" 
                                     value="lost"
                                     onChange={this.handleStatus}
-                                    checked={newAnimal.history[0].status === "lost"}
+                                    checked={newHistory.status === "lost"}
                                 />
                                 <label htmlFor="statusLost"></label>
                             </div>
@@ -190,7 +186,7 @@ class Add extends Component {
                                     name="status"
                                     value="found" 
                                     onChange={this.handleStatus}
-                                    checked={newAnimal.history[0].status === "found"}
+                                    checked={newHistory.status === "found"}
                                 />
                                 <label htmlFor="statusFound"></label>
                             </div>
@@ -203,7 +199,7 @@ class Add extends Component {
                                     value="dog"
                                     id="typeDog"
                                     name="type"
-                                    checked={newAnimal.type === "dog"}
+                                    checked={this.props.currentAnimal.type ? this.props.currentAnimal.type === "dog" : null}
                                     onChange={this.handleType}
                                 />
                                 <label htmlFor="typeDog"></label>
@@ -215,14 +211,14 @@ class Add extends Component {
                                     value="cat"
                                     id="typeCat"
                                     name="type"
-                                    checked={newAnimal.type === "cat"}
+                                    checked={this.props.currentAnimal.type === "cat"}
                                     onChange={this.handleType}
                                 />
                                 <label htmlFor="typeCat"></label>
                             </div>
                         </div>
                         <div className="mapRow">
-                            <label>Location{newAnimal.history[0].region ? <span>: {newAnimal.history[0].region}</span> : null}
+                            <label>Location{newHistory.region ? <span>: {newHistory.region}</span> : null}
                                 <p>Click on the map to mark the location where the {newAnimal.type} was {statusText}.</p>
                             </label>
                             <div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
@@ -293,7 +289,8 @@ class Add extends Component {
 
 const LoadConnector = connect(state => {
     return {
-        newAnimal: state.animal.currentAnimal,
+        currentAnimal: state.animal.currentAnimal,
+        newHistory: state.animal.newHistory,
         mapData: state.mapData
     }
 })(Add)
