@@ -14,7 +14,15 @@ const initialState = {
     "type": "dog"
   },
   currentAnimal: {type: 'dog'},
-  newHistory: {status: "lost"}
+  currentHistory: {},
+  newHistory: {
+    "lat": null, 
+    "lng": null, 
+    "region": null,
+    "status": "lost", 
+    "UID": null,
+    "sex": "male"
+  }
 }
 
 export default function reducer(state=initialState, action) {
@@ -31,6 +39,12 @@ export default function reducer(state=initialState, action) {
         ...state,
         currentAnimal: action.payload
       } 
+     }
+     case "SET_CURRENT_HISTORY": {
+       return {
+         ...state,
+         currentHistory: action.payload
+       }
      }
      case "SET_NEW_HISTORY": {
        return {
