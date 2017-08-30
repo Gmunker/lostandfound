@@ -4,14 +4,17 @@ import logo from './images/logo.jpg';
 import { connect } from 'react-redux';
 import { fetchAnimals } from './actions/animalsActions';
 
-
 class Landing extends Component {
 
 	componentWillMount() {
 		this.props.dispatch(fetchAnimals());
 	}
+
+	componentWillUnmount() {
+		this.props.incrementViews()
+	}
+
 	render() {
-		console.log(this.props)
 		let randomAnimals = () => {
 			return this.props.animalsWithPics.map((animal) => {
 					return (

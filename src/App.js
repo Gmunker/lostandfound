@@ -17,7 +17,17 @@ import ScrollToTop from './ScrollToTop';
 import Login from './Login';
 import RegionGmap from './GoogleMap/RegionGmap';
 
+var views = false
+
 class App extends Component {
+	constructor(props) {
+		super(props)
+		this.incrementViews = this.incrementViews.bind(this)
+	}
+
+	incrementViews() {
+		views = true;
+	}
 
 	render() {
 		return (
@@ -32,7 +42,7 @@ class App extends Component {
 						<Route path="/dog/update/:id" component={Update} />
 						<Route path="/cat/update/:id" component={Update} />
 						<Route path="/login" component={Login} />>		
-						<Route path="/" component={Landing}/>
+						<Route path="/" component={() => (<Landing views={views} incrementViews={this.incrementViews}/>)}/>
 					</Switch>
 				</ScrollToTop>
 			</Router>
@@ -40,6 +50,5 @@ class App extends Component {
 	}
 }
 
-// export default scriptLoader(["https://maps.googleapis.com/maps/api/js?key=AIzaSyDiUupl6Z9qBY5J_IKupr44xM542C23Xiw&libraries=places,geometry"])(App);
 export default App;
 
