@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Navigation from './Navigation';
-import firebase from './firebase';
 import { connect } from 'react-redux';
 import regions from './GoogleMap/geojson.json';
+import { addAnimal } from './actions/firebaseActions';
 import { currentAnimal, setNewHistory } from './actions/animalActions';
 import scriptLoader from 'react-async-script-loader';
 
@@ -78,9 +78,21 @@ class Add extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.setState((state, props) => { return {...this.state, redirect: true }}, () => {
-            firebase.database().ref("HipD").push(this.props.newAnimal);
-        });
+        let date = new Date().getTime()
+
+        let setInitialHistory = new Promise((resolve, reject) => {
+            this.props.currentAnimal.history = new Object();
+            this.props.currentAnimal.history[date] = this.props.newHistory
+            this.props.currentAnimal.history[date] ? resolve() : reject()
+        })
+
+        setInitialHistory
+            .then(() => {
+                this.props.dispatch(addAnimal(this.props.currentAnimal))
+                this.setState((state, props) => { return { ...state, redirect: true }});
+                
+            })
+            .catch((e) => e)
     }
 
     componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
@@ -199,7 +211,7 @@ class Add extends Component {
                                     value="dog"
                                     id="typeDog"
                                     name="type"
-                                    checked={this.props.currentAnimal.type ? this.props.currentAnimal.type === "dog" : null}
+                                    checked={this.props.currentAnimal.type === "dog"}
                                     onChange={this.handleType}
                                 />
                                 <label htmlFor="typeDog"></label>

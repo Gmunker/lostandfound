@@ -12,6 +12,13 @@ export function currentAnimal(animal) {
   }
 }
 
+export function currentHistory(currentHistory) {
+  return {
+    type: "SET_CURRENT_HISTORY",
+    payload: currentHistory
+  }
+}
+
 export function setNewHistory(newHistory) {
   return {
     type: "SET_NEW_HISTORY",
