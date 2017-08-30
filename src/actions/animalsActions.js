@@ -7,18 +7,28 @@ export function fetchAnimals() {
       .on('value', (snapshot) => {
         let animals = snapshot.val() || {};
         let parsedAnimals = [];
-
+        let parsedHistory = [];
         Object.keys(animals).forEach((animalId) => {
+          let history = animals[animalId].history
+          Object.keys(history).forEach((historyId) => {
+            parsedHistory.push({
+              ...history[historyId],
+              date: new Date(Number(historyId)).toString()
+            })
+          })
+          parsedHistory.sort((a,b) => new Date(a.date) - new Date(b.date))
+
           parsedAnimals.push({
+            ...animals[animalId],
             id: animalId,
-            ...animals[animalId]
+            history: parsedHistory
           });
         });
+<<<<<<< HEAD
         
+=======
+>>>>>>> 1ea1a34231c0990c26f5c159b5a9c00b1f6cf582
         let animalsWithPics = parsedAnimals.filter(animal => animal.Image)
-        // let random = Math.round(Math.random() * animalsWithPics.length - 1);
-
-        // console.log(animalsWithPics)
         dispatch({type: "FETCH_ANIMALS_FULLFILLED",payload: parsedAnimals}) 
         dispatch({type: "SET_ANIMALS_WITH_PICS", payload: animalsWithPics})
       })
@@ -30,21 +40,37 @@ export function fetchAnimal(id) {
     firebaseRef.ref('/HipD/' + id)
     .on('value', (snapshot) => {
       
-      // let history = snapshot.val().history.sort((a,b) => new Date(b.date) - new Date(a.date))
+      let history = snapshot.val().history;
+      let parsedHistory = [];
 
-      // history = history.map((x, i) => {return {...x, length: null}})
+      Object.values(history).forEach((historyId) => {
+        parsedHistory.push({
+          ...historyId
+          // ...history[historyId],
+          // date: new Date(Number(historyId)).toString()
+        })
+      })
+
+      // parsedHistory.map(history => {
+      //   if (history.length) {
+      //     delete history.length
+      //   }
+      // })
+      
+      parsedHistory.sort((a,b) => new Date(a.date) - new Date(b.date))
 
       let animal = {
         ...snapshot.val(),
         id: id,
-        // history
+        history: parsedHistory
       } || {};
 
       console.log(snapshot.val())
-      console.log(animal)
+      console.log(parsedHistory)
       
       dispatch({type: "SET_ANIMAL_INFO", payload: animal})
       dispatch({type: "SET_CURRENT_ANIMAL", payload: animal})
+      dispatch({type: "SET_CURRENT_HISTORY", payload: snapshot.val().history})
       dispatch({type: "SET_NEW_HISTORY", payload: animal.history[animal.history.length - 1]})
     })
   }

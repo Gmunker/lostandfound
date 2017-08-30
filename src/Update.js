@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 import scriptLoader from 'react-async-script-loader';
 import { fetchAnimal } from './actions/animalsActions';
-import { animalInfo, currentAnimal, setNewHistory } from './actions/animalActions';
+import { animalInfo, currentAnimal, currentHistory, setNewHistory } from './actions/animalActions';
 import { updateAnimal, deleteAnimal } from './actions/firebaseActions';
 import { connect } from 'react-redux';
 import regions from './GoogleMap/geojson.json';
@@ -48,11 +48,11 @@ class Update extends Component {
 					}
 				})
 				
-				let allMarkers = [...this.props.newHistory]
+				let allMarkers = [...this.props.currentAnimal.history, {...this.props.newHistory}]
 
 				allMarkers.map((event, index) => {
 					let customMarker = {
-						url: require(`./images/mapIcons/${newHistory.status}${this.props.currentAnimal.type}IconLabel.png`),
+						url: require(`./images/mapIcons/${event.status}${this.props.currentAnimal.type}IconLabel.png`),
 						size: new google.maps.Size(53, 40),
 						origin: new google.maps.Point(0, 0),
 						anchor: new google.maps.Point(21, 41),
@@ -139,35 +139,36 @@ class Update extends Component {
 
 	handleSubmit(e) {
 		e.preventDefault();
-		let newHistory = this.props.newHistory
-		let currentAnimal = this.props.currentAnimal
-		let date = new Date()
+		let date = new Date().getTime();
 
-		let setDate = new Promise((resolve, reject) => {
-			newHistory.date = date.toString()
-			if(newHistory.date) {
-				resolve();
-			} else {
-				reject()
-			}
+		let pushNewHistoryToCurrent = new Promise((resolve, reject) => {
+			let history = this.props.currentHistory
+			history[date] = this.props.newHistory	
+			this.props.dispatch(currentHistory(history))
+			this.props.currentHistory[date] ? resolve() : reject();
 		})
-		
-		let setNewHistory = new Promise ((resolve, reject) => {
-			// currentAnimal.history.push(newHistory)
-			currentAnimal.history[date] = newHistory
-			// currentAnimal.history.indexOf(newHistory) > 0 ? resolve() : reject();
+
+		let mergeNewHistoryToAnimal = new Promise((resolve, reject) => {
+			this.props.dispatch(currentAnimal({
+				...this.props.currentAnimal,
+				history: this.props.currentHistory
+			}))
+			this.props.currentAnimal.history[date] ? resolve() : reject()
 		})
+
 		
-		setDate
+		pushNewHistoryToCurrent
 			.then(() => {
-				setNewHistory
+				console.log("Pushed New History to Current History Obj")
+				mergeNewHistoryToAnimal
 					.then(() => {
-						console.log(currentAnimal.id)
-						console.log(currentAnimal)
-						// this.props.dispatch(updateAnimal(currentAnimal.id, currentAnimal))
+						console.log(this.props.currentAnimal)
+						// this.props.dispatch(updateAnimal(this.props.currentAnimal.id, this.props.currentAnimal))										
 					})
+					.catch(e => console.log(e))
 			})
-	}
+			.catch(e => e)
+			}
 		
 	render() {
 
@@ -281,6 +282,7 @@ const LoadConnector = connect(state => {
     return {
 				animal: state.animal.animal,
 				currentAnimal: state.animal.currentAnimal,
+				currentHistory: state.animal.currentHistory,
 				newHistory: state.animal.newHistory
     }
 })(Update);
