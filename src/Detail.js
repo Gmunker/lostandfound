@@ -31,15 +31,13 @@ class Detail extends Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		let { isScriptLoaded, isScriptLoadSucceed } = nextProps;
-		if (isScriptLoaded && isScriptLoadSucceed) {
-			if (this.props.currentAnimal.history === nextProps.currentAnimal.history) {
-				return true
-			}
+		if (isScriptLoaded && isScriptLoadSucceed && nextProps.currentAnimal.history !== undefined) {
+			return true
 		}
 		return false
 	}
 
-	componentWillUpdate (nextProps, nextState) {
+	componentDidUpdate (nextProps, nextState) {
 		let animal = nextProps.currentAnimal
 		google = window.google;
 		map = new google.maps.Map(this.refs.map, {
