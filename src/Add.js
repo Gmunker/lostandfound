@@ -17,21 +17,52 @@ let currentPoly
 
 class Add extends Component {
     constructor(props) {
-    super(props);
-    this.state = {
-        redirect: false,
-        pos: null
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleStatus = this.handleStatus.bind(this);
-    this.handleSex = this.handleSex.bind(this);
-    this.handleType = this.handleType.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.placeMarkerAndPanTo = this.placeMarkerAndPanTo.bind(this);
-    this.findRegion = this.findRegion.bind(this);
-    this.replaceMarkerIcon = this.replaceMarkerIcon.bind(this);
-}
+        super(props);
+        this.state = {
+            redirect: false,
+            pos: null,
+            sex: "male",
+            status: "lost"
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleStatus = this.handleStatus.bind(this);
+        this.handleSex = this.handleSex.bind(this);
+        this.handleType = this.handleType.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.placeMarkerAndPanTo = this.placeMarkerAndPanTo.bind(this);
+        this.findRegion = this.findRegion.bind(this);
+        this.replaceMarkerIcon = this.replaceMarkerIcon.bind(this);
+    }
 
+    // Lifecycle Methods
+    componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
+        if(google === undefined) {
+            if (isScriptLoaded && isScriptLoadSucceed) {
+                google = window.google
+                map = new google.maps.Map(this.refs.map, {
+                    zoom: 12,
+                    gestureHandling: 'greedy',
+                    disableDefaultUI: true,
+                    fullscreenControl: true,
+                    center: {
+                        lat: 36.170295,
+                        lng: -86.674846
+                    }
+                })
+                map.addListener('click', function(e) {
+                    this.findRegion(e.latLng, google);
+                    
+                    this.placeMarkerAndPanTo(e.latLng, map);
+                }.bind(this));
+            }
+        }
+    }
+
+    componentWillUnmount() {
+        google = undefined
+    }
+
+    // Form Methods
     handleChange(e) {
         let ref = this.refs;
         this.props.dispatch(currentAnimal({
@@ -79,7 +110,6 @@ class Add extends Component {
     handleSubmit(e) {
         e.preventDefault();
         let date = new Date().getTime()
-
         let setInitialHistory = new Promise((resolve, reject) => {
             this.props.currentAnimal.history = new Object();
             this.props.currentAnimal.history[date] = this.props.newHistory
@@ -88,42 +118,12 @@ class Add extends Component {
 
         setInitialHistory
             .then(() => {
+                this.setState({redirect: true})
                 this.props.dispatch(addAnimal(this.props.currentAnimal))
-                this.setState((state, props) => { return { ...state, redirect: true }});
-                
-            })
-            .catch((e) => e)
+            }).catch((e) => e)
     }
-
-    componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
-        if(google === undefined) {
-            if (isScriptLoaded && isScriptLoadSucceed) {
-                google = window.google
-                map = new google.maps.Map(this.refs.map, {
-                    zoom: 12,
-                    gestureHandling: 'greedy',
-                    disableDefaultUI: true,
-                    fullscreenControl: true,
-                    center: {
-                        lat: 36.170295,
-                        lng: -86.674846
-                    }
-                })
-                map.addListener('click', function(e) {
-                    this.findRegion(e.latLng, google);
-                    
-                    this.placeMarkerAndPanTo(e.latLng, map);
-                }.bind(this));
-            }
-        }
-    }
-
-	componentWillUnmount() {
-        this.props.dispatch(currentAnimal({}))
-        this.props.dispatch(setNewHistory({}))
-        google = undefined
-	}
-
+    
+    // Map Methods
     replaceMarkerIcon(latLng, map, status, type) {
         marker.setMap(null)
         marker = new google.maps.Marker({
@@ -170,7 +170,6 @@ class Add extends Component {
         newHistory.status === "found" ?
             statusText = "found" :
             statusText = "last seen";
-
         return(
             <div className="addContent content">
                 <Navigation/>

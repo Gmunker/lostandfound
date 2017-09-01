@@ -11,6 +11,7 @@ import regions from './GoogleMap/geojson.json';
 var google
 var map
 var marker
+
 class Update extends Component {
 	constructor(props) {
 		super(props)
@@ -22,6 +23,7 @@ class Update extends Component {
 		this.findRegion = this.findRegion.bind(this);
 	}
 	
+	// Lifecycle Methods
 	componentWillMount() {
 		this.props.dispatch(fetchAnimal(this.props.match.params.id))
 	}
@@ -30,7 +32,7 @@ class Update extends Component {
 		return this.props.newHistory !== nextProps.newHistory || true;
 	}
 
-	componentWillUpdate (nextProps, nextState) {		
+	componentWillUpdate (nextProps, nextState) {
 		let { isScriptLoaded, isScriptLoadSucceed } = nextProps;
 		var newHistory = nextProps.newHistory;
 
@@ -83,11 +85,16 @@ class Update extends Component {
 		}
 	}
 
+	componentDidUpdate(nextProps) {
+		// this.setState({newEvent: nextProps.currentAnimal})
+	}
+
 	componentWillUnmount() {
-			this.props.dispatch(animalInfo({history: [{status: "lost"}], type: "dog"}))
-			google = undefined
+		this.props.dispatch(currentAnimal({history: [{status: "lost"}], type: "dog"}))
+		google = undefined
 	}
 	
+	// Form Methods
 	handleChange(event) {   
 		event.preventDefault();
 			let ref = this.refs;
@@ -108,34 +115,7 @@ class Update extends Component {
 	handleSex(e) {
 			let sex = e.target.value;
 			this.props.dispatch(setNewHistory({ ...this.props.newHistory, sex }))
-	}
-	
-	placeMarkerAndPanTo(latLng, map, animalHistory) {
-		marker = new google.maps.Marker({
-			position: latLng,
-			map,
-			icon: require(`./images/mapIcons/${this.props.newHistory.status}${this.props.currentAnimal.type}IconLabel.png`)
-		});
-		map.panTo(latLng);
-	}
-
-	findRegion(latLng, google) {
-		let regionName;
-		for(let i=0; i<regions.length;i++) {
-			let currentPoly = new google.maps.Polygon({paths: regions[i].polygon});
-			if(google.maps.geometry.poly.containsLocation(latLng, currentPoly)) {
-				regionName = regions[i].name;
-			}
-		}
-		
-		let region = regionName !== undefined ? regionName : "Outside Defined Regions"
-		this.props.dispatch(setNewHistory({
-			...this.props.newHistory,
-			lat: latLng.lat(),
-			lng: latLng.lng(),
-			region: region
-		}))
-	}
+	}	
 
 	handleSubmit(e) {
 		e.preventDefault();
@@ -155,23 +135,48 @@ class Update extends Component {
 			}))
 			this.props.currentAnimal.history[date] ? resolve() : reject()
 		})
-
 		
 		pushNewHistoryToCurrent
 			.then(() => {
-				console.log("Pushed New History to Current History Obj")
+				// console.log("Pushed New History to Current History Obj")
 				mergeNewHistoryToAnimal
 					.then(() => {
-						console.log(this.props.currentAnimal)
 						// this.props.dispatch(updateAnimal(this.props.currentAnimal.id, this.props.currentAnimal))										
 					})
-					.catch(e => console.log(e))
+					.catch(e => e)
 			})
-			.catch(e => e)
+			.catch((e) => e)
+		}
+
+		// Map Methods
+		placeMarkerAndPanTo(latLng, map, animalHistory) {
+			marker = new google.maps.Marker({
+				position: latLng,
+				map,
+				icon: require(`./images/mapIcons/${this.props.newHistory.status}${this.props.currentAnimal.type}IconLabel.png`)
+			});
+			map.panTo(latLng);
+		}
+	
+		findRegion(latLng, google) {
+			let regionName;
+			for(let i=0; i<regions.length;i++) {
+				let currentPoly = new google.maps.Polygon({paths: regions[i].polygon});
+				if(google.maps.geometry.poly.containsLocation(latLng, currentPoly)) {
+					regionName = regions[i].name;
+				}
 			}
+			
+			let region = regionName !== undefined ? regionName : "Outside Defined Regions"
+			this.props.dispatch(setNewHistory({
+				...this.props.newHistory,
+				lat: latLng.lat(),
+				lng: latLng.lng(),
+				region: region
+			}))
+		}
 		
 	render() {
-
 		return(
 			<div className="addContent content">
 				
