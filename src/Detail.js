@@ -19,8 +19,7 @@ var options = {
 class Detail extends Component {
 	constructor(props) {
 		super(props)
-		let animalID = this.props.match.params.id
-		this.props.dispatch(fetchAnimal(animalID))
+		
 		this.state = {
 			activeIndex: null,
 			activeRegion: null
@@ -29,18 +28,28 @@ class Detail extends Component {
 		this.panTo = this.panTo.bind(this)
 	}
 
-	shouldComponentUpdate(nextProps, nextState) {
-		let { isScriptLoaded, isScriptLoadSucceed } = nextProps;
-		if (isScriptLoaded && isScriptLoadSucceed) {
-			if (this.props.currentAnimal.history === nextProps.currentAnimal.history) {
-				return true
-			}
-		}
-		return false
+	componentWillMount() {
+		let animalID = this.props.match.params.id
+		this.props.dispatch(fetchAnimal(animalID))
 	}
 
-	componentWillUpdate (nextProps, nextState) {
-		let animal = nextProps.currentAnimal
+	shouldComponentUpdate(nextProps, nextState) {
+		console.log(this.props)
+		console.log(nextProps)
+		let { isScriptLoaded, isScriptLoadSucceed } = this.props;
+		if (isScriptLoaded && isScriptLoadSucceed) {
+			if (nextProps.currentAnimal.history.length > 0) {
+				return true
+			} else {
+				return false
+			}
+		} 
+	}
+
+	componentDidUpdate (nextProps, nextState) {
+	console.log(this.props)
+	console.log(nextProps)
+		let animal = this.props.currentAnimal
 		google = window.google;
 		map = new google.maps.Map(this.refs.map, {
 			zoom: 14,
