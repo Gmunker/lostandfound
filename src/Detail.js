@@ -34,11 +34,9 @@ class Detail extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		console.log(this.props)
-		console.log(nextProps)
-		let { isScriptLoaded, isScriptLoadSucceed } = this.props;
-		if (isScriptLoaded && isScriptLoadSucceed) {
-			if (nextProps.currentAnimal.history.length > 0) {
+		// let { isScriptLoaded, isScriptLoadSucceed } = nextProps;
+		if ((nextProps.isScriptLoaded && nextProps.isScriptLoadSucceed) || (this.props.isScriptLoaded && this.props.isScriptLoadSucceed)) {
+			if (nextProps.currentAnimal.history || this.props.currentAnimal.history) {
 				return true
 			} else {
 				return false
