@@ -13,7 +13,9 @@ const initialState = {
 		},
 		"type": "dog"
   	},
-  	currentAnimal: {type: 'dog'},
+  	currentAnimal: {
+		  type: 'dog'
+		},
   	currentHistory: {},
   	newHistory: {
 		"lat": null, 
