@@ -66,7 +66,7 @@ class Add extends Component {
     handleChange(e) {
         let ref = this.refs;
         this.props.dispatch(currentAnimal({
-            ...this.props.newAnimal,
+            ...this.props.currentAnimal,
             name: ref.name.value,
             color: ref.color.value,
             breed: ref.breed.value

@@ -19,7 +19,6 @@ var options = {
 class Detail extends Component {
 	constructor(props) {
 		super(props)
-		
 		this.state = {
 			activeIndex: null,
 			activeRegion: null
@@ -45,8 +44,6 @@ class Detail extends Component {
 	}
 
 	componentDidUpdate (nextProps, nextState) {
-	console.log(this.props)
-	console.log(nextProps)
 		let animal = this.props.currentAnimal
 		google = window.google;
 		map = new google.maps.Map(this.refs.map, {
@@ -86,7 +83,7 @@ class Detail extends Component {
 	}
 
 	componentWillUnmount() {
-		this.props.dispatch(currentAnimal({}))
+		this.props.dispatch(currentAnimal({type: "dog"}))
 		google = undefined
 	}
 
@@ -121,23 +118,23 @@ class Detail extends Component {
 					lng: event.lng
 				}
 				var zeroEvent
-				if (animal.history[0].lat !== null) {
+				if (animal.history[0].region !== undefined) {
 					zeroEvent = animal.history[0]
+					return(
+						<EventItem 
+							key={index} 
+							onClick={(event) => {this.handleClick(); this.panTo(latLng);}}
+							index={index}
+							isActive={this.state.activeIndex === index}
+							event={event}
+							eventIndex={eventIndex}
+							latLng={latLng}
+							handleClick={this.handleClick}
+							panTo={this.panTo}
+							zeroEvent={zeroEvent}
+						/>
+					)
 				}
-				return(
-					<EventItem 
-						key={index} 
-						onClick={(event) => {this.handleClick(); this.panTo(latLng);}}
-						index={index}
-						isActive={this.state.activeIndex === index}
-						event={event}
-						eventIndex={eventIndex}
-						latLng={latLng}
-						handleClick={this.handleClick}
-						panTo={this.panTo}
-						zeroEvent={zeroEvent}
-					/>
-				)
 			})
 			return(
 				<div className="content">
@@ -167,7 +164,7 @@ class Detail extends Component {
 								</tbody>
 							</table>
 						</div>
-						<Link className="Button" to={'/list'}>Update</Link> {/*to={loc}*/}
+						<Link className="Button" to={loc}>Update</Link>
 					</div>
 				</div>
 			)
@@ -176,8 +173,7 @@ class Detail extends Component {
 }
 
 class EventItem extends Component {
-
-	componentWillMount() {
+	componentDidMount() {
 		if (this.props.zeroEvent) {
 			var zeroEvent = this.props.zeroEvent
 			var zeroLatLng = {
@@ -207,7 +203,6 @@ class EventItem extends Component {
 
 const LoadConnector = connect(state => {
   return{
-		animal: state.animal.animal,
 		currentAnimal: state.animal.currentAnimal
   }
 })(Detail)
