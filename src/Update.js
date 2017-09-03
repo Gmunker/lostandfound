@@ -11,13 +11,21 @@ import regions from './GoogleMap/geojson.json';
 var google
 var map
 var marker
-var counter = 0
+var newMarker
+// var newHistory = {
+// 	region: null,
+// 	lat: null,
+// 	lng: null,
+// 	UID: null,
+// 	status: null,
+// 	sex: null,
+// }
 
 class Update extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			newAnimal: null
+			newHistory: null
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleStatus = this.handleStatus.bind(this);
@@ -44,28 +52,29 @@ class Update extends Component {
 	}
 	
 	componentWillReceiveProps(nextProps, nextState) {
-		console.log(this.props.currentAnimal)
-		console.log(nextProps.currentAnimal)
 		if (nextProps.currentAnimal !== this.props.currentAnimal) {
-			console.log(this.props.newAnimal)
-			console.log(nextProps.currentAnimal)
-			var currentAnimal = nextProps.currentAnimal.history[0]
-			nextProps.currentAnimal.history.unshift(currentAnimal)
-			// console.log(this.state.newAnimal)
-			if(this.state.newAnimal === null) {
-				this.setState({
-					newAnimal: nextProps.currentAnimal
-				})
+			if(this.state.newHistory === null) {
+				this.state.newHistory = nextProps.currentAnimal.history[0]
+				return true
 			}
+			return true
+			// console.log(this.props.newAnimal)
+			// console.log(nextProps.currentAnimal)
+			// var currentAnimal = nextProps.currentAnimal.history[0]
+			// nextProps.currentAnimal.history.unshift(currentAnimal)
+			// console.log(this.state.newAnimal)
+			// if(this.state.newAnimal === null) {
+			// 	this.setState({
+			// 		newAnimal: nextProps.currentAnimal
+			// 	})
+			// }
 		}
+		return false
 	}
 
 	componentDidUpdate (nextProps, nextState) {
-		console.log(this.state)
-		var currentAnimal = this.props.currentAnimal;
+		var currentAnimal = this.props.currentAnimal
 		google = window.google;
-
-		// Pull in defaults from props. Push a new history with the last instance of historys data. Overwrite the last history and animal data	
 
 		map = new google.maps.Map(this.refs.map, {
 			zoom: 14,
@@ -81,34 +90,39 @@ class Update extends Component {
 		let arrLength = currentAnimal.history.length;
 
 		currentAnimal.history.map((event, index) => {
-			if (index > 0) {
-				var customMarker = {
-					url: require(`./images/mapIcons/${currentAnimal.history[index].status}${currentAnimal.type}IconLabel.png`),
-					size: new google.maps.Size(53, 40),
-					origin: new google.maps.Point(0, 0),
-					anchor: new google.maps.Point(21, 41),
-					labelOrigin: new google.maps.Point(40, 16)
-				}
-				var markerLabel = (arrLength - 1).toString()
-				marker = new google.maps.Marker({
-					position: {
-						lat: event.lat,
-						lng: event.lng
-					},
-					map,
-					icon: customMarker,
-					label: {
-						text: markerLabel,
-						fontWeight: "bold"
-					}
-				})
-				arrLength -= 1
+			var customMarker = {
+				url: require(`./images/mapIcons/${currentAnimal.history[index].status}${currentAnimal.type}IconLabel.png`),
+				size: new google.maps.Size(53, 40),
+				origin: new google.maps.Point(0, 0),
+				anchor: new google.maps.Point(21, 41),
+				labelOrigin: new google.maps.Point(40, 16)
 			}
+			var markerLabel = (arrLength).toString()
+			marker = new google.maps.Marker({
+				position: {
+					lat: event.lat,
+					lng: event.lng
+				},
+				map,
+				icon: customMarker,
+				label: {
+					text: markerLabel,
+					fontWeight: "bold"
+				}
+			})
+			arrLength -= 1
 		})
 		
 		map.addListener('click', function(e) {
-			// this.findRegion(e.latLng, google)
-			this.placeMarkerAndPanTo(e.latLng, map, google, currentAnimal)
+			this.setState({
+				newHistory: {
+					...this.state.newHistory,
+					lat: e.latLng.lat(),
+					lng: e.latLng.lng(),
+					region: this.findRegion(e.latLng, google)
+				}
+			})
+			this.placeMarkerAndPanTo(e.latLng, map, google)
 		}.bind(this))
 	}
 
@@ -131,55 +145,94 @@ class Update extends Component {
 
 	handleStatus(e) {
 		let status = e.currentTarget.name === "status" ? e.currentTarget.value : null;
-		this.props.dispatch(setNewHistory({ ...this.props.newHistory, status }))
+		// this.props.dispatch(setNewHistory({ ...this.props.newHistory, status }))
+		this.setState({
+			newHistory: {
+				...this.state.newHistory,
+				status
+			}
+		})
 	}
 
 	handleSex(e) {
 		let sex = e.target.value;
-		this.props.dispatch(setNewHistory({ ...this.props.newHistory, sex }))
+		// this.props.dispatch(setNewHistory({ ...this.props.newHistory, sex }))
+		this.setState({
+			newHistory: {
+				...this.state.newHistory,
+				sex
+			}
+		})
 	}	
 
 	handleSubmit(e) {
-		e.preventDefault();
-		let date = new Date().getTime();
-
-		let pushNewHistoryToCurrent = new Promise((resolve, reject) => {
-			let history = this.props.currentHistory
-			history[date] = this.props.newHistory	
-			this.props.dispatch(currentHistory(history))
-			this.props.currentHistory[date] ? resolve() : reject();
-		})
-
-		let mergeNewHistoryToAnimal = new Promise((resolve, reject) => {
-			this.props.dispatch(currentAnimal({
-				...this.props.currentAnimal,
-				history: this.props.currentHistory
-			}))
-			this.props.currentAnimal.history[date] ? resolve() : reject()
-		})
+		// e.preventDefault();
+		let date = new Date()
+		let newHistory = this.state.newHistory
+		newHistory = {
+			...newHistory,
+			date
+		}
+		// Did History change
+		if (this.state.newHistory === this.props.currentAnimal.history[0]) {
+			// History has not changed. Push the currentAnimal
+			console.log("Same")
+		} else {
+			// History has changed. Add the history in state to the top of the currentAnimal.history array
+			this.props.currentAnimal.history.push(newHistory)
+			// Do something amazing in a loop that grabs the new date and keys each item in history with that transformed date
+			var history = {};
+			for (var i = 0; i < this.props.currentAnimal.history.length; ++i) {
+				var key = this.props.currentAnimal.history[i].date.getTime()
+				delete this.props.currentAnimal.history[i].date
+				history[key] = this.props.currentAnimal.history[i];
+			}
+			let newCurrent = this.props.currentAnimal
+			newCurrent = {
+				...newCurrent,
+				history: {
+					...history
+				}
+			}
+			this.props.dispatch(updateAnimal(newCurrent.id, newCurrent))
+		}
 		
-		pushNewHistoryToCurrent.then(() => {
-			// console.log("Pushed New History to Current History Obj")
-			mergeNewHistoryToAnimal.then(() => {
-				// this.props.dispatch(updateAnimal(this.props.currentAnimal.id, this.props.currentAnimal))										
-			}).catch(e => e)
-		}).catch((e) => e)
+		// let date = new Date().getTime();
+
+		// let pushNewHistoryToCurrent = new Promise((resolve, reject) => {
+		// 	let history = this.props.currentHistory
+		// 	history[date] = this.props.newHistory	
+		// 	this.props.dispatch(currentHistory(history))
+		// 	this.props.currentHistory[date] ? resolve() : reject();
+		// })
+
+		// let mergeNewHistoryToAnimal = new Promise((resolve, reject) => {
+		// 	this.props.dispatch(currentAnimal({
+		// 		...this.props.currentAnimal,
+		// 		history: this.props.currentHistory
+		// 	}))
+		// 	this.props.currentAnimal.history[date] ? resolve() : reject()
+		// })
+		
+		// pushNewHistoryToCurrent.then(() => {
+		// 	// console.log("Pushed New History to Current History Obj")
+		// 	mergeNewHistoryToAnimal.then(() => {
+		// 		// this.props.dispatch(updateAnimal(this.props.currentAnimal.id, this.props.currentAnimal))										
+		// 	}).catch(e => e)
+		// }).catch((e) => e)
 	}
 
 	// Map Methods
-	placeMarkerAndPanTo(latLng, map, google, currentAnimal) {
-		currentAnimal.history[0].region = "Frank"
-		// const newHistory = this.state.currentAnimal.history
-		// this.state.currentAnimal.history[0].lat = latLng.lat()
-		this.setState({
-			newAnimal: currentAnimal
-		}, () => { console.log(this.state.newAnimal) })
-		// marker = new google.maps.Marker({
-		// 	position: latLng,
-		// 	map,
-		// 	icon: require(`./images/mapIcons/${this.props.newHistory.status}${this.props.currentAnimal.type}IconLabel.png`)
-		// });
-		// map.panTo(latLng);
+	placeMarkerAndPanTo(latLng, map, google) {
+		map.panTo(latLng);
+		if(newMarker !== undefined) {
+            newMarker.setMap(null)
+		}
+		newMarker = new google.maps.Marker({
+			position: latLng,
+			map,
+			icon: require(`./images/mapIcons/${this.state.newHistory.status}${this.props.currentAnimal.type}IconLabel.png`)
+		});
 	}
 
 	findRegion(latLng, google) {
@@ -193,12 +246,6 @@ class Update extends Component {
 		
 		let region = regionName !== undefined ? regionName : "Outside Defined Regions"
 		return region
-		// this.props.dispatch(setNewHistory({
-		// 	...this.props.newHistory,
-		// 	lat: latLng.lat(),
-		// 	lng: latLng.lng(),
-		// 	region: region
-		// }))
 	}
 		
 	render() {
@@ -223,7 +270,7 @@ class Update extends Component {
 										name="status" 
 										onChange={this.handleStatus} 
 										value="lost" 
-										checked={animal.status === "lost"}
+										checked={this.state.newHistory.status === "lost"}
 									/>
 									<label htmlFor="statusLost"></label>
 								</div>
@@ -235,7 +282,7 @@ class Update extends Component {
 										name="status" 
 										onChange={this.handleStatus} 
 										value="found" 
-										checked={animal.status === "found"}
+										checked={this.state.newHistory.status === "found"}
 									/>
 									<label htmlFor="statusFound"></label>
 								</div>
@@ -261,7 +308,7 @@ class Update extends Component {
 									id="sex" 
 									ref="gender" 
 									onChange={this.handleSex} 
-									value={animal.sex}
+									value={this.state.newHistory.sex}
 								>
 									<option value={"male"}>Male</option>
 									<option value={"female"}>Female</option>
