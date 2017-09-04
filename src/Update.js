@@ -17,7 +17,7 @@ class Update extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			currentAnimal: null
+			newAnimal: null
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleStatus = this.handleStatus.bind(this);
@@ -48,15 +48,26 @@ class Update extends Component {
 				}
 		}
 	}
-
-	componentWillUpdate (nextProps, nextState) {
-		if (nextState.currentAnimal.id) {
-			console.log("COMPONENT WILL UPDATE")
-			nextState.currentAnimal.history.unshift(nextProps.currentAnimal.history[0])
+	
+	componentWillReceiveProps(nextProps, nextState) {
+		console.log(this.props.currentAnimal)
+		console.log(nextProps.currentAnimal)
+		if (nextProps.currentAnimal !== this.props.currentAnimal) {
+			console.log(this.props.newAnimal)
+			console.log(nextProps.currentAnimal)
+			var currentAnimal = nextProps.currentAnimal.history[0]
+			nextProps.currentAnimal.history.unshift(currentAnimal)
+			// console.log(this.state.newAnimal)
+			if(this.state.newAnimal === null) {
+				this.setState({
+					newAnimal: nextProps.currentAnimal
+				})
+			}
 		}
 	}
 
 	componentDidUpdate (nextProps, nextState) {
+		console.log(this.state)
 		var currentAnimal = this.props.currentAnimal;
 		google = window.google;
 
@@ -154,6 +165,7 @@ class Update extends Component {
 		})
 		
 		pushNewHistoryToCurrent.then(() => {
+			// console.log("Pushed New History to Current History Obj")
 			mergeNewHistoryToAnimal.then(() => {
 				// this.props.dispatch(updateAnimal(this.props.currentAnimal.id, this.props.currentAnimal))										
 			}).catch(e => e)
@@ -162,17 +174,12 @@ class Update extends Component {
 
 	// Map Methods
 	placeMarkerAndPanTo(latLng, map, google, currentAnimal) {
-		// currentAnimal.history[0].region = "Frank"
-		
-		
-		console.log("PLACE MARKER AND PAN TO")
+		currentAnimal.history[0].region = "Frank"
 		// const newHistory = this.state.currentAnimal.history
 		// this.state.currentAnimal.history[0].lat = latLng.lat()
-
-		// this.setState({
-		// 	currentAnimal: currentAnimal
-		// }, () => { console.log("Place Marker Console Log"); console.log(this.state.currentAnimal) })
-		
+		this.setState({
+			newAnimal: currentAnimal
+		}, () => { console.log(this.state.newAnimal) })
 		// marker = new google.maps.Marker({
 		// 	position: latLng,
 		// 	map,
