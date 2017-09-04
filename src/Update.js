@@ -33,6 +33,7 @@ class Update extends Component {
 		this.handleSex = this.handleSex.bind(this);
 		this.placeMarkerAndPanTo = this.placeMarkerAndPanTo.bind(this);
 		this.findRegion = this.findRegion.bind(this);
+		this.replaceMarkerIcon = this.replaceMarkerIcon.bind(this);
 	}
 	
 	// Lifecycle Methods
@@ -151,6 +152,10 @@ class Update extends Component {
 				...this.state.newHistory,
 				status
 			}
+		}, () => {
+			if(newMarker !== undefined) {
+				this.replaceMarkerIcon()
+			}
 		})
 	}
 
@@ -176,7 +181,21 @@ class Update extends Component {
 		// Did History change
 		if (this.state.newHistory === this.props.currentAnimal.history[0]) {
 			// History has not changed. Push the currentAnimal
-			console.log("Same")
+			var history = {};
+			for (var i = 0; i < this.props.currentAnimal.history.length; ++i) {
+				var key = this.props.currentAnimal.history[i].date.getTime()
+				delete this.props.currentAnimal.history[i].date
+				history[key] = this.props.currentAnimal.history[i];
+			}
+			let newCurrent = this.props.currentAnimal
+			newCurrent = {
+				...newCurrent,
+				history: {
+					...history
+				}
+			}
+			this.props.dispatch(updateAnimal(newCurrent.id, newCurrent))
+		
 		} else {
 			// History has changed. Add the history in state to the top of the currentAnimal.history array
 			this.props.currentAnimal.history.push(newHistory)
@@ -223,6 +242,20 @@ class Update extends Component {
 	}
 
 	// Map Methods
+
+	replaceMarkerIcon() {
+        newMarker.setMap(null)
+        newMarker = new google.maps.Marker({
+            position: {
+				lat: this.state.newHistory.lat,
+				lng: this.state.newHistory.lng
+			},
+            map,
+            icon: require(`./images/mapIcons/${this.state.newHistory.status}${this.props.currentAnimal.type}Icon.png`)
+		});
+		map.panTo(newMarker.position);
+    }
+
 	placeMarkerAndPanTo(latLng, map, google) {
 		map.panTo(latLng);
 		if(newMarker !== undefined) {
@@ -231,7 +264,7 @@ class Update extends Component {
 		newMarker = new google.maps.Marker({
 			position: latLng,
 			map,
-			icon: require(`./images/mapIcons/${this.state.newHistory.status}${this.props.currentAnimal.type}IconLabel.png`)
+			icon: require(`./images/mapIcons/${this.state.newHistory.status}${this.props.currentAnimal.type}Icon.png`)
 		});
 	}
 
@@ -349,7 +382,7 @@ class Update extends Component {
 								<Link
 								to="/list"
 								className="formButton" 
-								onClick={() => this.props.dispatch(deleteAnimal(animal.id))}
+								onClick={() => this.props.dispatch(deleteAnimal(currentAnimal.id))}
 							>Delete</Link>
 							<span className="formIndicia">* Required Field</span>
 						</form>
