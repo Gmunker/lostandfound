@@ -184,7 +184,9 @@ class Update extends Component {
 			...newHistory,
 			date
 		}
-		// Did History change
+		// Start by checking these two since I implemented the sort
+		// console.log(this.state.newHistory)
+		// console.log(this.props.currentAnimal.history[0])
 		if (this.state.newHistory === this.props.currentAnimal.history[0]) {
 			// History has not changed. Push the currentAnimal
 			var history = {};
@@ -288,7 +290,6 @@ class Update extends Component {
 	}
 		
 	render() {
-		console.log(this.state)
 		let animal = this.props.currentAnimal
 		if(!animal.history) {
 			return(
@@ -385,7 +386,7 @@ class Update extends Component {
 								to="/list"
 								className="formButton" 
 								onClick={this.handleSubmit} 
-								>Update</Link>
+								>Submit</Link>
 								<Link
 								to="/list"
 								className="formButton" 
