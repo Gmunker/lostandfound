@@ -33,14 +33,15 @@ class Detail extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-        if ((nextProps.isScriptLoaded && nextProps.isScriptLoadSucceed) || (this.props.isScriptLoaded && this.props.isScriptLoadSucceed)) {
-            if (nextProps.currentAnimal.history || this.props.currentAnimal.history) {
-                return true
-            } else {
-                return false
-            }
-        }
-    }
+		// let { isScriptLoaded, isScriptLoadSucceed } = nextProps;
+		if ((nextProps.isScriptLoaded && nextProps.isScriptLoadSucceed) || (this.props.isScriptLoaded && this.props.isScriptLoadSucceed)) {
+			if (nextProps.currentAnimal.history || this.props.currentAnimal.history) {
+				return true
+			} else {
+				return false
+			}
+		} 
+	}
 
 	componentDidUpdate (nextProps, nextState) {
 		let animal = this.props.currentAnimal
