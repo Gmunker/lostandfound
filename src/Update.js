@@ -33,20 +33,14 @@ class Update extends Component {
 		this.props.dispatch(fetchAnimal(animalID))
 	}
 
-	componentWillReceiveProps(nextProps, nextState) {
-		if (this.props.currentAnimal.id !== nextProps.currentAnimal.id) {
-			this.setState((state, props) => { return { currentAnimal: nextProps.currentAnimal }});
-		}
-	}
-
 	shouldComponentUpdate(nextProps, nextState) {
-		if ((nextProps.isScriptLoaded && nextProps.isScriptLoadSucceed) || (this.props.isScriptLoaded && this.props.isScriptLoadSucceed)) {
-				if ((nextProps.currentAnimal.history || this.props.currentAnimal.history)) {
-						return true
-				} else {
-						return false
-				}
-		}
+        if ((nextProps.isScriptLoaded && nextProps.isScriptLoadSucceed) || (this.props.isScriptLoaded && this.props.isScriptLoadSucceed)) {
+            if (nextProps.currentAnimal.history || this.props.currentAnimal.history) {
+                return true
+            } else {
+                return false
+            }
+        }
 	}
 	
 	componentWillReceiveProps(nextProps, nextState) {
@@ -208,7 +202,6 @@ class Update extends Component {
 	}
 		
 	render() {
-		console.log(this.state)
 		let animal = this.props.currentAnimal
 		if(!animal.history) {
 			return(
