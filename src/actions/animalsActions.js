@@ -32,6 +32,7 @@ export function fetchAnimals() {
 export function fetchAnimal(id) {
   	return function(dispatch) {
 		firebaseRef.ref('/HipD/' + id).on('value', (snapshot) => {
+<<<<<<< HEAD
 			let history = snapshot.val().history;
 
 			let orderedHistory = {}
@@ -46,22 +47,26 @@ export function fetchAnimal(id) {
 				var utcSeconds = keys[i];
 				var date = new Date(0);
 				date.setUTCMilliseconds(utcSeconds);
+=======
+			
+			let parsedHistory = [];
+			let history = snapshot.val().history
+			Object.keys(history).forEach(historyID => {
+>>>>>>> da0298ddaa6b5e924060b6f21bc26928ee0d7b7d
 				parsedHistory.push({
-					...values[i],
-					date
+					...history[historyID],
+					date: new Date().setTime(historyID)
 				})
-			}
-			// parsedHistory.sort((a,b) => new Date(a.date) - new Date(b.date))
+			})
+			parsedHistory.sort((a,b) => new Date(b.date) - new Date(a.date))
+
 			let animal = {
 				...snapshot.val(),
 				id: id,
 				history: parsedHistory.reverse()
 			} || {};
 
-			// dispatch({type: "SET_ANIMAL_INFO", payload: animal})
 			dispatch({type: "SET_CURRENT_ANIMAL", payload: animal})
-			// dispatch({type: "SET_CURRENT_HISTORY", payload: snapshot.val().history})
-			// dispatch({type: "SET_NEW_HISTORY", payload: animal.history[animal.history.length - 1]})
 		})
-  	}
+  }
 }
