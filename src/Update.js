@@ -81,56 +81,62 @@ class Update extends Component {
 
 	componentDidUpdate (nextProps, nextState) {
 		var currentAnimal = this.props.currentAnimal
-		google = window.google;
 
-		map = new google.maps.Map(this.refs.map, {
-			zoom: 14,
-			gestureHandling: 'greedy',
-			disableDefaultUI: true,
-			fullscreenControl: true,
-			center: {
-				lat: currentAnimal.history[0].lat,
-				lng: currentAnimal.history[0].lng
-			}
-		})
+		if (google === undefined) {
 
-		let arrLength = currentAnimal.history.length;
+			google = window.google;
 
-		currentAnimal.history.map((event, index) => {
-			var customMarker = {
-				url: require(`./images/mapIcons/${currentAnimal.history[index].status}${currentAnimal.type}IconLabel.png`),
-				size: new google.maps.Size(53, 40),
-				origin: new google.maps.Point(0, 0),
-				anchor: new google.maps.Point(21, 41),
-				labelOrigin: new google.maps.Point(40, 16)
-			}
-			var markerLabel = (arrLength).toString()
-			marker = new google.maps.Marker({
-				position: {
-					lat: event.lat,
-					lng: event.lng
-				},
-				map,
-				icon: customMarker,
-				label: {
-					text: markerLabel,
-					fontWeight: "bold"
+			map = new google.maps.Map(this.refs.map, {
+				zoom: 14,
+				gestureHandling: 'greedy',
+				disableDefaultUI: true,
+				fullscreenControl: true,
+				center: {
+					lat: currentAnimal.history[0].lat,
+					lng: currentAnimal.history[0].lng
 				}
 			})
-			arrLength -= 1
-		})
+
 		
-		map.addListener('click', function(e) {
-			this.setState({
-				newHistory: {
-					...this.state.newHistory,
-					lat: e.latLng.lat(),
-					lng: e.latLng.lng(),
-					region: this.findRegion(e.latLng, google)
+
+			let arrLength = currentAnimal.history.length;
+
+			currentAnimal.history.map((event, index) => {
+				var customMarker = {
+					url: require(`./images/mapIcons/${currentAnimal.history[index].status}${currentAnimal.type}IconLabel.png`),
+					size: new google.maps.Size(53, 40),
+					origin: new google.maps.Point(0, 0),
+					anchor: new google.maps.Point(21, 41),
+					labelOrigin: new google.maps.Point(40, 16)
 				}
+				var markerLabel = (arrLength).toString()
+				marker = new google.maps.Marker({
+					position: {
+						lat: event.lat,
+						lng: event.lng
+					},
+					map,
+					icon: customMarker,
+					label: {
+						text: markerLabel,
+						fontWeight: "bold"
+					}
+				})
+				arrLength -= 1
 			})
-			this.placeMarkerAndPanTo(e.latLng, map, google)
-		}.bind(this))
+
+			map.addListener('click', function(e) {
+				this.setState({
+					newHistory: {
+						...this.state.newHistory,
+						lat: e.latLng.lat(),
+						lng: e.latLng.lng(),
+						region: this.findRegion(e.latLng, google)
+					}
+				})
+				this.placeMarkerAndPanTo(e.latLng, map, google)
+			}.bind(this))
+		}
 	}
 
 	componentWillUnmount() {
@@ -167,7 +173,6 @@ class Update extends Component {
 
 	handleSex(e) {
 		let sex = e.target.value;
-		// this.props.dispatch(setNewHistory({ ...this.props.newHistory, sex }))
 		this.setState({
 			newHistory: {
 				...this.state.newHistory,
@@ -265,15 +270,15 @@ class Update extends Component {
     }
 
 	placeMarkerAndPanTo(latLng, map, google) {
-		map.panTo(latLng);
 		if(newMarker !== undefined) {
-            newMarker.setMap(null)
+			newMarker.setMap(null)
 		}
 		newMarker = new google.maps.Marker({
 			position: latLng,
 			map,
 			icon: require(`./images/mapIcons/${this.state.newHistory.status}${this.props.currentAnimal.type}Icon.png`)
 		});
+		map.panTo(latLng);
 	}
 
 	findRegion(latLng, google) {
