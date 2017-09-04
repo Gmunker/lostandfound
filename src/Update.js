@@ -25,11 +25,7 @@ class Update extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-<<<<<<< HEAD
-			currentAnimal: null
-=======
 			newHistory: null
->>>>>>> 183b04bf4e2f8880b03afbae68d7deec1a791aab
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleStatus = this.handleStatus.bind(this);
@@ -83,11 +79,7 @@ class Update extends Component {
 	}
 
 	componentDidUpdate (nextProps, nextState) {
-<<<<<<< HEAD
-		var currentAnimal = this.props.currentAnimal;
-=======
 		var currentAnimal = this.props.currentAnimal
->>>>>>> 183b04bf4e2f8880b03afbae68d7deec1a791aab
 		google = window.google;
 
 		map = new google.maps.Map(this.refs.map, {
