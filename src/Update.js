@@ -8,10 +8,11 @@ import { updateAnimal, deleteAnimal } from './actions/firebaseActions';
 import { connect } from 'react-redux';
 import regions from './GoogleMap/geojson.json';
 
-var google
-var map
-var marker
-var counter = 0
+let google
+let map
+let marker
+let newMarker
+let counter = 0
 
 class Update extends Component {
 	constructor(props) {
@@ -25,6 +26,7 @@ class Update extends Component {
 		this.handleSex = this.handleSex.bind(this);
 		this.placeMarkerAndPanTo = this.placeMarkerAndPanTo.bind(this);
 		this.findRegion = this.findRegion.bind(this);
+		this.replaceMarkerIcon = this.replaceMarkerIcon.bind(this);
 	}
 	
 	// Lifecycle Methods
@@ -131,7 +133,17 @@ class Update extends Component {
 
 	handleStatus(e) {
 		let status = e.currentTarget.name === "status" ? e.currentTarget.value : null;
-		this.props.dispatch(setNewHistory({ ...this.props.newHistory, status }))
+		// this.props.dispatch(setNewHistory({ ...this.props.newHistory, status }))
+		this.setState({
+			newHistory: {
+				...this.state.newHistory,
+				status
+			}
+		}, () => {
+			if(newMarker !== undefined) {
+				this.replaceMarkerIcon()
+			}
+		})
 	}
 
 	handleSex(e) {
@@ -140,8 +152,54 @@ class Update extends Component {
 	}	
 
 	handleSubmit(e) {
-		e.preventDefault();
-		let date = new Date().getTime();
+		// e.preventDefault();
+		let date = new Date()
+		let newHistory = this.state.newHistory
+		newHistory = {
+			...newHistory,
+			date
+		}
+		// Start by checking these two since I implemented the sort
+		// console.log(this.state.newHistory)
+		// console.log(this.props.currentAnimal.history[0])
+		if (this.state.newHistory === this.props.currentAnimal.history[0]) {
+			// History has not changed. Push the currentAnimal
+			var history = {};
+			for (var i = 0; i < this.props.currentAnimal.history.length; ++i) {
+				var key = this.props.currentAnimal.history[i].date.getTime()
+				delete this.props.currentAnimal.history[i].date
+				history[key] = this.props.currentAnimal.history[i];
+			}
+			let newCurrent = this.props.currentAnimal
+			newCurrent = {
+				...newCurrent,
+				history: {
+					...history
+				}
+			}
+			this.props.dispatch(updateAnimal(newCurrent.id, newCurrent))
+		
+		} else {
+			// History has changed. Add the history in state to the top of the currentAnimal.history array
+			this.props.currentAnimal.history.push(newHistory)
+			// Do something amazing in a loop that grabs the new date and keys each item in history with that transformed date
+			var history = {};
+			for (var i = 0; i < this.props.currentAnimal.history.length; ++i) {
+				var key = this.props.currentAnimal.history[i].date.getTime()
+				delete this.props.currentAnimal.history[i].date
+				history[key] = this.props.currentAnimal.history[i];
+			}
+			let newCurrent = this.props.currentAnimal
+			newCurrent = {
+				...newCurrent,
+				history: {
+					...history
+				}
+			}
+			this.props.dispatch(updateAnimal(newCurrent.id, newCurrent))
+		}
+		
+		// let date = new Date().getTime();
 
 		let pushNewHistoryToCurrent = new Promise((resolve, reject) => {
 			let history = this.props.currentHistory
@@ -167,19 +225,30 @@ class Update extends Component {
 	}
 
 	// Map Methods
-	placeMarkerAndPanTo(latLng, map, google, currentAnimal) {
-		currentAnimal.history[0].region = "Frank"
-		// const newHistory = this.state.currentAnimal.history
-		// this.state.currentAnimal.history[0].lat = latLng.lat()
-		this.setState({
-			newAnimal: currentAnimal
-		}, () => { console.log(this.state.newAnimal) })
-		// marker = new google.maps.Marker({
-		// 	position: latLng,
-		// 	map,
-		// 	icon: require(`./images/mapIcons/${this.props.newHistory.status}${this.props.currentAnimal.type}IconLabel.png`)
-		// });
-		// map.panTo(latLng);
+
+	replaceMarkerIcon() {
+        newMarker.setMap(null)
+        newMarker = new google.maps.Marker({
+            position: {
+				lat: this.state.newHistory.lat,
+				lng: this.state.newHistory.lng
+			},
+            map,
+            icon: require(`./images/mapIcons/${this.state.newHistory.status}${this.props.currentAnimal.type}Icon.png`)
+		});
+		map.panTo(newMarker.position);
+    }
+
+	placeMarkerAndPanTo(latLng, map, google) {
+		map.panTo(latLng);
+		if(newMarker !== undefined) {
+            newMarker.setMap(null)
+		}
+		newMarker = new google.maps.Marker({
+			position: latLng,
+			map,
+			icon: require(`./images/mapIcons/${this.state.newHistory.status}${this.props.currentAnimal.type}Icon.png`)
+		});
 	}
 
 	findRegion(latLng, google) {
@@ -298,11 +367,11 @@ class Update extends Component {
 								to="/list"
 								className="formButton" 
 								onClick={this.handleSubmit} 
-								>Update</Link>
+								>Submit</Link>
 								<Link
 								to="/list"
 								className="formButton" 
-								onClick={() => this.props.dispatch(deleteAnimal(animal.id))}
+								onClick={() => this.props.dispatch(deleteAnimal(currentAnimal.id))}
 							>Delete</Link>
 							<span className="formIndicia">* Required Field</span>
 						</form>
