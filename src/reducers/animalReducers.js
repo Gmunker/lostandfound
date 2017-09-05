@@ -14,7 +14,8 @@ const initialState = {
 		"type": "dog"
   	},
   	currentAnimal: {
-		  type: 'dog'
+			type: 'dog',
+			animalNotFound: true
 		},
   	currentHistory: {},
   	newHistory: {
