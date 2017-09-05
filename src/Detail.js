@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Navigation from './Navigation';
 import scriptLoader from 'react-async-script-loader';
 import { connect } from 'react-redux';
@@ -104,7 +104,11 @@ class Detail extends Component {
 
 	render() {
 		let animal = this.props.currentAnimal
-		if(!animal.history) {
+		if (this.props.currentAnimal.animalNotFound === true ) {
+			return (
+					<Redirect to="/list" />
+			)
+		} else if(!animal.history) {
 			return(
 				<div>Loading...</div>
 			)
