@@ -6,12 +6,11 @@ export function addAnimal(animal) {
 }
 
 export function deleteAnimal(id) {
-  firebaseRef.child(id).remove()
-}
+    return function() {
+      return firebaseRef.child(id).remove()
+    }
+  }
 
 export function updateAnimal(id, animal) {
-  firebaseRef.child(id).update(animal)
-    .then(() => {
-      console.log('Updated Successfully!')
-    })
+  return firebaseRef.child(id).update(animal)
 }

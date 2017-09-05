@@ -5,8 +5,8 @@ module.exports = {
 		filteredAnimals = animals.filter(animal => {
 			return ((showDog === (animal.type === "dog")) && 
 					(showCat === (animal.type === "cat")) && 
-					(showLost === (animal.history[animal.history.length - 1].status === "lost")) && 
-					(showFound === (animal.history[animal.history.length - 1].status === "found"))
+					(showLost === (animal.history[0].status === "lost")) && 
+					(showFound === (animal.history[0].status === "found"))
 				);
 			})
 		
@@ -24,17 +24,6 @@ module.exports = {
 				(color.indexOf(searchText.toLowerCase()) > -1)
 			);
 		})
-
-		//Sort todos with non-completed first
-		// filteredAnimals.sort((a, b) => {
-		// 	if (!a.completed && b.completed) {
-		// 		return -1;
-		// 	} else if (a.completed && !b.completed) {
-		// 		return 1;
-		// 	} else {
-		// 		return 0;
-		// 	}
-		// });
 
 		return filteredAnimals;
 	}

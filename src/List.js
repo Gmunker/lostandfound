@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 import Search from './Search';
 import { connect } from 'react-redux';
+import { currentAnimal, setNewHistory } from './actions/animalActions';
 import { fetchAnimals } from './actions/animalsActions';
 import searchAPI from'./api/searchApi';
 
@@ -20,6 +21,9 @@ class List extends Component {
 		this.props.dispatch(fetchAnimals());
 	}
 
+	componentWillUnmount() {
+        this.props.dispatch(currentAnimal({history: [{status: "lost"}], type: "dog"}))
+    }
 	
    	render() {
 		let { searchText, showDog, showCat, showLost, showFound } = this.props.searchFields;
