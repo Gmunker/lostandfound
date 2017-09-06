@@ -7,8 +7,8 @@ import { addAnimal } from './actions/firebaseActions';
 import { currentAnimal, setNewHistory } from './actions/animalActions';
 import scriptLoader from 'react-async-script-loader';
 
-const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
-const iconUrl = './images/mapIcons/'
+// const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
+// const iconUrl = './images/mapIcons/'
 
 let google
 let map
@@ -81,7 +81,7 @@ class Add extends Component {
         }))
 
         if(marker) {
-            var location = new google.maps.LatLng(this.props.newHistory.lat, this.props.newHistory.lng)
+            let location = new google.maps.LatLng(this.props.newHistory.lat, this.props.newHistory.lng)
             this.replaceMarkerIcon(location, map, status, this.props.currentAnimal.type)
         }
     }
@@ -94,7 +94,7 @@ class Add extends Component {
         }));
         
         if(marker) {
-            var location = new google.maps.LatLng(this.props.newHistory.lat, this.props.newHistory.lng)
+            let location = new google.maps.LatLng(this.props.newHistory.lat, this.props.newHistory.lng)
             this.replaceMarkerIcon(location, map, this.props.newHistory.status, type)
         }
     }
@@ -111,7 +111,7 @@ class Add extends Component {
         e.preventDefault();
         let date = new Date().getTime()
         let setInitialHistory = new Promise((resolve, reject) => {
-            this.props.currentAnimal.history = new Object();
+            this.props.currentAnimal.history = {};
             this.props.currentAnimal.history[date] = this.props.newHistory
             this.props.currentAnimal.history[date] ? resolve() : reject()
         })
@@ -146,14 +146,14 @@ class Add extends Component {
     }
 
     findRegion(latLng, google) {
-        var regionName;
-        for(var i=0; i<regions.length;i++) {
+        let regionName;
+        for(let i=0; i<regions.length;i++) {
             currentPoly = new google.maps.Polygon({paths: regions[i].polygon});
             if(google.maps.geometry.poly.containsLocation(latLng, currentPoly)) {
                 regionName = regions[i].name;
             }
         }
-        var region = regionName !== undefined ? regionName : "Outside Defined Regions"
+        let region = regionName !== undefined ? regionName : "Outside Defined Regions"
         this.props.dispatch(setNewHistory({
             ...this.props.newHistory,
             lat: latLng.lat(),
@@ -166,7 +166,7 @@ class Add extends Component {
     render() {
         let newAnimal = this.props.currentAnimal;
         let newHistory = this.props.newHistory
-        var statusText;
+        let statusText;
         newHistory.status === "found" ?
             statusText = "found" :
             statusText = "last seen";
@@ -185,7 +185,7 @@ class Add extends Component {
                                     name="status" 
                                     value="lost"
                                     onChange={this.handleStatus}
-                                    checked={newHistory.status === "lost"}
+                                    defaultChecked={newHistory.status === "lost"}
                                 />
                                 <label htmlFor="statusLost"></label>
                             </div>
@@ -197,7 +197,7 @@ class Add extends Component {
                                     name="status"
                                     value="found" 
                                     onChange={this.handleStatus}
-                                    checked={newHistory.status === "found"}
+                                    defaultChecked={newHistory.status === "found"}
                                 />
                                 <label htmlFor="statusFound"></label>
                             </div>
@@ -210,7 +210,7 @@ class Add extends Component {
                                     value="dog"
                                     id="typeDog"
                                     name="type"
-                                    checked={this.props.currentAnimal.type === "dog"}
+                                    defaultChecked={this.props.currentAnimal.type === "dog"}
                                     onChange={this.handleType}
                                 />
                                 <label htmlFor="typeDog"></label>
@@ -222,7 +222,7 @@ class Add extends Component {
                                     value="cat"
                                     id="typeCat"
                                     name="type"
-                                    checked={this.props.currentAnimal.type === "cat"}
+                                    defaultChecked={this.props.currentAnimal.type === "cat"}
                                     onChange={this.handleType}
                                 />
                                 <label htmlFor="typeCat"></label>

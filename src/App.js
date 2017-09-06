@@ -17,7 +17,7 @@ import ScrollToTop from './ScrollToTop';
 import Login from './Login';
 import RegionGmap from './GoogleMap/RegionGmap';
 
-var views = false
+let views = false
 
 class App extends Component {
 	constructor(props) {

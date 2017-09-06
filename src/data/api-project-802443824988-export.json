@@ -1,0 +1,119 @@
+{
+  "HipD" : {
+    "-KsjtevXWSqZyGJ6E57w" : {
+      "breed" : "Jack Russel",
+      "color" : "White with Black",
+      "history" : {
+        "1504473001652" : {
+          "lat" : 36.16656665970523,
+          "lng" : -86.69225692749023,
+          "region" : "Outside Defined Regions",
+          "sex" : "neutered male",
+          "status" : "lost"
+        },
+        "1504473291930" : {
+          "lat" : 36.17280264906953,
+          "lng" : -86.68401718139648,
+          "region" : "Maplecrest",
+          "sex" : "neutered male",
+          "status" : "lost"
+        },
+        "1504475011942" : {
+          "lat" : 36.171347629266585,
+          "lng" : -86.69835090637207,
+          "region" : "Donelson Hills",
+          "sex" : "neutered male",
+          "status" : "found"
+        },
+        "1504475305277" : {
+          "lat" : 36.17765251996188,
+          "lng" : -86.69011116027832,
+          "region" : "Maplecrest",
+          "sex" : "neutered male",
+          "status" : "found"
+        },
+        "1504495134009" : {
+          "lat" : 36.16469576613993,
+          "lng" : -86.68221473693848,
+          "region" : "Outside Defined Regions",
+          "sex" : "neutered male",
+          "status" : "lost"
+        },
+        "1504572895006" : {
+          "lat" : 36.16130032672438,
+          "lng" : -86.68264389038086,
+          "region" : "Outside Defined Regions",
+          "sex" : "neutered male",
+          "status" : "lost"
+        },
+        "1504573949032" : {
+          "lat" : 36.160468768122236,
+          "lng" : -86.68993949890137,
+          "region" : "Outside Defined Regions",
+          "sex" : "neutered male",
+          "status" : "lost"
+        }
+      },
+      "id" : "-KsjtevXWSqZyGJ6E57w",
+      "image" : "https://firebasestorage.googleapis.com/v0/b/api-project-802443824988.appspot.com/o/tempThumbs%2FDogFour.jpg?alt=media&token=5b5911ed-521c-4e8b-9954-668b7561e610",
+      "name" : "Rusty",
+      "type" : "dog"
+    },
+    "-KtAAsoD05Z1vmPOwM_E" : {
+      "breed" : "Jack Russel",
+      "color" : "White with black",
+      "history" : {
+        "1504499960976" : {
+          "lat" : 36.16587374136926,
+          "lng" : -86.66187286376953,
+          "region" : "Outside Defined Regions",
+          "sex" : "female",
+          "status" : "lost"
+        },
+        "1504554862509" : {
+          "lat" : 36.16337918464028,
+          "lng" : -86.65801048278809,
+          "region" : "Outside Defined Regions",
+          "sex" : "female",
+          "status" : "lost"
+        }
+      },
+      "id" : "-KtAAsoD05Z1vmPOwM_E",
+      "image" : "https://firebasestorage.googleapis.com/v0/b/api-project-802443824988.appspot.com/o/tempThumbs%2FDogOne.jpg?alt=media&token=eb0e9e20-5172-4385-b52c-383fcb1cc363",
+      "name" : "Randi",
+      "type" : "dog"
+    },
+    "-KtJai7bEmVLVt5gSyxZ" : {
+      "breed" : "Hellbeast",
+      "color" : "Red",
+      "history" : {
+        "1504657989416" : {
+          "lat" : 36.170308312867206,
+          "lng" : -86.6653060913086,
+          "region" : "Riverpoint",
+          "sex" : "female",
+          "status" : "lost"
+        }
+      },
+      "image" : "https://firebasestorage.googleapis.com/v0/b/api-project-802443824988.appspot.com/o/tempThumbs%2FCatOne.jpg?alt=media&token=bc3799e2-1427-4563-8f4c-f24295baa97a",
+      "name" : "Senorita Satan",
+      "type" : "cat"
+    },
+    "-KtJeN-Z41YMZGqW9Ufe" : {
+      "breed" : "Blah",
+      "color" : "Black",
+      "history" : {
+        "1504658947398" : {
+          "lat" : 36.17668256979836,
+          "lng" : -86.68521881103516,
+          "region" : "Maplecrest",
+          "sex" : "female",
+          "status" : "found"
+        }
+      },
+      "image" : "https://firebasestorage.googleapis.com/v0/b/api-project-802443824988.appspot.com/o/tempThumbs%2FDogThree.jpg?alt=media&token=684dfefb-2fe4-401a-9824-f8547647692b",
+      "name" : "Dog",
+      "type" : "dog"
+    }
+  }
+}
