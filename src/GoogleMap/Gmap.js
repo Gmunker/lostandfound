@@ -48,9 +48,9 @@ class Gmap extends Component {
       });
 
       function findRegion(latLng) {
-        var regionName;
-        for(var i=0; i<mapData.geoJson.length;i++) {
-          var currentPoly = new window.google.maps.Polygon({paths: mapData.geoJson[i].polygon});
+        let regionName;
+        for(let i=0; i<mapData.geoJson.length;i++) {
+          let currentPoly = new window.google.maps.Polygon({paths: mapData.geoJson[i].polygon});
           if(window.google.maps.geometry.poly.containsLocation(latLng, currentPoly)) {
             regionName = mapData.geoJson[i].name;
           }
@@ -63,7 +63,7 @@ class Gmap extends Component {
       }
 
       function placeMarkerAndPanTo(latLng, map) {
-        var marker = new window.google.maps.Marker({
+        let marker = new window.google.maps.Marker({
           position: latLng,
           map,
         });
@@ -73,8 +73,8 @@ class Gmap extends Component {
     
 
       function pullIcon(animal, index) {
-        var status = animal.Status[index] === "Found" ? "found" : "lost";
-        var type = animal.Type === "Cat" ? "Cat" : "Dog";
+        let status = animal.Status[index] === "Found" ? "found" : "lost";
+        let type = animal.Type === "Cat" ? "Cat" : "Dog";
         return  baseUrl + status + type + "Icon.png"
       }
   }

@@ -3,15 +3,15 @@ import { Link, Redirect } from 'react-router-dom';
 import Navigation from './Navigation';
 import scriptLoader from 'react-async-script-loader';
 import { connect } from 'react-redux';
-import { animalInfo, currentAnimal } from './actions/animalActions';
+import { currentAnimal } from './actions/animalActions';
 import { fetchAnimal } from './actions/animalsActions';
 
-const iconUrl = '/images/mapIcons/'
+// const iconUrl = '/images/mapIcons/'
 let google
 let map
 let marker
 
-var options = {  
+let options = {  
     weekday: "short", year: "numeric", month: "short",  
     day: "numeric", hour: "2-digit", minute: "2-digit"
 };
@@ -58,14 +58,14 @@ class Detail extends Component {
 		})
 		let arrLength = animal.history.length;
 		animal.history.map((event, index) => {
-			var customMarker = {
+			let customMarker = {
 				url: require(`./images/mapIcons/${animal.history[index].status}${animal.type}IconLabel.png`),
 				size: new google.maps.Size(53, 40),
 				origin: new google.maps.Point(0, 0),
 				anchor: new google.maps.Point(21, 41),
 				labelOrigin: new google.maps.Point(40, 16)
 			}
-			var markerLabel = arrLength.toString()
+			let markerLabel = arrLength.toString()
 			marker = new google.maps.Marker({
 				position: {
 					lat: event.lat,
@@ -116,12 +116,12 @@ class Detail extends Component {
 			let loc = animal.type === "dog" ? `/dog/update/${animal.id}` : `/cat/update/${animal.id}`;		
 			let arrLength = animal.history.length
 			const eventList = animal.history.map((event, index) => {
-				var eventIndex = arrLength - index
-				var latLng = {
+				let eventIndex = arrLength - index
+				let latLng = {
 					lat: event.lat,
 					lng: event.lng
 				}
-				var zeroEvent
+				let zeroEvent
 				if (animal.history[0].region !== undefined) {
 					zeroEvent = animal.history[0]
 					return(
@@ -179,12 +179,12 @@ class Detail extends Component {
 class EventItem extends Component {
 	componentDidMount() {
 		if (this.props.zeroEvent) {
-			var zeroEvent = this.props.zeroEvent
-			var zeroLatLng = {
+			let zeroEvent = this.props.zeroEvent
+			let zeroLatLng = {
 				lat: zeroEvent.lat,
 				lng: zeroEvent.lng
 			}
-			var zeroRegion = zeroEvent.region
+			let zeroRegion = zeroEvent.region
 			this.props.handleClick(0, zeroLatLng, zeroRegion)
 		}
 	}
