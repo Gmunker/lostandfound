@@ -198,6 +198,7 @@ class EventItem extends Component {
 			<tr className={this.props.isActive ? "detailList__item active " + this.props.event.status : "detailList__item"}
 				onClick={this.handleClick}
 			>
+				<td className="detailList__item__id">{this.props.eventIndex}</td>
 				<td className="detailList__item__status">{this.props.event.status}</td>
 				<td className="detailList__item__date">{new Date(this.props.event.date).toLocaleTimeString("en-us", options)}</td>
 			</tr>

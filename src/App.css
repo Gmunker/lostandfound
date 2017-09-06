@@ -498,6 +498,8 @@ table.detailList {
     text-align: center;
     padding: 0.5em; }
     table.detailList td:first-child {
+      width: 20px; }
+    table.detailList td:nth-child(2) {
       width: 45px; }
   table.detailList .detailList__item.active.lost td {
     background: #AD1C1C;
