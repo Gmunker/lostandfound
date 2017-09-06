@@ -1,5 +1,5 @@
 .listContent {
-	padding-top: 1em;
+	padding: 1em 1em 0 1em;
 }
 table {
   	border: 1px solid #ccc;
@@ -12,10 +12,11 @@ table {
 }
 
 th {
-  	color:#D5DDE5;
+  	color:white;
   	background:$Secondary;
   	border-bottom:1px solid #9ea7af;
-  	border-right: 1px solid #343a45;
+	border-right: 1px solid #343a45;
+	font: 1em 'Patua One', 'Arial', sans-serif;
   	font-size:1.5em;
   	padding:0.5em;
   	text-align:left;
@@ -33,7 +34,11 @@ th:last-child {
 }
   
 table tr th:nth-child(1){
-  	width: 45%;
+  	width: 30%;
+}
+
+table tr th:nth-child(2){
+	width: 40%;
 }
 
 tr:first-child {

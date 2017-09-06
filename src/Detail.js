@@ -151,11 +151,11 @@ class Detail extends Component {
 							{/* <img className="detail__main__image" src={animal.Image ? animal.Image : null} alt="" /> */}
 						</div>
 						<div className="detail__sub">
-							<div className="detail__sub__color">{animal.color ? animal.color : "No Color Provided"}</div>
+							<div className="detail__sub__color">Color: {animal.color ? animal.color : "No Color Provided"}</div>
 							<div className="detail__sub__gender">
 								{animal.history.sex}
 							</div>
-							<div className="detail__sub__breed">{animal.breed ? animal.breed : "No Breed Provided"}</div>
+							<div className="detail__sub__breed">Breed: {animal.breed ? animal.breed : "No Breed Provided"}</div>
 						</div>
 						<div className="mapRow">
 							<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>

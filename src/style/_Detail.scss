@@ -7,6 +7,22 @@
 .detail__main__status, .detail__sub__name {
   text-transform: uppercase;
     font: 1.5em 'Bree Serif', Times, serif;
+    color: white;
+    background: $Primary;
+    display: block;
+    border-radius: 1em;
+    padding: 0.25em;
+}
+
+.detail__sub__color {
+    text-align: left;
+    font: 1.5em 'Bree Serif', Times, serif;
+    color: $Primary;
+}
+
+.detail__sub__breed {
+    text-align: left;
+    font: 1.5em 'Bree Serif', Times, serif;
     color: $Primary;
 }
 
@@ -25,11 +41,13 @@
     padding: 0.25em 0;
     width: 100%;
     font: 1.25em 'Bree Serif', Times, serif;
+    margin-bottom: 0.5em;
     span {
         margin-left: 1em;
     }
 }
 table.detailList {
+    border: none;
     td {
         text-align: center;
         padding: 0.5em;
@@ -38,11 +56,11 @@ table.detailList {
         }
     }
     .detailList__item.active.lost td {
-        background: red;
+        background: $Lost;
         color: white;
     }
     .detailList__item.active.found td {
-        background: green;
+        background: $Found;
         color: white;
     }
 }
