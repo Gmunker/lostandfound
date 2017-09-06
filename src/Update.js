@@ -346,9 +346,9 @@ class Update extends Component {
 									<label htmlFor="statusFound"></label>
 								</div>
 							</div>
-						
-							<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
-			
+							<div className="mapRow">
+								<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
+							</div>
 							<div className="formRow">
 								<label htmlFor="name">Name</label>
 								<input 

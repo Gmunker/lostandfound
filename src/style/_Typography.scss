@@ -1,1 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans|Bree+Serif|Patua+One');
+
+* {
+    -webkit-font-smoothing: antialiased;
+}
+
+.textLink {
+    color: $Primary;
+    font: bold 1em 'Open Sans', 'Arial', sans-serif;
+    text-decoration: none;
+}

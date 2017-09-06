@@ -16,15 +16,15 @@ class Landing extends Component {
 
 	render() {
 		let randomAnimals = () => {
-			return this.props.animalsWithPics.map((animal) => {
+			return this.props.animalsWithPics.map((animal, index) => {
 					return (
-					<Link className="dogImages__image1" key={animal.Id} to={"/dog/details?id" + animal.Id}>
-						<img className="dogImages__image1" src={animal.Image} alt={`${animal.Name} ${animal.Type} ${animal.Breed} ${animal.Color} ${animal.Gender} ${animal.Location}`} />
+					<Link className={"dogImages__image" + (index + 1)} key={animal.id} to={"/dog/details?id" + animal.id}>
+						<img className={"dogImages__image1" + (index + 1)} src={animal.image} alt={`${animal.name} ${animal.type} ${animal.breed} ${animal.color} ${animal.sex} ${animal.Location}`} />
 					</Link>
 				)
 			})
 		}
-		
+
 		return(
 			<div className="landingContent">
 				<div className="topContainer">
@@ -36,7 +36,7 @@ class Landing extends Component {
 				<nav className="pageNavigation">
 					<Link className="Button" to="/list">View Full List</Link>
 					<Link className="Button" to="/add">Add New Animal</Link>
-					<Link className="Button" to="/login">Login</Link>
+					<Link className="textLink" to="/login">Volunteer Login &rarr;</Link>
 				</nav>
 			</div>
 		)

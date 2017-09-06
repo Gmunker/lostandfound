@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import regions from './geojson.json';
-// import scriptLoader from 'react-async-script-loader'
+import scriptLoader from 'react-async-script-loader'
 
 class RegionGmap extends Component {
   constructor(props) {
@@ -43,5 +43,5 @@ class RegionGmap extends Component {
   }
 }
 
-// export default scriptLoader(["https://maps.googleapis.com/maps/api/js?key=AIzaSyDiUupl6Z9qBY5J_IKupr44xM542C23Xiw&libraries=places,geometry"])(RegionGmap);
-export default RegionGmap
+export default scriptLoader(["https://maps.googleapis.com/maps/api/js?key=AIzaSyDiUupl6Z9qBY5J_IKupr44xM542C23Xiw&libraries=places,geometry"])(RegionGmap);
+// export default RegionGmap
