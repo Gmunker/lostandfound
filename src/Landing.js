@@ -18,7 +18,7 @@ class Landing extends Component {
 		let randomAnimals = () => {
 			return this.props.animalsWithPics.map((animal, index) => {
 					return (
-					<Link className={"dogImages__image" + (index + 1)} key={animal.id} to={"/dog/details?id" + animal.id}>
+					<Link className={"dogImages__image" + (index + 1)} key={animal.id} to={"/dog/details/" + animal.id}>
 						<img className={"dogImages__image1" + (index + 1)} src={animal.image} alt={`${animal.name} ${animal.type} ${animal.breed} ${animal.color} ${animal.sex} ${animal.Location}`} />
 					</Link>
 				)
