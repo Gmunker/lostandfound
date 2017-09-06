@@ -26,7 +26,7 @@ class RegionGmap extends Component {
         });
         
         // Comment out the three lines below to test functionality
-        for(var i=0;i<regions.length;i++) {
+        for(let i=0;i<regions.length;i++) {
           map.data.add({geometry: new google.maps.Data.Polygon([regions[i].polygon])})
         }
       }

@@ -8,8 +8,8 @@ export function login(email, password) {
       console.log("User Logged In!")
     })
     .catch(error => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
+      let errorCode = error.code;
+      let errorMessage = error.message;
       if (errorCode === 'auth/wrong-password') {
         alert('Wrong password.');
       } else {

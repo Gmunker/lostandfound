@@ -39,9 +39,9 @@ export function fetchAnimal(id) {
 					let parsedHistory = [];
 					let keys = Object.keys(history);
 					let values = Object.values(history)
-					for (var i=0;i<values.length;i++) {
-						var utcSeconds = keys[i];
-						var date = new Date(0);
+					for (let i=0;i<values.length;i++) {
+						let utcSeconds = keys[i];
+						let date = new Date(0);
 						date.setUTCMilliseconds(utcSeconds);
 						parsedHistory.push({
 							...values[i],

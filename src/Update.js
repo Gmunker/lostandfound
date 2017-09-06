@@ -3,16 +3,16 @@ import { Link, Redirect } from 'react-router-dom';
 import Navigation from './Navigation';
 import scriptLoader from 'react-async-script-loader';
 import { fetchAnimal } from './actions/animalsActions';
-import { animalInfo, currentAnimal, currentHistory, setNewHistory } from './actions/animalActions';
+import { currentAnimal } from './actions/animalActions';
 import { updateAnimal, deleteAnimal } from './actions/firebaseActions';
 import { connect } from 'react-redux';
 import regions from './GoogleMap/geojson.json';
 
-var google
-var map
-var marker
-var newMarker
-// var newHistory = {
+let google
+let map
+let marker
+let newMarker
+// let newHistory = {
 // 	region: null,
 // 	lat: null,
 // 	lng: null,
@@ -56,7 +56,7 @@ class Update extends Component {
 
 		if ((nextProps.currentAnimal !== this.props.currentAnimal)) {
 			if(this.state.newHistory === null) { 
-				this.state.newHistory = nextProps.currentAnimal.history[0]
+				this.setState((state, props) => { return { newHistory: nextProps.currentAnimal.history[0] }});
 				return true
 			}
 		}
@@ -76,7 +76,7 @@ class Update extends Component {
 
 	componentDidUpdate (nextProps, nextState) {
 		
-		var currentAnimal = this.props.currentAnimal
+		let currentAnimal = this.props.currentAnimal
 
 			if (google === undefined) {
 				
@@ -98,14 +98,14 @@ class Update extends Component {
 							let arrLength = currentAnimal.history.length;
 				
 							currentAnimal.history.map((event, index) => {
-								var customMarker = {
+								let customMarker = {
 									url: require(`./images/mapIcons/${currentAnimal.history[index].status}${currentAnimal.type}IconLabel.png`),
 									size: new google.maps.Size(53, 40),
 									origin: new google.maps.Point(0, 0),
 									anchor: new google.maps.Point(21, 41),
 									labelOrigin: new google.maps.Point(40, 16)
 								}
-								var markerLabel = (arrLength).toString()
+								let markerLabel = (arrLength).toString()
 								marker = new google.maps.Marker({
 									position: {
 										lat: event.lat,
@@ -191,9 +191,9 @@ class Update extends Component {
 		// console.log(this.props.currentAnimal.history[0])
 		if (this.state.newHistory === this.props.currentAnimal.history[0]) {
 			// History has not changed. Push the currentAnimal
-			var history = {};
-			for (var i = 0; i < this.props.currentAnimal.history.length; ++i) {
-				var key = this.props.currentAnimal.history[i].date.getTime()
+			let history = {};
+			for (let i = 0; i < this.props.currentAnimal.history.length; ++i) {
+				let key = this.props.currentAnimal.history[i].date.getTime()
 				delete this.props.currentAnimal.history[i].date
 				history[key] = this.props.currentAnimal.history[i];
 			}
@@ -210,9 +210,9 @@ class Update extends Component {
 			// History has changed. Add the history in state to the top of the currentAnimal.history array
 			this.props.currentAnimal.history.push(newHistory)
 			// Do something amazing in a loop that grabs the new date and keys each item in history with that transformed date
-			var history = {};
-			for (var i = 0; i < this.props.currentAnimal.history.length; ++i) {
-				var key = this.props.currentAnimal.history[i].date.getTime()
+			let history = {};
+			for (let i = 0; i < this.props.currentAnimal.history.length; ++i) {
+				let key = this.props.currentAnimal.history[i].date.getTime()
 				delete this.props.currentAnimal.history[i].date
 				history[key] = this.props.currentAnimal.history[i];
 			}
