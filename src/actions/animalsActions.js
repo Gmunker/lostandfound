@@ -3,11 +3,12 @@ const firebaseRef = firebase.database();
 
 export function fetchAnimals() {
   	return function(dispatch) {
+
 		firebaseRef.ref('HipD').on('value', (snapshot) => {
 			let animals = snapshot.val() || {};
 			let parsedAnimals = [];
-			let parsedHistory = [];
 			Object.keys(animals).forEach((animalId) => {
+				let parsedHistory = [];
 				let history = animals[animalId].history
 				Object.keys(history).forEach((historyId) => {
 					parsedHistory.push({
@@ -16,6 +17,7 @@ export function fetchAnimals() {
 					})
 				})
 				parsedHistory.sort((a,b) => new Date(a.date) - new Date(b.date))
+			
 				parsedAnimals.push({
 					...animals[animalId],
 					id: animalId,

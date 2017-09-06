@@ -26,7 +26,7 @@ class Search extends Component {
                 type="radio" 
                 id="statusLost"
                 onClick={() => this.props.dispatch(showStatus())}
-                defaultChecked={this.props.searchFields.showLost}
+                checked={this.props.searchFields.showLost}
               />
               <label htmlFor="statusLost"></label>
             </div>
@@ -36,7 +36,7 @@ class Search extends Component {
                 type="radio" 
                 id="statusFound"
                 onClick={() => this.props.dispatch(showStatus())}
-                defaultChecked={this.props.searchFields.showFound}
+                checked={this.props.searchFields.showFound}
               />
               <label htmlFor="statusFound"></label>
             </div>
@@ -48,7 +48,7 @@ class Search extends Component {
                 type="radio" 
                 id="typeDog"
                 onClick={() => this.props.dispatch(showType())}
-                defaultChecked={this.props.searchFields.showDog}
+                checked={this.props.searchFields.showDog}
               />
               <label htmlFor="typeDog"></label>
             </div>
@@ -58,7 +58,7 @@ class Search extends Component {
                 type="radio" 
                 id="typeCat" 
                 onClick={() => this.props.dispatch(showType())}
-                defaultChecked={this.props.searchFields.showCat}
+                checked={this.props.searchFields.showCat}
               />
               <label htmlFor="typeCat"></label>
             </div>
