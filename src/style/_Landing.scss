@@ -4,13 +4,6 @@
     height: 100%;
 }
 
-.pageNavigation {
-	align-self: flex-end;
-	flex: 0;
-	width: 100%;
-    margin-bottom: 1em;
-}
-
 .topContainer {
 	flex: 1;
     position: relative;
@@ -28,7 +21,7 @@
     width: 250px;
     height: 250px;
     margin: 0 auto;
-    top: 6em;
+    top: 4.25em;
     position: relative;
     transform: rotate(45deg);
     a {
@@ -133,5 +126,17 @@
     100% {
         bottom: 0px;
         right: 0;
+    }
+}
+
+.pageNavigation {
+    box-sizing: border-box;
+	align-self: flex-end;
+	flex: 0;
+	width: 100%;
+    margin-bottom: 1em;
+    padding: 0 1em;
+    .textLink {
+        text-align: right;
     }
 }

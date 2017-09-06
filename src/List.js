@@ -33,9 +33,9 @@ class List extends Component {
 			return(
 				<tr key={animal.id}>
 					<td className="nametd"><Link id={animal.id} to={loc}>{animal.name}</Link></td>
-					<td className="loctd">
+					{/* <td className="loctd">
 						<Link id={animal.id} to={loc}>{animal.history[0].region}</Link> 
-					</td>
+					</td> */}
 					<td className="colortd"><Link to={loc}>{animal.color}</Link></td>
 					<td className="breedtd"><Link to={loc}>{animal.breed}</Link></td>
 				</tr>
@@ -52,7 +52,7 @@ class List extends Component {
 						<thead>
 							<tr>
 								<th>Name</th>
-								<th>Location</th>
+								{/* <th>Location</th> */}
 								<th>Color</th>
 								<th>Breed</th>
 							</tr>

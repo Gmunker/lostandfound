@@ -22,7 +22,7 @@ export function fetchAnimals() {
 					history: parsedHistory
 				});
 			});
-			let animalsWithPics = parsedAnimals.filter(animal => animal.Image)
+			let animalsWithPics = parsedAnimals.filter(animal => animal.image)
 			dispatch({type: "FETCH_ANIMALS_FULLFILLED",payload: parsedAnimals}) 
 			dispatch({type: "SET_ANIMALS_WITH_PICS", payload: animalsWithPics})
 		})

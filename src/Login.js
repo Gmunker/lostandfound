@@ -41,7 +41,7 @@ class Login extends Component {
       <div className="content">
         <Navigation navSwitch={this.props.navSwitch} ActivePage="Login"/>
         <div className="topContainer">
-          <h2 className="pageHeader">Login</h2>
+          <h2 className="pageHeader">Volunteer Login</h2>
           <div>
             <div className="formRow">
               <label>Username</label>
@@ -64,7 +64,7 @@ class Login extends Component {
               />
             </div>
             <button className="formButton" onClick={this.state.email ? this.handleLogin : null}>Login</button>
-            <button className="formButton" onClick={this.props.user.uid ? this.handleLogout : null}>Logout</button>
+            {/* <button className="formButton" onClick={this.props.user.uid ? this.handleLogout : null}>Logout</button> */}
             
           </div>
         </div>
