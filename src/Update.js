@@ -84,7 +84,7 @@ class Update extends Component {
 				
 							map = new google.maps.Map(this.refs.map, {
 								zoom: 14,
-								gestureHandling: 'greedy',
+								gestureHandling: 'auto',
 								disableDefaultUI: true,
 								fullscreenControl: true,
 								center: {

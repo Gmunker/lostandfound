@@ -41,7 +41,7 @@ class Add extends Component {
                 google = window.google
                 map = new google.maps.Map(this.refs.map, {
                     zoom: 12,
-                    gestureHandling: 'greedy',
+                    gestureHandling: 'auto',
                     disableDefaultUI: true,
                     fullscreenControl: true,
                     center: {

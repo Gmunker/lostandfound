@@ -48,7 +48,7 @@ class Detail extends Component {
 		google = window.google;
 		map = new google.maps.Map(this.refs.map, {
 			zoom: 14,
-			gestureHandling: 'greedy',
+			gestureHandling: 'auto',
 			disableDefaultUI: true,
 			fullscreenControl: true,
 			center: {
@@ -161,7 +161,7 @@ class Detail extends Component {
 							</tr>
 							<tr>
 								<td>Breed</td>
-								<td className="detail__sub__breed">Breed: {animal.breed ? animal.breed : "No Breed Provided"}</td>
+								<td className="detail__sub__breed">{animal.breed ? animal.breed : "No Breed Provided"}</td>
 							</tr>
 						</table>
 						<div className="mapRow">
