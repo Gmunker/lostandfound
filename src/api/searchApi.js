@@ -3,10 +3,11 @@ module.exports = {
 		let filteredAnimals = animals;
 		
 		filteredAnimals = animals.filter(animal => {
+			let last = animal.history.length - 1
 			return ((showDog === (animal.type === "dog")) && 
 					(showCat === (animal.type === "cat")) && 
-					(showLost === (animal.history[0].status === "lost")) && 
-					(showFound === (animal.history[0].status === "found"))
+					(showLost === (animal.history[last].status === "lost")) && 
+					(showFound === (animal.history[last].status === "found"))
 				);
 			})
 		
