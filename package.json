@@ -2,9 +2,6 @@
   "name": "lostandfound",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "6.10.3"
-  },
   "dependencies": {
     "chrome-launch": "^1.1.4",
     "dateformat": "^2.0.0",
