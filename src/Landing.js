@@ -34,7 +34,7 @@ class Landing extends Component {
 					</div>
 				</div>
 				<nav className="pageNavigation">
-					<Link className="Button" to="/list">View Full List</Link>
+					<Link className="Button" to="/list">View Full List </Link>
 					<Link className="Button" to="/add">Add New Animal</Link>
 					<Link className="textLink" to="/login">Volunteer Login &rarr;</Link>
 				</nav>
