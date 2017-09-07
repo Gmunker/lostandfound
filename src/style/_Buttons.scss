@@ -2,8 +2,7 @@
     display: block;
     width: 100%;
     max-width: 300px;
-    // margin: 0 auto;
-    padding: 0.75rem;
+    padding: 0.75rem 0;
     text-decoration: none;
     text-align: center;
     font: 1.5rem 'Bree Serif', 'Times', serif;
@@ -12,7 +11,6 @@
     border-radius: 4px;
     margin: 0 auto 0.5rem auto;
     color: white;
-    // text-shadow:  0 0 1px lighten($PrimaryLight, 40%), 0 -1px 1px black;
     &:last-of-type {
         margin-bottom: 0;
     }
@@ -29,7 +27,6 @@
     font: 1.5rem 'Bree Serif', 'Times', serif;
     border-radius: 4px;
     margin-bottom: 0.5rem;
-    // text-shadow:  0 0 1px lighten($PrimaryLight, 40%), 0 -1px 1px black;
     background: $Secondary;
     color: white;
     border: 1px solid $Secondary;

@@ -150,13 +150,20 @@ class Detail extends Component {
 							{/* <p className="detail__main__location">{animal.history[0].region ? animal.history[0].region : null}</p> */}
 							{/* <img className="detail__main__image" src={animal.Image ? animal.Image : null} alt="" /> */}
 						</div>
-						<div className="detail__sub">
-							<div className="detail__sub__color">Color: {animal.color ? animal.color : "No Color Provided"}</div>
-							<div className="detail__sub__gender">
-								{animal.history.sex}
-							</div>
-							<div className="detail__sub__breed">Breed: {animal.breed ? animal.breed : "No Breed Provided"}</div>
-						</div>
+						<table className="detail__sub">
+							<tr>
+								<td>Color</td>
+								<td className="detail__sub__color">{animal.color ? animal.color : "No Color Provided"}</td>
+							</tr>
+							<tr>
+								<td>Sex</td>
+								<td className="detail__sub__gender">{animal.history[0].sex}</td>
+							</tr>
+							<tr>
+								<td>Breed</td>
+								<td className="detail__sub__breed">Breed: {animal.breed ? animal.breed : "No Breed Provided"}</td>
+							</tr>
+						</table>
 						<div className="mapRow">
 							<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
 							<div className="detailList__region">

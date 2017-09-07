@@ -29,7 +29,7 @@ class Landing extends Component {
 			<div className="landingContent">
 				<div className="topContainer">
 					<img className="logo" src={logo} alt=""/>
-					<div className="dogImages">
+					<div className={this.props.views ? "dogImages" : "dogImages first"}>
 						{this.props.animalsWithPics.length > 0 ? randomAnimals() : null }		
 					</div>
 				</div>
