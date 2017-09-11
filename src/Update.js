@@ -92,9 +92,7 @@ class Update extends Component {
 									lng: currentAnimal.history[0].lng
 								}
 							})
-				
-						
-				
+
 							let arrLength = currentAnimal.history.length;
 				
 							currentAnimal.history.map((event, index) => {
@@ -186,9 +184,6 @@ class Update extends Component {
 			...newHistory,
 			date
 		}
-		// Start by checking these two since I implemented the sort
-		// console.log(this.state.newHistory)
-		// console.log(this.props.currentAnimal.history[0])
 		if (this.state.newHistory === this.props.currentAnimal.history[0]) {
 			// History has not changed. Push the currentAnimal
 			let history = {};
@@ -225,30 +220,6 @@ class Update extends Component {
 			}
 			this.props.dispatch(updateAnimal(newCurrent.id, newCurrent))
 		}
-		
-		// let date = new Date().getTime();
-
-		// let pushNewHistoryToCurrent = new Promise((resolve, reject) => {
-		// 	let history = this.props.currentHistory
-		// 	history[date] = this.props.newHistory	
-		// 	this.props.dispatch(currentHistory(history))
-		// 	this.props.currentHistory[date] ? resolve() : reject();
-		// })
-
-		// let mergeNewHistoryToAnimal = new Promise((resolve, reject) => {
-		// 	this.props.dispatch(currentAnimal({
-		// 		...this.props.currentAnimal,
-		// 		history: this.props.currentHistory
-		// 	}))
-		// 	this.props.currentAnimal.history[date] ? resolve() : reject()
-		// })
-		
-		// pushNewHistoryToCurrent.then(() => {
-		// 	// console.log("Pushed New History to Current History Obj")
-		// 	mergeNewHistoryToAnimal.then(() => {
-		// 		// this.props.dispatch(updateAnimal(this.props.currentAnimal.id, this.props.currentAnimal))										
-		// 	}).catch(e => e)
-		// }).catch((e) => e)
 	}
 
 	// Map Methods
