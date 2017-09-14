@@ -36,9 +36,9 @@ class Landing extends Component {
 					</div>
 				</div>
 				<nav className="pageNavigation">
-					<Link onTouchTap={listLink} className="Button" to="/list">View Full List </Link>
-					<Link onTouchTap={addLink} className="Button" to="/add">Add New Animal</Link>
-					<Link onTouchTap={loginLink} className="textLink" to="/login">Volunteer Login &rarr;</Link>
+					<Link linkButton={true} onTouchTap={listLink} className="Button" to="/list">View Full List </Link>
+					<Link linkButton={true} onTouchTap={addLink} className="Button" to="/add">Add New Animal</Link>
+					<Link linkButton={true} onTouchTap={loginLink} className="textLink" to="/login">Volunteer Login &rarr;</Link>
 				</nav>
 			</div>
 		)
