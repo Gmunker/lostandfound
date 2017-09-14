@@ -91,7 +91,6 @@ table {
   font: 1.5rem 'Bree Serif', 'Times', serif;
   background: #423837;
   border: 1px solid #262020;
-  border-radius: 4px;
   margin: 0 auto 0.5rem auto;
   color: white; }
   .Button:last-of-type {
@@ -106,7 +105,6 @@ table {
   text-decoration: none;
   text-align: center;
   font: 1.5rem 'Bree Serif', 'Times', serif;
-  border-radius: 4px;
   margin-bottom: 0.5rem;
   background: #D8511D;
   color: white;
@@ -372,7 +370,11 @@ h2.pageHeader {
   margin-bottom: 1em;
   padding: 0 1em; }
   .pageNavigation .textLink {
-    text-align: right; }
+    text-align: right;
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 300px; }
 
 .listContent {
   padding: 1em 1em 0 1em; }

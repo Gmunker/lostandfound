@@ -8,7 +8,6 @@
     font: 1.5rem 'Bree Serif', 'Times', serif;
     background: $Primary;
     border: 1px solid darken($Primary, 10%);
-    border-radius: 4px;
     margin: 0 auto 0.5rem auto;
     color: white;
     &:last-of-type {
@@ -25,7 +24,6 @@
     text-decoration: none;
     text-align: center;
     font: 1.5rem 'Bree Serif', 'Times', serif;
-    border-radius: 4px;
     margin-bottom: 0.5rem;
     background: $Secondary;
     color: white;

@@ -77,60 +77,65 @@ class Update extends Component {
 	componentDidUpdate (nextProps, nextState) {
 		
 		let currentAnimal = this.props.currentAnimal
+		let positionHistory = []
+		currentAnimal.history.map((event, i) => {
+			if(event.lat && event.lng) {
+				positionHistory.push(event)
+			}
+		})
+		if (google === undefined) {
+			
+			google = window.google;
 
-			if (google === undefined) {
-				
-							google = window.google;
-				
-							map = new google.maps.Map(this.refs.map, {
-								zoom: 14,
-								gestureHandling: 'auto',
-								disableDefaultUI: true,
-								fullscreenControl: true,
-								center: {
-									lat: currentAnimal.history[0].lat,
-									lng: currentAnimal.history[0].lng
-								}
-							})
+			map = new google.maps.Map(this.refs.map, {
+				zoom: 14,
+				gestureHandling: 'greedy',
+				disableDefaultUI: true,
+				fullscreenControl: true,
+				center: {
+					lat: positionHistory[0].lat,
+					lng: positionHistory[0].lng
+				}
+			})
 
-							let arrLength = currentAnimal.history.length;
-				
-							currentAnimal.history.map((event, index) => {
-								let customMarker = {
-									url: require(`./images/mapIcons/${currentAnimal.history[index].status}${currentAnimal.type}IconLabel.png`),
-									size: new google.maps.Size(53, 40),
-									origin: new google.maps.Point(0, 0),
-									anchor: new google.maps.Point(21, 41),
-									labelOrigin: new google.maps.Point(40, 16)
-								}
-								let markerLabel = (arrLength).toString()
-								marker = new google.maps.Marker({
-									position: {
-										lat: event.lat,
-										lng: event.lng
-									},
-									map,
-									icon: customMarker,
-									label: {
-										text: markerLabel,
-										fontWeight: "bold"
-									}
-								})
-								arrLength -= 1
-							})
-				
-							map.addListener('click', function(e) {
-								this.setState({
-									newHistory: {
-										...this.state.newHistory,
-										lat: e.latLng.lat(),
-										lng: e.latLng.lng(),
-										region: this.findRegion(e.latLng, google)
-									}
-								})
-								this.placeMarkerAndPanTo(e.latLng, map, google)
-							}.bind(this))
-						}
+			let arrLength = currentAnimal.history.length;
+
+			positionHistory.map((event, index) => {
+				let customMarker = {
+					url: require(`./images/mapIcons/${positionHistory[index].status}${currentAnimal.type}IconLabel.png`),
+					size: new google.maps.Size(53, 40),
+					origin: new google.maps.Point(0, 0),
+					anchor: new google.maps.Point(21, 41),
+					labelOrigin: new google.maps.Point(40, 16)
+				}
+				let markerLabel = (arrLength).toString()
+				marker = new google.maps.Marker({
+					position: {
+						lat: event.lat,
+						lng: event.lng
+					},
+					map,
+					icon: customMarker,
+					label: {
+						text: markerLabel,
+						fontWeight: "bold"
+					}
+				})
+				arrLength -= 1
+			})
+
+			map.addListener('click', function(e) {
+				this.setState({
+					newHistory: {
+						...this.state.newHistory,
+						lat: e.latLng.lat(),
+						lng: e.latLng.lng(),
+						region: this.findRegion(e.latLng, google)
+					}
+				})
+				this.placeMarkerAndPanTo(e.latLng, map, google)
+			}.bind(this))
+		}
 		
 	}
 
@@ -202,7 +207,14 @@ class Update extends Component {
 			this.props.dispatch(updateAnimal(newCurrent.id, newCurrent))
 		
 		} else {
-			// History has changed. Add the history in state to the top of the currentAnimal.history array
+			// History has changed
+			// Has location changed
+			if(newHistory.lat === this.props.currentAnimal.history[0].lat && newHistory.lng === this.props.currentAnimal.history[0].lng) {
+				newHistory.lat = null
+				newHistory.lng = null
+				newHistory.region = null
+			}			
+			
 			this.props.currentAnimal.history.push(newHistory)
 			// Do something amazing in a loop that grabs the new date and keys each item in history with that transformed date
 			let history = {};

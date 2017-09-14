@@ -156,5 +156,9 @@
     padding: 0 1em;
     .textLink {
         text-align: right;
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 300px;
     }
 }

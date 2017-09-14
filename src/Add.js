@@ -7,9 +7,6 @@ import { addAnimal } from './actions/firebaseActions';
 import { currentAnimal, setNewHistory } from './actions/animalActions';
 import scriptLoader from 'react-async-script-loader';
 
-// const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
-// const iconUrl = './images/mapIcons/'
-
 let google
 let map
 let marker
@@ -41,7 +38,7 @@ class Add extends Component {
                 google = window.google
                 map = new google.maps.Map(this.refs.map, {
                     zoom: 12,
-                    gestureHandling: 'auto',
+                    gestureHandling: 'greedy',
                     disableDefaultUI: true,
                     fullscreenControl: true,
                     center: {

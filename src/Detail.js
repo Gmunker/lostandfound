@@ -20,7 +20,7 @@ class Detail extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			activeIndex: null,
+			activeIndex: 0,
 			activeRegion: null
 		}
 		this.handleClick = this.handleClick.bind(this)
@@ -45,21 +45,27 @@ class Detail extends Component {
 
 	componentDidUpdate (nextProps, nextState) {
 		let animal = this.props.currentAnimal
+		let positionHistory = []
+		animal.history.map((event, i) => {
+			if(event.lat && event.lng) {
+				positionHistory.push(event)
+			}
+		})
 		google = window.google;
 		map = new google.maps.Map(this.refs.map, {
 			zoom: 14,
-			gestureHandling: 'auto',
+			gestureHandling: 'greedy',
 			disableDefaultUI: true,
 			fullscreenControl: true,
 			center: {
-					lat: animal.history[0].lat,
-					lng: animal.history[0].lng
+					lat: positionHistory[0].lat,
+					lng: positionHistory[0].lng
 			}
 		})
-		let arrLength = animal.history.length;
-		animal.history.map((event, index) => {
+		let arrLength = positionHistory.length;
+		positionHistory.map((event, index) => {
 			let customMarker = {
-				url: require(`./images/mapIcons/${animal.history[index].status}${animal.type}IconLabel.png`),
+				url: require(`./images/mapIcons/${positionHistory[index].status}${animal.type}IconLabel.png`),
 				size: new google.maps.Size(53, 40),
 				origin: new google.maps.Point(0, 0),
 				anchor: new google.maps.Point(21, 41),
@@ -115,30 +121,32 @@ class Detail extends Component {
 		} else {
 			let loc = animal.type === "dog" ? `/dog/update/${animal.id}` : `/cat/update/${animal.id}`;		
 			let arrLength = animal.history.length
+			let positionEvents = []
+			animal.history.map((event) => {
+				if (event.lat) {
+					positionEvents.push(event)
+				}
+			})
+
 			const eventList = animal.history.map((event, index) => {
 				let eventIndex = arrLength - index
 				let latLng = {
 					lat: event.lat,
 					lng: event.lng
 				}
-				let zeroEvent
-				if (animal.history[0].region !== undefined) {
-					zeroEvent = animal.history[0]
-					return(
-						<EventItem 
-							key={index} 
-							onClick={(event) => {this.handleClick(); this.panTo(latLng);}}
-							index={index}
-							isActive={this.state.activeIndex === index}
-							event={event}
-							eventIndex={eventIndex}
-							latLng={latLng}
-							handleClick={this.handleClick}
-							panTo={this.panTo}
-							zeroEvent={zeroEvent}
-						/>
-					)
-				}
+				return(
+					<EventItem 
+						key={index} 
+						onClick={(event) => {this.handleClick(); this.panTo(latLng);}}
+						index={index}
+						isActive={this.state.activeIndex === index}
+						event={event}
+						eventIndex={eventIndex}
+						latLng={latLng}
+						handleClick={this.handleClick}
+						panTo={this.panTo}
+					/>
+				)
 			})
 			return(
 				<div className="content">
@@ -151,18 +159,20 @@ class Detail extends Component {
 							{/* <img className="detail__main__image" src={animal.Image ? animal.Image : null} alt="" /> */}
 						</div>
 						<table className="detail__sub">
-							<tr>
-								<td>Color</td>
-								<td className="detail__sub__color">{animal.color ? animal.color : "No Color Provided"}</td>
-							</tr>
-							<tr>
-								<td>Sex</td>
-								<td className="detail__sub__gender">{animal.history[0].sex}</td>
-							</tr>
-							<tr>
-								<td>Breed</td>
-								<td className="detail__sub__breed">{animal.breed ? animal.breed : "No Breed Provided"}</td>
-							</tr>
+							<tbody>
+								<tr>
+									<td>Color</td>
+									<td className="detail__sub__color">{animal.color ? animal.color : "No Color Provided"}</td>
+								</tr>
+								<tr>
+									<td>Sex</td>
+									<td className="detail__sub__gender">{animal.history[0].sex}</td>
+								</tr>
+								<tr>
+									<td>Breed</td>
+									<td className="detail__sub__breed">{animal.breed ? animal.breed : "No Breed Provided"}</td>
+								</tr>
+							</tbody>
 						</table>
 						<div className="mapRow">
 							<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
@@ -184,16 +194,7 @@ class Detail extends Component {
 }
 
 class EventItem extends Component {
-	componentDidMount() {
-		if (this.props.zeroEvent) {
-			let zeroEvent = this.props.zeroEvent
-			let zeroLatLng = {
-				lat: zeroEvent.lat,
-				lng: zeroEvent.lng
-			}
-			let zeroRegion = zeroEvent.region
-			this.props.handleClick(0, zeroLatLng, zeroRegion)
-		}
+	componentWillMount() {
 	}
 
 	handleClick = () => {
