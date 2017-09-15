@@ -74,7 +74,7 @@ table {
     .mainNavigation ul a {
       text-decoration: none; }
     .mainNavigation ul li {
-      font: 1em 'Bree Serif', Times, serif;
+      font: 0.9em 'Bree Serif', Times, serif;
       color: white;
       display: block;
       padding-top: 0.85rem; }
@@ -85,13 +85,12 @@ table {
   display: block;
   width: 100%;
   max-width: 300px;
-  padding: 0.75rem;
+  padding: 0.75rem 0;
   text-decoration: none;
   text-align: center;
   font: 1.5rem 'Bree Serif', 'Times', serif;
   background: #423837;
   border: 1px solid #262020;
-  border-radius: 4px;
   margin: 0 auto 0.5rem auto;
   color: white; }
   .Button:last-of-type {
@@ -106,7 +105,6 @@ table {
   text-decoration: none;
   text-align: center;
   font: 1.5rem 'Bree Serif', 'Times', serif;
-  border-radius: 4px;
   margin-bottom: 0.5rem;
   background: #D8511D;
   color: white;
@@ -260,10 +258,10 @@ h2.pageHeader {
   width: 300px; }
 
 .dogImages {
-  width: 250px;
-  height: 250px;
+  width: 220px;
+  height: 220px;
   margin: 0 auto;
-  top: 4.25em;
+  top: 9vh;
   position: relative;
   transform: rotate(45deg); }
   .dogImages a {
@@ -280,29 +278,45 @@ h2.pageHeader {
     overflow: hidden;
     transform: rotate(-45deg); }
   .dogImages .dogImages__image1 {
-    top: -290px;
-    left: -290px;
-    animation: drop1 1.2s ease-in-out;
-    animation-delay: 1.2s;
-    animation-fill-mode: forwards; }
+    top: 0;
+    left: 0; }
   .dogImages .dogImages__image2 {
-    top: -290px;
-    right: 290px;
-    animation: drop2 1.2s ease-in-out;
-    animation-delay: 0.9s;
-    animation-fill-mode: forwards; }
+    top: 0;
+    right: 0; }
   .dogImages .dogImages__image3 {
-    bottom: 290px;
-    left: -290px;
-    animation: drop3 1.2s ease-in-out;
-    animation-delay: 0.6s;
-    animation-fill-mode: forwards; }
+    bottom: 0px;
+    left: 0; }
   .dogImages .dogImages__image4 {
-    bottom: 340px;
-    right: 340px;
-    animation: drop4 1.2s ease-in-out;
-    animation-delay: 0.3s;
-    animation-fill-mode: forwards; }
+    bottom: 0px;
+    right: 0; }
+
+.dogImages.first .dogImages__image1 {
+  top: -290px;
+  left: -290px;
+  animation: drop1 1.2s ease-in-out;
+  animation-delay: 0.9s;
+  animation-fill-mode: forwards; }
+
+.dogImages.first .dogImages__image2 {
+  top: -290px;
+  right: 290px;
+  animation: drop2 1.2s ease-in-out;
+  animation-delay: 0.6s;
+  animation-fill-mode: forwards; }
+
+.dogImages.first .dogImages__image3 {
+  bottom: 290px;
+  left: -290px;
+  animation: drop3 1.2s ease-in-out;
+  animation-delay: 0.3s;
+  animation-fill-mode: forwards; }
+
+.dogImages.first .dogImages__image4 {
+  bottom: 340px;
+  right: 340px;
+  animation: drop4 1.2s ease-in-out;
+  animation-delay: 0s;
+  animation-fill-mode: forwards; }
 
 @keyframes drop1 {
   0% {
@@ -356,7 +370,11 @@ h2.pageHeader {
   margin-bottom: 1em;
   padding: 0 1em; }
   .pageNavigation .textLink {
-    text-align: right; }
+    text-align: right;
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 300px; }
 
 .listContent {
   padding: 1em 1em 0 1em; }
@@ -460,19 +478,25 @@ td {
   font: 1.5em 'Bree Serif', Times, serif;
   color: white;
   background: #423837;
+  margin: 0 7px 1em 7px;
   display: block;
   border-radius: 1em;
-  padding: 0.25em; }
+  padding: 0.25em;
+  border: 2px solid #EFEFEF;
+  box-shadow: 0 0 0 5px #423837; }
 
-.detail__sub__color {
-  text-align: left;
-  font: 1.5em 'Bree Serif', Times, serif;
-  color: #423837; }
+.detail__sub tr:nth-child(2) td:first-child {
+  border-top: 1px solid white;
+  border-bottom: 1px solid white; }
 
-.detail__sub__breed {
-  text-align: left;
-  font: 1.5em 'Bree Serif', Times, serif;
+.detail__sub td {
+  font-size: 0.95em;
+  padding: 0.5em;
   color: #423837; }
+  .detail__sub td:first-child {
+    width: 40px;
+    background: #423837;
+    color: white; }
 
 .detail__main__location {
   font-size: 1.25em;
@@ -485,9 +509,9 @@ td {
   text-align: left;
   background: #423837;
   color: white;
-  padding: 0.25em 0;
+  padding: 0.25em 0 0.5em 0;
   width: 100%;
-  font: 1.25em 'Bree Serif', Times, serif;
+  font: 1.15em 'Bree Serif', Times, serif;
   margin-bottom: 0.5em; }
   .detailList__region span {
     margin-left: 1em; }
@@ -495,9 +519,12 @@ td {
 table.detailList {
   border: none; }
   table.detailList td {
+    font-size: 0.95em;
     text-align: center;
-    padding: 0.5em; }
+    padding: 0.5em 0.25em; }
     table.detailList td:first-child {
+      width: 20px; }
+    table.detailList td:nth-child(2) {
       width: 45px; }
   table.detailList .detailList__item.active.lost td {
     background: #AD1C1C;

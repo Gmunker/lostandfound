@@ -7,9 +7,6 @@ import { addAnimal } from './actions/firebaseActions';
 import { currentAnimal, setNewHistory } from './actions/animalActions';
 import scriptLoader from 'react-async-script-loader';
 
-// const baseUrl = 'https://raw.githubusercontent.com/m-madden/lostandfound/master/';
-// const iconUrl = './images/mapIcons/'
-
 let google
 let map
 let marker
@@ -36,6 +33,7 @@ class Add extends Component {
 
     // Lifecycle Methods
     componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
+        alert("componentWillReceiveProps fired")
         if(google === undefined) {
             if (isScriptLoaded && isScriptLoadSucceed) {
                 google = window.google
@@ -79,7 +77,7 @@ class Add extends Component {
             ...this.props.newHistory,
             status
         }))
-
+        
         if(marker) {
             let location = new google.maps.LatLng(this.props.newHistory.lat, this.props.newHistory.lng)
             this.replaceMarkerIcon(location, map, status, this.props.currentAnimal.type)
@@ -164,7 +162,10 @@ class Add extends Component {
     }
 
     render() {
-        let newAnimal = this.props.currentAnimal;
+
+        alert("render fired")
+
+        let newAnimal = this.props.currentAnimal
         let newHistory = this.props.newHistory
         let statusText;
         newHistory.status === "found" ?
@@ -185,7 +186,7 @@ class Add extends Component {
                                     name="status" 
                                     value="lost"
                                     onChange={this.handleStatus}
-                                    defaultChecked={newHistory.status === "lost"}
+                                    checked={newHistory.status === "lost"}
                                 />
                                 <label htmlFor="statusLost"></label>
                             </div>
@@ -197,7 +198,7 @@ class Add extends Component {
                                     name="status"
                                     value="found" 
                                     onChange={this.handleStatus}
-                                    defaultChecked={newHistory.status === "found"}
+                                    checked={newHistory.status === "found"}
                                 />
                                 <label htmlFor="statusFound"></label>
                             </div>
@@ -210,7 +211,7 @@ class Add extends Component {
                                     value="dog"
                                     id="typeDog"
                                     name="type"
-                                    defaultChecked={this.props.currentAnimal.type === "dog"}
+                                    checked={this.props.currentAnimal.type === "dog"}
                                     onChange={this.handleType}
                                 />
                                 <label htmlFor="typeDog"></label>
@@ -222,7 +223,7 @@ class Add extends Component {
                                     value="cat"
                                     id="typeCat"
                                     name="type"
-                                    defaultChecked={this.props.currentAnimal.type === "cat"}
+                                    checked={this.props.currentAnimal.type === "cat"}
                                     onChange={this.handleType}
                                 />
                                 <label htmlFor="typeCat"></label>
@@ -264,7 +265,7 @@ class Add extends Component {
                         
                         <div className="formTwoColumn">
                             <div className="formSpanOne">
-                                <label htmlFor="color">Color*</label>
+                                <label htmlFor="color">Color</label>
                                 <input 
                                     name="color"
                                     ref="color" 
@@ -301,8 +302,7 @@ class Add extends Component {
 const LoadConnector = connect(state => {
     return {
         currentAnimal: state.animal.currentAnimal,
-        newHistory: state.animal.newHistory,
-        mapData: state.mapData
+        newHistory: state.animal.newHistory
     }
 })(Add)
 

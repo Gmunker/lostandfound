@@ -24,19 +24,18 @@ class Landing extends Component {
 				)
 			})
 		}
-
 		return(
 			<div className="landingContent">
 				<div className="topContainer">
 					<img className="logo" src={logo} alt=""/>
-					<div className="dogImages">
+					<div className={this.props.views ? "dogImages" : "dogImages first"}>
 						{this.props.animalsWithPics.length > 0 ? randomAnimals() : null }		
 					</div>
 				</div>
 				<nav className="pageNavigation">
-					<Link className="Button" to="/list">View Full List </Link>
-					<Link className="Button" to="/add">Add New Animal</Link>
-					<Link className="textLink" to="/login">Volunteer Login &rarr;</Link>
+					<Link className="Button" to={"/list"}>View Full List </Link>
+					<Link className="Button" to={"/add"}>Add New Animal</Link>
+					<Link className="textLink" to={"/login"}>Volunteer Login &rarr;</Link>
 				</nav>
 			</div>
 		)

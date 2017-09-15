@@ -9,21 +9,31 @@
     font: 1.5em 'Bree Serif', Times, serif;
     color: white;
     background: $Primary;
+    margin: 0 7px 1em 7px;
     display: block;
     border-radius: 1em;
     padding: 0.25em;
+    border: 2px solid $Neutral;
+    box-shadow: 0 0 0 5px $Primary;
 }
 
-.detail__sub__color {
-    text-align: left;
-    font: 1.5em 'Bree Serif', Times, serif;
-    color: $Primary;
+.detail__sub tr {
+    &:nth-child(2) {
+        td:first-child {
+            border-top: 1px solid white;
+            border-bottom: 1px solid white;
+        }
+    }
 }
-
-.detail__sub__breed {
-    text-align: left;
-    font: 1.5em 'Bree Serif', Times, serif;
+.detail__sub td{
+    font-size: 0.95em;
+    padding: 0.5em;
     color: $Primary;
+    &:first-child {
+        width: 40px;
+        background: $Primary;
+        color: white;
+    }
 }
 
 .detail__main__location {
@@ -38,9 +48,9 @@
     text-align: left;
     background: $Primary;
     color: white;
-    padding: 0.25em 0;
+    padding: 0.25em 0 0.5em 0;
     width: 100%;
-    font: 1.25em 'Bree Serif', Times, serif;
+    font: 1.15em 'Bree Serif', Times, serif;
     margin-bottom: 0.5em;
     span {
         margin-left: 1em;
@@ -49,9 +59,13 @@
 table.detailList {
     border: none;
     td {
+        font-size: 0.95em;
         text-align: center;
-        padding: 0.5em;
+        padding: 0.5em 0.25em;
         &:first-child {
+            width: 20px;
+        }
+        &:nth-child(2) {
             width: 45px;
         }
     }

@@ -18,6 +18,7 @@ class List extends Component {
 	}
 
 	componentWillMount() {
+		alert("componentWillMount fired")
 		this.props.dispatch(fetchAnimals());
 	}
 
@@ -26,6 +27,9 @@ class List extends Component {
     }
 	
    	render() {
+
+		alert("render fired")
+
 		let { searchText, showDog, showCat, showLost, showFound } = this.props.searchFields;
 		let filteredAnimals = searchAPI.filterAnimals(this.props.animals, showDog, showCat, showLost, showFound, searchText);
 		let table = filteredAnimals.map((animal) => {
@@ -52,7 +56,6 @@ class List extends Component {
 						<thead>
 							<tr>
 								<th>Name</th>
-								{/* <th>Location</th> */}
 								<th>Color</th>
 								<th>Breed</th>
 							</tr>

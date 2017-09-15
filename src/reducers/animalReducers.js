@@ -1,7 +1,6 @@
 const initialState = {
   	currentAnimal: {
 			type: 'dog',
-			animalNotFound: true
 		},
   	newHistory: {
 		"lat": null, 
