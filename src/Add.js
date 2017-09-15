@@ -33,7 +33,6 @@ class Add extends Component {
 
     // Lifecycle Methods
     componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
-        alert("componentWillReceiveProps fired")
         if(google === undefined) {
             if (isScriptLoaded && isScriptLoadSucceed) {
                 google = window.google
@@ -162,8 +161,6 @@ class Add extends Component {
     }
 
     render() {
-
-        alert("render fired")
 
         let newAnimal = this.props.currentAnimal
         let newHistory = this.props.newHistory

@@ -245,11 +245,12 @@ h2.pageHeader {
   display: flex;
   flex-direction: column;
   height: 100%; }
+  .landingContent .topContainer {
+    overflow: hidden; }
 
 .topContainer {
   flex: 1;
-  position: relative;
-  overflow: hidden; }
+  position: relative; }
 
 .logo {
   position: relative;

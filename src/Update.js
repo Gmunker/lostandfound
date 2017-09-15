@@ -33,13 +33,11 @@ class Update extends Component {
 	
 	// Lifecycle Methods
 	componentWillMount() {
-		alert("componentWillMount fired")
 		let animalID = this.props.match.params.id
 		this.props.dispatch(fetchAnimal(animalID))
 	}
 
 	componentWillReceiveProps(nextProps, nextState) {
-		alert("componentWillReceiveProps fired")
 		if (this.props.currentAnimal.animalNotFound) {
 			return true
 		}
@@ -58,7 +56,6 @@ class Update extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		alert("shouldComponentUpdate fired")
 		if ((nextProps.isScriptLoaded && nextProps.isScriptLoadSucceed) || 
 				(this.props.isScriptLoaded && this.props.isScriptLoadSucceed)) {
 				if ((nextProps.currentAnimal.history || this.props.currentAnimal.history) || nextProps.currentAnimal.animalNotFound) {
@@ -70,7 +67,6 @@ class Update extends Component {
 	}
 
 	componentDidUpdate (nextProps, nextState) {
-		alert("componentDidUpdate fired")
 		let currentAnimal = this.props.currentAnimal
 		let positionHistory = []
 		currentAnimal.history.map((event, i) => {
@@ -280,8 +276,6 @@ class Update extends Component {
 	}
 		
 	render() {
-		
-		alert("render fired")
 
 		let animal = this.props.currentAnimal
 		if (this.props.currentAnimal.animalNotFound === true ) {
