@@ -185,7 +185,7 @@ class Detail extends Component {
 								</tbody>
 							</table>
 						</div>
-						<Link className="Button" to={loc}>Update</Link>
+						<Link className="Button" to={animal.type === "dog" ? `/dog/update/${animal.id}` : `/cat/update/${animal.id}`}>Update</Link>
 					</div>
 				</div>
 			)

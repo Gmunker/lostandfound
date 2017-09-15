@@ -33,6 +33,7 @@ class Add extends Component {
 
     // Lifecycle Methods
     componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
+        alert("componentWillReceiveProps fired")
         if(google === undefined) {
             if (isScriptLoaded && isScriptLoadSucceed) {
                 google = window.google
@@ -161,6 +162,9 @@ class Add extends Component {
     }
 
     render() {
+
+        alert("render fired")
+
         let newAnimal = this.props.currentAnimal
         let newHistory = this.props.newHistory
         let statusText;
@@ -298,8 +302,7 @@ class Add extends Component {
 const LoadConnector = connect(state => {
     return {
         currentAnimal: state.animal.currentAnimal,
-        newHistory: state.animal.newHistory,
-        // mapData: state.mapData
+        newHistory: state.animal.newHistory
     }
 })(Add)
 

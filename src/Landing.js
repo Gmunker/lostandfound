@@ -24,9 +24,6 @@ class Landing extends Component {
 				)
 			})
 		}
-		// let listLink = <Link to="/list"/>
-		// let addLink = <Link to="/add"/>
-		// let loginLink = <Link to="/login"/>
 		return(
 			<div className="landingContent">
 				<div className="topContainer">
@@ -36,9 +33,9 @@ class Landing extends Component {
 					</div>
 				</div>
 				<nav className="pageNavigation">
-					<Link rel="noreferrer" className="Button" to="/list">View Full List </Link>
-					<Link rel="noreferrer" className="Button" to="/add">Add New Animal</Link>
-					<Link rel="noreferrer" className="textLink" to="/login">Volunteer Login &rarr;</Link>
+					<Link className="Button" to={"/list"}>View Full List </Link>
+					<Link className="Button" to={"/add"}>Add New Animal</Link>
+					<Link className="textLink" to={"/login"}>Volunteer Login &rarr;</Link>
 				</nav>
 			</div>
 		)
