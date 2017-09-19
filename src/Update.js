@@ -83,6 +83,7 @@ class Update extends Component {
 				gestureHandling: 'greedy',
 				disableDefaultUI: true,
 				fullscreenControl: true,
+				clickableIcons: false,
 				center: {
 					lat: positionHistory[0].lat,
 					lng: positionHistory[0].lng
@@ -183,11 +184,11 @@ class Update extends Component {
 		if (this.state.newHistory === this.props.currentAnimal.history[0]) {
 			// History has not changed. Push the currentAnimal
 			let history = {};
-			for (let i = 0; i < this.props.currentAnimal.history.length; ++i) {
-				let key = this.props.currentAnimal.history[i].date.getTime()
-				delete this.props.currentAnimal.history[i].date
-				history[key] = this.props.currentAnimal.history[i];
-			}
+			this.props.currentAnimal.history.map((event, i) => {
+				let key = event.date.getTime()
+				delete event.date
+				history[key] = event
+			})
 			let newCurrent = this.props.currentAnimal
 			newCurrent = {
 				...newCurrent,
@@ -209,11 +210,11 @@ class Update extends Component {
 			this.props.currentAnimal.history.push(newHistory)
 			// Do something amazing in a loop that grabs the new date and keys each item in history with that transformed date
 			let history = {};
-			for (let i = 0; i < this.props.currentAnimal.history.length; ++i) {
-				let key = this.props.currentAnimal.history[i].date.getTime()
-				delete this.props.currentAnimal.history[i].date
-				history[key] = this.props.currentAnimal.history[i];
-			}
+			this.props.currentAnimal.history.map((event, i) => {
+				let key = event.date.getTime()
+				delete event.date
+				history[key] = event
+			})
 			let newCurrent = this.props.currentAnimal
 			newCurrent = {
 				...newCurrent,
@@ -254,12 +255,12 @@ class Update extends Component {
 
 	findRegion(latLng, google) {
 		let regionName;
-		for(let i=0; i<regions.length;i++) {
-			let currentPoly = new google.maps.Polygon({paths: regions[i].polygon});
-			if(google.maps.geometry.poly.containsLocation(latLng, currentPoly)) {
-				regionName = regions[i].name;
-			}
-		}
+		regions.map((region, i) => {
+            let currentPoly = new google.maps.Polygon({paths: region.polygon})
+            if(google.maps.geometry.poly.containsLocation(latLng, currentPoly)) {
+                regionName = region.name
+            }
+        })
 		
 		let region = regionName !== undefined ? regionName : "Outside Defined Regions"
 		return region

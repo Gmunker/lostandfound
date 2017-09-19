@@ -41,15 +41,17 @@ export function fetchAnimal(id) {
 					let parsedHistory = [];
 					let keys = Object.keys(history);
 					let values = Object.values(history)
-					for (let i=0;i<values.length;i++) {
-						let utcSeconds = keys[i];
-						let date = new Date(0);
-						date.setUTCMilliseconds(utcSeconds);
+
+					values.map((event, i) => {
+						let utcSeconds = keys[i]
+						let date = new Date(0)
+						date.setUTCMilliseconds(utcSeconds)
 						parsedHistory.push({
-							...values[i],
+							...event,
 							date
 						})
-					}
+					})
+
 					// parsedHistory.sort((a,b) => new Date(a.date) - new Date(b.date))
 					let animal = {
 						...snapshot.val(),

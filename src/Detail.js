@@ -57,6 +57,7 @@ class Detail extends Component {
 			gestureHandling: 'greedy',
 			disableDefaultUI: true,
 			fullscreenControl: true,
+			clickableIcons: false,
 			center: {
 					lat: positionHistory[0].lat,
 					lng: positionHistory[0].lng
