@@ -8,7 +8,7 @@ import './App.css';
 
 // import scriptLoader from 'react-async-script-loader'
 
-import Add from './Add';
+import Add from './AddNewAnimal';
 import Detail from './Detail';
 import Landing from './Landing';
 import List from './List';
