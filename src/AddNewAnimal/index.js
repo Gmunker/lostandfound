@@ -64,16 +64,6 @@ class Add extends Component {
     componentWillUnmount() {
         google = undefined
     }
-
-    // Form Methods
-    // handleChange(e) {
-    //     this.props.dispatch(currentAnimal({
-    //         ...this.props.currentAnimal,
-    //         name: this.name.value,
-    //         color: this.color.value,
-    //         breed: this.breed.value
-    //     }))
-    // }
     
     handleName(e) {
         this.props.dispatch(currentAnimal({
@@ -96,8 +86,8 @@ class Add extends Component {
         }))
     }
 
-    handleStatus(e) {
-        let status = e.currentTarget.name === "status" ? e.currentTarget.value : null;
+    handleStatus(status) {
+        console.log(status)
         this.props.dispatch(setNewHistory({
             ...this.props.newHistory,
             status
@@ -122,8 +112,7 @@ class Add extends Component {
         }
     }
 
-    handleSex(e) {
-        let sex = e.target.value;
+    handleSex(sex) {
         this.props.dispatch(setNewHistory({
             ...this.props.newHistory,
             sex

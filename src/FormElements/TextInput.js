@@ -7,7 +7,7 @@ export class TextInput extends Component {
     render() {
         return(
             <div className="formRow">
-                <label htmlFor="name">{this.props.textInputProps.label}</label>
+                <label htmlFor="name">{this.props.textInputProps.label}{this.props.textInputProps.required ? "*" : null}</label>
                 <input
                     ref={this.props.name}
                     name={this.props.textInputProps.name}
