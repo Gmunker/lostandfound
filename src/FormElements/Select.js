@@ -7,17 +7,12 @@ export class Select extends Component {
             open: false
         }
         this.handleOpen = this.handleOpen.bind(this);
-        this.jsUcFirst = this.jsUcFirst.bind(this);
     }
 
     handleOpen(e) {
         this.setState({
             open: !this.state.open
         })
-    }
-    
-    jsUcFirst(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     render() {

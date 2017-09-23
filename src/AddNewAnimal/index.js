@@ -23,7 +23,6 @@ class Add extends Component {
             status: "lost",
             name: ""
         };
-        // this.handleChange = this.handleChange.bind(this);
         this.handleStatus = this.handleStatus.bind(this);
         this.handleSex = this.handleSex.bind(this);
         this.handleType = this.handleType.bind(this);
@@ -177,23 +176,28 @@ class Add extends Component {
         }))
     }    
 
-    render() {    
+    render() {
+        
+        let addProps = {
+            handleStatus: this.handleStatus, 
+            handleType: this.handleType,
+            handleName: this.handleName,
+            handleSex: this.handleSex,
+            handleColor: this.handleColor,
+            handleBreed: this.handleBreed,
+            handleSubmit: this.handleSubmit,
+            findRegion: this.findRegion,
+            placeMarkerAndPanTo: this.placeMarkerAndPanTo, 
+            replaceMarkerIcon: this.replaceMarkerIcon, 
+            map: input => this.map = input,
+            newAnimal: this.props.currentAnimal,
+            newHistory: this.props.newHistory
+        }
+
         return(
             <div className="addContent content">
                 <Navigation/>
-                <AddAnimalForm 
-                    handleStatus={this.handleStatus} 
-                    handleType={this.handleType}
-                    handleName={this.handleName}
-                    handleSex={this.handleSex}
-                    handleColor={this.handleColor}
-                    handleBreed={this.handleBreed}
-                    handleSubmit={this.handleSubmit}
-                    findRegion={this.findRegion}
-                    placeMarkerAndPanTo={this.placeMarkerAndPanTo} 
-                    replaceMarkerIcon={this.replaceMarkerIcon} 
-                    map={input => this.map = input}
-                />
+                <AddAnimalForm Props={addProps}/>
                 {this.state.redirect ? <Redirect to="/list" /> : null}
             </div>
         )

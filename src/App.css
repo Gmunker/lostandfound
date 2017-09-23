@@ -209,10 +209,11 @@ select {
 .select {
   font-family: 'Arial', sans-serif;
   font-size: 16px;
-  margin-bottom: 1em; }
+  margin-bottom: 1em;
+  position: relative; }
   .select div {
     position: absolute;
-    z-index: 9999;
+    z-index: 1;
     width: calc(100% - 2px);
     display: none;
     background: white;

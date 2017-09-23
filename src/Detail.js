@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { currentAnimal } from './actions/animalActions';
 import { fetchAnimal } from './actions/animalsActions';
 
-// const iconUrl = '/images/mapIcons/'
 let google
 let map
 let marker
@@ -33,7 +32,6 @@ class Detail extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		// let { isScriptLoaded, isScriptLoadSucceed } = nextProps;
 		if ((nextProps.isScriptLoaded && nextProps.isScriptLoadSucceed) || (this.props.isScriptLoaded && this.props.isScriptLoadSucceed)) {
 			if (nextProps.currentAnimal.history || this.props.currentAnimal.history) {
 				return true
@@ -155,9 +153,6 @@ class Detail extends Component {
 					<div className="detail">
 						<div className="detail__main">
 						<div className="detail__sub__name">{animal.name ? animal.name : "No Name Provided"}</div>
-							{/* <div>{animal.history[0].region === "Outside Defined Regions" ? null : "In the Region:"}</div> */}
-							{/* <p className="detail__main__location">{animal.history[0].region ? animal.history[0].region : null}</p> */}
-							{/* <img className="detail__main__image" src={animal.Image ? animal.Image : null} alt="" /> */}
 						</div>
 						<table className="detail__sub">
 							<tbody>

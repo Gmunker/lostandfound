@@ -5,16 +5,13 @@ import {
 	Switch 
 } from 'react-router-dom';
 import './App.css';
-
-// import scriptLoader from 'react-async-script-loader'
-
-import Add from './AddNewAnimal';
+import Add from './AddNewAnimal/';
 import Detail from './Detail';
 import Landing from './Landing';
 import List from './List';
 import Update from './Update';
 import ScrollToTop from './ScrollToTop';
-import Login from './Login';
+import Login from './Login/';
 import RegionGmap from './GoogleMap/RegionGmap';
 
 let views = false
