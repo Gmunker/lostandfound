@@ -34,9 +34,6 @@ class List extends Component {
 			return(
 				<tr key={animal.id}>
 					<td className="nametd"><Link id={animal.id} to={loc}>{animal.name}</Link></td>
-					{/* <td className="loctd">
-						<Link id={animal.id} to={loc}>{animal.history[0].region}</Link> 
-					</td> */}
 					<td className="colortd"><Link to={loc}>{animal.color}</Link></td>
 					<td className="breedtd"><Link to={loc}>{animal.breed}</Link></td>
 				</tr>
@@ -45,7 +42,7 @@ class List extends Component {
 
 		return(
 			<div className="listContent content">
-				<Navigation navSwitch={this.props.navSwitch} ActivePage="List"/>
+				<Navigation/>
 				<div className="topContainer">
 					<h2 className="pageHeader">I'm looking for a...</h2>
 					<Search />

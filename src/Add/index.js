@@ -63,7 +63,8 @@ class Add extends Component {
     componentWillUnmount() {
         google = undefined
     }
-    
+
+    // Form Methods    
     handleName(e) {
         this.props.dispatch(currentAnimal({
             ...this.props.currentAnimal,
@@ -177,27 +178,103 @@ class Add extends Component {
     }    
 
     render() {
-        
-        let addProps = {
-            handleStatus: this.handleStatus, 
-            handleType: this.handleType,
-            handleName: this.handleName,
-            handleSex: this.handleSex,
-            handleColor: this.handleColor,
-            handleBreed: this.handleBreed,
-            handleSubmit: this.handleSubmit,
-            findRegion: this.findRegion,
-            placeMarkerAndPanTo: this.placeMarkerAndPanTo, 
-            replaceMarkerIcon: this.replaceMarkerIcon, 
-            map: input => this.map = input,
-            newAnimal: this.props.currentAnimal,
-            newHistory: this.props.newHistory
+        let newAnimal = this.props.currentAnimal
+        let newHistory = this.props.newHistory
+        let Props = {
+            Name: {
+                label: "Name",
+                name: "name",
+                ref: "name",
+                required: true,
+                id: "name",
+                onChange: this.handleName,
+                value: newAnimal.name
+            },
+            Status: {
+                options: [
+                    "lost",
+                    "found",
+                    "transferred"
+                ],
+                selectProps: {
+                    label: "Status",
+                    onChange: this.handleStatus,
+                    value: newHistory.status,
+                    name: "status",
+                    ref: "status",
+                    id: "status"
+                }
+            },
+            Type: {
+                one: {
+                    label: "Dog",
+                    value: "dog",
+                    id: "typeDog",
+                    name: "type",
+                    checked: newAnimal.type === "dog",
+                    onChange: this.handleType
+                },
+                two: {
+                    label: "Cat",
+                    value: "cat",
+                    id: "typeCat",
+                    name: "type",
+                    checked: newAnimal.type === "cat",
+                    onChange: this.handleType
+                }
+            },
+            Sex: {
+                options: [
+                    "male",
+                    "female",
+                    "neutered male",
+                    "spayed female"
+                ],
+                selectProps: {
+                    label: "Sex",
+                    onChange: this.handleSex,
+                    value: newHistory.sex,
+                    name: "sex",
+                    ref: "sex",
+                    id: "sex"
+                }
+            },
+            Color: {
+                label: "Color",
+                name: "color",
+                ref: "color",
+                required: true,
+                id: "color",
+                onChange: this.handleColor,
+                value: newAnimal.color
+            },
+            Breed: {
+                label: "Breed",
+                name: "breed",
+                ref: "breed",
+                required: true,
+                id: "breed",
+                onChange: this.handleBreed,
+                value: newAnimal.breed
+            },
+            Map: {
+                typeText: newAnimal.type === "dog" ? "dog" : "cat",
+                statusText: newHistory.status === "found" ? "found" : "last seen",
+                regionName: newHistory.region,
+                findRegion: this.findRegion,
+                placeMarkerAndPanTo: this.placeMarkerAndPanTo, 
+                replaceMarkerIcon: this.replaceMarkerIcon, 
+                map: input => this.map = input,
+            },
+            Submit: {
+                handleSubmit: this.handleSubmit
+            }
         }
 
         return(
             <div className="addContent content">
                 <Navigation/>
-                <AddAnimalForm Props={addProps}/>
+                <AddAnimalForm Props={Props}/>
                 {this.state.redirect ? <Redirect to="/list" /> : null}
             </div>
         )

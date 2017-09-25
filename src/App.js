@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import { 
-	BrowserRouter as Router, 
-	Route,
-	Switch 
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
-import Add from './AddNewAnimal/';
-import Detail from './Detail';
+import Add from './Add/';
+import Detail from './Detail/';
 import Landing from './Landing';
 import List from './List';
-import Update from './Update';
+import Update from './Update/';
 import ScrollToTop from './ScrollToTop';
 import Login from './Login/';
 import RegionGmap from './GoogleMap/RegionGmap';

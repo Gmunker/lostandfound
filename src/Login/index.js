@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import validator from 'validator';
 import Navigation from '../Navigation';
-import { TextInput } from '../FormElements';
 import LoginForm from './Login';
 import { login, logout } from '../actions/userActions';
 
