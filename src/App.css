@@ -493,6 +493,11 @@ td {
   overflow: hidden;
   text-overflow: ellipsis; }
 
+.listEmptySet {
+  font: 1.5em "Bree Serif", Times, serif;
+  color: #999;
+  text-align: center; }
+
 .addContent {
   box-sizing: border-box;
   padding-top: 1em; }

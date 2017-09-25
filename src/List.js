@@ -46,6 +46,7 @@ class List extends Component {
 				<div className="topContainer">
 					<h2 className="pageHeader">I'm looking for a...</h2>
 					<Search />
+					{filteredAnimals.length > 0 ?
 					<table>
 						<thead>
 							<tr>
@@ -57,7 +58,9 @@ class List extends Component {
 						<tbody>
 							{this.props.animals.length > 0 ? table : null}
 						</tbody>
-					</table>
+					</table> :
+					<p className="listEmptySet">No Results</p>
+					}
 					{this.props.animals.length === 0 ? <h1>Loading List....</h1> : null}
 				</div>
 			</div>
