@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import Navigation from './Navigation';
+import { Redirect } from 'react-router-dom';
+import Navigation from '../Navigation';
 import scriptLoader from 'react-async-script-loader';
-import { fetchAnimal } from './actions/animalsActions';
-import { currentAnimal } from './actions/animalActions';
-import { updateAnimal, deleteAnimal } from './actions/firebaseActions';
+import { fetchAnimal } from '../actions/animalsActions';
+import { currentAnimal } from '../actions/animalActions';
+import { updateAnimal, deleteAnimal } from '../actions/firebaseActions';
 import { connect } from 'react-redux';
-import regions from './GoogleMap/geojson.json';
+import regions from '../GoogleMap/geojson.json';
+import UpdateContent from './Update';
 
 let google
 let map
@@ -28,18 +29,19 @@ class Update extends Component {
 		this.placeMarkerAndPanTo = this.placeMarkerAndPanTo.bind(this);
 		this.findRegion = this.findRegion.bind(this);
 		this.replaceMarkerIcon = this.replaceMarkerIcon.bind(this);
-		this.handleDelete = this.handleDelete.bind(this)
+        this.handleDelete = this.handleDelete.bind(this)
+        this.handleName = this.handleName.bind(this)
+        this.handleColor = this.handleColor.bind(this)
+        this.handleBreed = this.handleBreed.bind(this)
 	}
 	
 	// Lifecycle Methods
 	componentWillMount() {
-		alert("componentWillMount fired")
 		let animalID = this.props.match.params.id
 		this.props.dispatch(fetchAnimal(animalID))
 	}
 
 	componentWillReceiveProps(nextProps, nextState) {
-		alert("componentWillReceiveProps fired")
 		if (this.props.currentAnimal.animalNotFound) {
 			return true
 		}
@@ -58,7 +60,6 @@ class Update extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		alert("shouldComponentUpdate fired")
 		if ((nextProps.isScriptLoaded && nextProps.isScriptLoadSucceed) || 
 				(this.props.isScriptLoaded && this.props.isScriptLoadSucceed)) {
 				if ((nextProps.currentAnimal.history || this.props.currentAnimal.history) || nextProps.currentAnimal.animalNotFound) {
@@ -70,7 +71,6 @@ class Update extends Component {
 	}
 
 	componentDidUpdate (nextProps, nextState) {
-		alert("componentDidUpdate fired")
 		let currentAnimal = this.props.currentAnimal
 		let positionHistory = []
 		currentAnimal.history.map((event, i) => {
@@ -82,43 +82,35 @@ class Update extends Component {
 			
 			google = window.google;
 
-			map = new google.maps.Map(this.refs.map, {
+			map = new google.maps.Map(this.map, {
 				zoom: 14,
 				gestureHandling: 'greedy',
 				disableDefaultUI: true,
 				fullscreenControl: true,
+				clickableIcons: false,
 				center: {
 					lat: positionHistory[0].lat,
 					lng: positionHistory[0].lng
 				}
 			})
 
-			let arrLength = currentAnimal.history.length;
-
 			positionHistory.map((event, index) => {
 				let customMarker = {
-					url: require(`./images/mapIcons/${positionHistory[index].status}${currentAnimal.type}IconLabel.png`),
+					url: require(`../images/mapIcons/${positionHistory[index].status}${currentAnimal.type}Icon.png`),
 					size: new google.maps.Size(53, 40),
 					origin: new google.maps.Point(0, 0),
 					anchor: new google.maps.Point(21, 41),
 					labelOrigin: new google.maps.Point(40, 16)
 				}
-				let markerLabel = (arrLength).toString()
 				marker = new google.maps.Marker({
 					position: {
 						lat: event.lat,
 						lng: event.lng
 					},
 					map,
-					icon: customMarker,
-					label: {
-						text: markerLabel,
-						fontWeight: "bold"
-					}
+					icon: customMarker
 				})
-				arrLength -= 1
 			})
-
 			map.addListener('click', function(e) {
 				this.setState({
 					newHistory: {
@@ -131,7 +123,6 @@ class Update extends Component {
 				this.placeMarkerAndPanTo(e.latLng, map, google)
 			}.bind(this))
 		}
-		
 	}
 
 	componentWillUnmount() {
@@ -140,7 +131,7 @@ class Update extends Component {
 	}
 	
 	// Form Methods
-	handleChange(event) {   
+	handleChange(event) {
 		event.preventDefault();
 		let ref = this.refs;
 		this.props.dispatch(currentAnimal({
@@ -149,11 +140,30 @@ class Update extends Component {
 			color: ref.color.value,
 			breed: ref.breed.value
 		}))
-	}
+    }
+    
+    handleName(e) {
+        this.props.dispatch(currentAnimal({
+			...this.props.currentAnimal,
+			name: e.target.value
+		}))
+    }
 
-	handleStatus(e) {
-		let status = e.currentTarget.name === "status" ? e.currentTarget.value : null;
-		// this.props.dispatch(setNewHistory({ ...this.props.newHistory, status }))
+    handleColor(e) {
+        this.props.dispatch(currentAnimal({
+			...this.props.currentAnimal,
+			color: e.target.value
+		}))
+    }
+
+    handleBreed(e) {
+        this.props.dispatch(currentAnimal({
+			...this.props.currentAnimal,
+			breed: e.target.value
+		}))
+    }
+
+	handleStatus(status) {
 		this.setState({
 			newHistory: {
 				...this.state.newHistory,
@@ -166,8 +176,7 @@ class Update extends Component {
 		})
 	}
 
-	handleSex(e) {
-		let sex = e.target.value;
+	handleSex(sex) {
 		this.setState({
 			newHistory: {
 				...this.state.newHistory,
@@ -187,11 +196,11 @@ class Update extends Component {
 		if (this.state.newHistory === this.props.currentAnimal.history[0]) {
 			// History has not changed. Push the currentAnimal
 			let history = {};
-			for (let i = 0; i < this.props.currentAnimal.history.length; ++i) {
-				let key = this.props.currentAnimal.history[i].date.getTime()
-				delete this.props.currentAnimal.history[i].date
-				history[key] = this.props.currentAnimal.history[i];
-			}
+			this.props.currentAnimal.history.map((event, i) => {
+				let key = event.date.getTime()
+				delete event.date
+				history[key] = event
+			})
 			let newCurrent = this.props.currentAnimal
 			newCurrent = {
 				...newCurrent,
@@ -213,11 +222,11 @@ class Update extends Component {
 			this.props.currentAnimal.history.push(newHistory)
 			// Do something amazing in a loop that grabs the new date and keys each item in history with that transformed date
 			let history = {};
-			for (let i = 0; i < this.props.currentAnimal.history.length; ++i) {
-				let key = this.props.currentAnimal.history[i].date.getTime()
-				delete this.props.currentAnimal.history[i].date
-				history[key] = this.props.currentAnimal.history[i];
-			}
+			this.props.currentAnimal.history.map((event, i) => {
+				let key = event.date.getTime()
+				delete event.date
+				history[key] = event
+			})
 			let newCurrent = this.props.currentAnimal
 			newCurrent = {
 				...newCurrent,
@@ -227,10 +236,18 @@ class Update extends Component {
 			}
 			this.props.dispatch(updateAnimal(newCurrent.id, newCurrent))
 		}
+    }
+    
+    handleDelete(e) {
+		// e.preventDefault()
+		const animalID = this.props.match.params.id
+		const dispatch = this.props.dispatch
+        dispatch(deleteAnimal(animalID))
+            .then(this.setState((state, props) => { return { redirect: true }}))
+            .catch(err => console.log(err))
 	}
 
 	// Map Methods
-
 	replaceMarkerIcon() {
         newMarker.setMap(null)
         newMarker = new google.maps.Marker({
@@ -239,7 +256,7 @@ class Update extends Component {
 				lng: this.state.newHistory.lng
 			},
             map,
-            icon: require(`./images/mapIcons/${this.state.newHistory.status}${this.props.currentAnimal.type}Icon.png`)
+            icon: require(`../images/mapIcons/${this.state.newHistory.status}${this.props.currentAnimal.type}Icon.png`)
 		});
 		map.panTo(newMarker.position);
     }
@@ -251,37 +268,25 @@ class Update extends Component {
 		newMarker = new google.maps.Marker({
 			position: latLng,
 			map,
-			icon: require(`./images/mapIcons/${this.state.newHistory.status}${this.props.currentAnimal.type}Icon.png`)
+			icon: require(`../images/mapIcons/${this.state.newHistory.status}${this.props.currentAnimal.type}Icon.png`)
 		});
 		map.panTo(latLng);
 	}
 
 	findRegion(latLng, google) {
 		let regionName;
-		for(let i=0; i<regions.length;i++) {
-			let currentPoly = new google.maps.Polygon({paths: regions[i].polygon});
-			if(google.maps.geometry.poly.containsLocation(latLng, currentPoly)) {
-				regionName = regions[i].name;
-			}
-		}
+		regions.map((region, i) => {
+            let currentPoly = new google.maps.Polygon({paths: region.polygon})
+            if(google.maps.geometry.poly.containsLocation(latLng, currentPoly)) {
+                regionName = region.name
+            }
+        })
 		
 		let region = regionName !== undefined ? regionName : "Outside Defined Regions"
 		return region
-	}
-
-	handleDelete(e) {
-		e.preventDefault()
-		const animalID = this.props.match.params.id
-		const dispatch = this.props.dispatch
-		
-			dispatch(deleteAnimal(animalID))
-				.then(this.setState((state, props) => { return { redirect: true }}))
-				.catch(err => console.log(err))	
-	}
+	}	
 		
 	render() {
-		
-		alert("render fired")
 
 		let animal = this.props.currentAnimal
 		if (this.props.currentAnimal.animalNotFound === true ) {
@@ -293,112 +298,91 @@ class Update extends Component {
 				<div>Loading...</div>
 			)
 		} else if (animal.history) {
+
+            let newHistory = this.state.newHistory
+
+            let Props = {
+                animal: this.props.currentAnimal,
+                newHistory: newHistory,
+                Map: { 
+                    ref: el => this.map = el,
+                },
+                Submit: {
+                    handleSubmit: this.handleSubmit
+                },
+                Delete: {
+                    handleDelete: this.handleDelete
+                },
+                Status: {
+                    options: [
+                        "lost",
+                        "found",
+                        "transferred"
+                    ],
+                    selectProps: {
+                        label: "Status",
+                        onChange: this.handleStatus,
+                        value: newHistory.status,
+                        name: "status",
+                        ref: "status",
+                        id: "status"
+                    }
+                },
+                Sex: {
+                    options: [
+                        "male",
+                        "female",
+                        "neutered male",
+                        "spayed female"
+                    ],
+                    selectProps: {
+                        label: "Sex",
+                        onChange: this.handleSex,
+                        value: newHistory.sex,
+                        name: "sex",
+                        ref: "sex",
+                        id: "sex"
+                    }
+                },
+                Color: {
+                    label: "Color",
+                    name: "color",
+                    ref: "color",
+                    required: true,
+                    id: "color",
+                    onChange: this.handleColor,
+                    value: animal.color
+                },
+                Breed: {
+                    label: "Breed",
+                    name: "breed",
+                    ref: "breed",
+                    required: true,
+                    id: "breed",
+                    onChange: this.handleBreed,
+                    value: animal.breed
+                },
+                Name: {
+                    label: "Name",
+                    name: "name",
+                    ref: "name",
+                    required: true,
+                    id: "name",
+                    onChange: this.handleName,
+                    value: animal.name
+                }
+            }
+
 			return(
 				<div className="addContent content">
 					<Navigation />
-					<div className="topContainer">
-						<h2 className="pageHeader">Update Animal</h2>
-						<form>
-							<div className="formTwoColumn">
-								<div className="formSpanOne radio">
-									<span>Lost</span>
-									<input 
-										type="radio" 
-										id="statusLost" 
-										name="status" 
-										onChange={this.handleStatus} 
-										value="lost" 
-										checked={this.state.newHistory.status === "lost"}
-									/>
-									<label htmlFor="statusLost"></label>
-								</div>
-								<div className="formSpanOne radio">
-									<span>Found</span>
-									<input 
-										type="radio" 
-										id="statusFound" 
-										name="status" 
-										onChange={this.handleStatus} 
-										value="found" 
-										checked={this.state.newHistory.status === "found"}
-									/>
-									<label htmlFor="statusFound"></label>
-								</div>
-							</div>
-							<div className="mapRow">
-								<div ref="map" id="map" style={{height: "250px", width:"100%"}}></div>
-							</div>
-							<div className="formRow">
-								<label htmlFor="name">Name</label>
-								<input 
-									name="name" 
-									id="name" 
-									ref="name" 
-									type="text" 
-									onChange={this.handleChange} 
-									value={animal.name}
-								/>
-							</div>
-							<div className="formRow">
-								<label htmlFor="sex">Sex</label>
-								<select 
-									name="sex" 
-									id="sex" 
-									ref="gender" 
-									onChange={this.handleSex} 
-									value={this.state.newHistory.sex}
-								>
-									<option value={"male"}>Male</option>
-									<option value={"female"}>Female</option>
-									<option value={"neutered male"}>Neutered Male</option>
-									<option value={"spayed female"}>Spayed Female</option>
-								</select>
-							</div>
-							<div className="formTwoColumn">
-								<div className="formSpanOne">
-									<label htmlFor="color">Color*</label>
-									<input 
-										name="color" 
-										id="color" 
-										ref="color" 
-										type="text" 
-										onChange={this.handleChange} 
-										value={animal.color} 
-										required
-									/>
-								</div>
-								<div className="formSpanOne">
-									<label htmlFor="breed">Breed</label>
-									<input 
-										name="breed" 
-										id="breed" 
-										ref="breed" 
-										type="text" 
-										onChange={this.handleChange} 
-										value={animal.breed}
-									/>
-								</div>
-							</div>                    
-							<Link
-								to="/list"
-								className="formButton" 
-								onClick={this.handleSubmit} 
-								>Submit</Link>
-								<button
-								className="formButton" 
-								onClick={this.handleDelete}
-							>Delete</button>
-							<span className="formIndicia">* Required Field</span>
-						</form>
-					</div>
-					
+                    <UpdateContent Props={Props}/>
 					{this.state.redirect === true ? <Redirect to="/list" /> : null}
 				</div>
 			)
 		}
 	}
 }
-
 
 const LoadConnector = connect(state => {
     return {

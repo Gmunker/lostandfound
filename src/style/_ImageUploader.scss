@@ -1,0 +1,60 @@
+.uploadContainer {
+    position: relative;
+}
+.uploadContainer__imageUploader {
+    display: none;
+    height: 200px;
+    background: white;
+    box-shadow: 0 0 30px rgba(black, 0.7);
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+    left: -1em;
+    padding: 1em;
+}
+.uploadContainer__imageUploader.active {
+    display: block;
+    top: 50px;
+    animation: slideandfade 0.3s ease-out;
+    animation-fill-mode: forwards;
+}
+
+.uploadContainer__imageUploader__dropzone {
+    border: none;
+    height: 100%;
+}
+
+.uploadContainer__imageUploader__dropzone__graphic {
+    border: 5px dashed $Secondary;
+    height: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    font: 1.5em 'Bree Serif', Times, serif;
+    color: $Secondary;
+    padding-top: 2em;
+}
+
+@keyframes slideandfade {
+    0% {
+        top: 50px;
+        opacity: 0;
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        top: 80px;
+    }
+}
+.imagePreview {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.imagePreview__image {
+
+    img {
+        width: 80px;
+        height: 80px;
+    }
+}

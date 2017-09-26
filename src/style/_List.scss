@@ -93,3 +93,9 @@ td {
   	overflow: hidden;
   	text-overflow: ellipsis;
 }
+
+.listEmptySet {
+	font: 1.5em "Bree Serif", Times, serif;
+	color: $NeutralDark;
+	text-align: center;
+}
