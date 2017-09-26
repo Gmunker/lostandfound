@@ -21,7 +21,9 @@ class Add extends Component {
             pos: null,
             sex: "male",
             status: "lost",
-            name: ""
+            name: "",
+            showImageUploader: false,
+            files: []
         };
         this.handleStatus = this.handleStatus.bind(this);
         this.handleSex = this.handleSex.bind(this);
@@ -33,6 +35,8 @@ class Add extends Component {
         this.placeMarkerAndPanTo = this.placeMarkerAndPanTo.bind(this);
         this.findRegion = this.findRegion.bind(this);
         this.replaceMarkerIcon = this.replaceMarkerIcon.bind(this);
+        this.imageUploadClick = this.imageUploadClick.bind(this);
+        this.onDrop = this.onDrop.bind(this);
     }
 
     // Lifecycle Methods
@@ -62,6 +66,20 @@ class Add extends Component {
 
     componentWillUnmount() {
         google = undefined
+    }
+
+    // Image Methods
+    imageUploadClick() {
+        this.setState({
+            showImageUploader: !this.state.showImageUploader
+        })
+    }
+
+    onDrop(files) {
+        this.setState({
+            files,
+            showImageUploader: false
+        })
     }
 
     // Form Methods    
@@ -181,6 +199,12 @@ class Add extends Component {
         let newAnimal = this.props.currentAnimal
         let newHistory = this.props.newHistory
         let Props = {
+            Image: {
+                onClick: this.imageUploadClick,
+                showImageUploader: this.state.showImageUploader,
+                onDrop: this.onDrop,
+                files: this.state.files
+            },
             Name: {
                 label: "Name",
                 name: "name",
