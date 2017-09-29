@@ -7,6 +7,9 @@ import { addAnimal } from '../actions/firebaseActions';
 import { currentAnimal, setNewHistory } from '../actions/animalActions';
 import scriptLoader from 'react-async-script-loader';
 import AddAnimalForm from './Add';
+import superagent from 'superagent';
+import firebase from 'firebase';
+let firebaseRef = firebase.database().ref("HipD");
 
 let google
 let map
@@ -37,6 +40,9 @@ class Add extends Component {
         this.replaceMarkerIcon = this.replaceMarkerIcon.bind(this);
         this.imageUploadClick = this.imageUploadClick.bind(this);
         this.onDrop = this.onDrop.bind(this);
+        this.cancel = this.cancel.bind(this);
+        this.removeImage = this.removeImage.bind(this);
+        this.makeFeatured = this.makeFeatured.bind(this);
     }
 
     // Lifecycle Methods
@@ -75,10 +81,39 @@ class Add extends Component {
         })
     }
 
-    onDrop(files) {
+    onDrop(newFiles) {
+        let oldFiles = this.state.files
+        newFiles.map((file) => {
+            oldFiles.push(file)
+        })
+
         this.setState({
-            files,
+            files: oldFiles,
             showImageUploader: false
+        })
+    }
+
+    cancel() {
+        this.setState({
+            showImageUploader: false
+        })
+    }
+
+    removeImage(index) {
+        let files = this.state.files
+        files.splice(index, 1);
+        this.setState({
+            files
+        })
+    }
+
+    makeFeatured(index) {
+        let files = this.state.files
+        let feature = files[index]
+        files.splice(index, 1)
+        files.splice(0, 0, feature)
+        this.setState({
+            files
         })
     }
 
@@ -138,6 +173,9 @@ class Add extends Component {
     }
 
     handleSubmit(e) {
+
+        var myFile= this.state.files[0]
+
         e.preventDefault();
         let date = new Date().getTime()
         let setInitialHistory = new Promise((resolve, reject) => {
@@ -146,11 +184,26 @@ class Add extends Component {
             this.props.currentAnimal.history[date] ? resolve() : reject()
         })
 
-        setInitialHistory
-            .then(() => {
-                this.setState({redirect: true})
-                this.props.dispatch(addAnimal(this.props.currentAnimal))
-            }).catch((e) => e)
+        setInitialHistory.then(() => {                
+
+            let key = firebaseRef.push(this.props.currentAnimal).key;
+            
+            const storageRef = firebase.storage().ref(key + '/' + myFile.name);
+            let uploadTask = storageRef.put(myFile);
+
+            uploadTask.on('state_changed', function(snapshot){
+
+                let progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                document.getElementById("Submit").innerHTML = "Upload is " + progress + "% done";
+
+            },function(error) {
+                // Handle unsuccessful uploads
+                console.log("Failure")
+            }, function() {
+                // Handle successful uploads on complete
+                this.setState({redirect: true})            
+            }.bind(this))
+        }).catch((e) => e)
     }
     
     // Map Methods
@@ -203,7 +256,10 @@ class Add extends Component {
                 onClick: this.imageUploadClick,
                 showImageUploader: this.state.showImageUploader,
                 onDrop: this.onDrop,
-                files: this.state.files
+                files: this.state.files,
+                cancel: this.cancel,
+                removeImage: this.removeImage,
+                makeFeatured: this.makeFeatured
             },
             Name: {
                 label: "Name",
