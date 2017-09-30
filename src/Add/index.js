@@ -174,9 +174,18 @@ class Add extends Component {
 
     handleSubmit(e) {
 
-        var myFile= this.state.files[0]
-
         e.preventDefault();
+
+        var myFiles = this.state.files
+
+        let totalSize = 0
+        myFiles.map((file) => {
+            totalSize += file.size
+            console.log(file.size)
+        })
+
+        console.log("Total Size: " + totalSize)
+        
         let date = new Date().getTime()
         let setInitialHistory = new Promise((resolve, reject) => {
             this.props.currentAnimal.history = {};
@@ -184,25 +193,62 @@ class Add extends Component {
             this.props.currentAnimal.history[date] ? resolve() : reject()
         })
 
-        setInitialHistory.then(() => {                
-
-            let key = firebaseRef.push(this.props.currentAnimal).key;
+        let fileNumber = 1
+        let totalBytesTransferred = 0
+        const uploadImageAsPromise = (imageFile, key) => {
             
-            const storageRef = firebase.storage().ref(key + '/' + myFile.name);
-            let uploadTask = storageRef.put(myFile);
-
-            uploadTask.on('state_changed', function(snapshot){
-
-                let progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-                document.getElementById("Submit").innerHTML = "Upload is " + progress + "% done";
-
-            },function(error) {
-                // Handle unsuccessful uploads
-                console.log("Failure")
-            }, function() {
-                // Handle successful uploads on complete
-                this.setState({redirect: true})            
+            // let completed = false
+            new Promise(function (resolve, reject) {
+                // console.log(this)
+                var storageRef = firebase.storage().ref(key+"/"+imageFile.name);
+        
+                // Upload file
+                var task = storageRef.put(imageFile);
+        
+                // Update progress
+                task.on('state_changed', function(snapshot) {
+                    totalBytesTransferred += snapshot.bytesTransferred
+                    
+                    console.log("Total Transferred: " + totalBytesTransferred + " | Total Size: " + totalSize)
+                    
+                    let number = Math.round((totalBytesTransferred / totalSize) * 100);
+                    document.getElementById("Submit").innerHTML = "Upload is " + number + "% done";
+                }, function(error) {
+        
+                }, function(complete) {
+                    if(fileNumber === myFiles.length) {
+                        this.setState({redirect: true})
+                    } else {
+                        ++fileNumber
+                    }
+                }.bind(this))
             }.bind(this))
+            
+        }
+
+        setInitialHistory.then(() => {
+            let key = firebaseRef.push(this.props.currentAnimal).key;
+            myFiles.map((file) => {
+                uploadImageAsPromise(file, key)
+            })
+
+            // let key = firebaseRef.push(this.props.currentAnimal).key;
+            
+            // const storageRef = firebase.storage().ref(key + '/' + myFile.name);
+            // let uploadTask = storageRef.put(myFile);
+
+            // uploadTask.on('state_changed', function(snapshot){
+
+            //     let progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+            //     document.getElementById("Submit").innerHTML = "Upload is " + progress + "% done";
+
+            // },function(error) {
+            //     // Handle unsuccessful uploads
+            //     console.log("Failure")
+            // }, function() {
+            //     // Handle successful uploads on complete
+            //     this.setState({redirect: true})            
+            // }.bind(this))
         }).catch((e) => e)
     }
     
