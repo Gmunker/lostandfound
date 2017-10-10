@@ -16,17 +16,19 @@ export class Select extends Component {
     }
 
     render() {
-        function jsUcfirst(string) {
-            return string.replace(/\b[a-z]|\B[A-Z]/g, function(x) {
-                return String.fromCharCode(x.charCodeAt(0)^32);
-            });
-        }
+        
+        // function jsUcfirst(string) {
+        //     return string.replace(/\b[a-z]|\B[A-Z]/g, function(x) {
+        //         return String.fromCharCode(x.charCodeAt(0)^32);
+        //     });
+        // }
         let options = this.props.options.map((option, i) => {
             return(
-                <span key={i} onClick={() => {this.props.selectProps.onChange(option)}}>{jsUcfirst(option)}</span>
+                <span key={i} onClick={() => {this.props.selectProps.onChange(option)}}>{option}</span>
             )
         })
         return(
+            
             <div className="formRow">
                 <label htmlFor={this.props.selectProps.id}>{this.props.selectProps.label}</label>
                 <section
@@ -37,7 +39,7 @@ export class Select extends Component {
                     value={this.props.selectProps.value}
                     onClick={this.handleOpen}
                 >
-                    <span>{jsUcfirst(this.props.selectProps.value)}</span>
+                    <span>{this.props.selectProps.value}</span>
                     <div className={this.state.open ? "show" : "hide"}>
                         {options}
                     </div>

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Select, TextInput } from '../FormElements';
+import ImageUploader from '../ImageElements/Uploader';
+import ImagePreview from '../ImageElements/ImagePreview';
 
 const UpdateContent = (props) => {
 
@@ -15,12 +17,16 @@ const UpdateContent = (props) => {
     let sexProps = props.Props.Sex
     let submitProps = props.Props.Submit
     let deleteProps = props.Props.Delete
+    let imageProps = props.Props.Image
 
     return(
         <div className="topContainer">
             <h2 className="pageHeader">Update Animal</h2>
             <form>
                 <Select options={statusProps.options} selectProps={statusProps.selectProps}/>
+                <div onClick={imageProps.onClick} className="formButton">Upload Images</div>
+                <ImageUploader imageProps={imageProps}/>
+                <ImagePreview imageProps={imageProps} animalProps={animal}/>
                 <div className="mapRow">
                     <div ref={mapProps.ref} id="map" style={{height: "250px", width:"100%"}}></div>
                 </div>
@@ -28,8 +34,8 @@ const UpdateContent = (props) => {
                 <Select options={sexProps.options} selectProps={sexProps.selectProps}/>
                 <TextInput textInputProps={colorProps}/>
                 <TextInput textInputProps={breedProps}/>
-                <Link to="/list" className="formButton" onClick={submitProps.handleSubmit}>Submit</Link>
-                <button className="formButton" onClick={deleteProps.handleDelete}>Delete</button>
+                <Link to="/list" className="formButton" id="Submit" onClick={submitProps.handleSubmit}>Submit</Link>
+                <Link to="/list" className="formButton" onClick={deleteProps.handleDelete}>Delete</Link>
                 <span className="formIndicia">* Required Field</span>
             </form>
         </div>

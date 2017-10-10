@@ -8,7 +8,9 @@ import { updateAnimal, deleteAnimal } from '../actions/firebaseActions';
 import { connect } from 'react-redux';
 import regions from '../GoogleMap/geojson.json';
 import UpdateContent from './Update';
+import firebase from 'firebase';
 
+let firebaseRef = firebase.database().ref("HipD");
 let google
 let map
 let marker
@@ -20,7 +22,9 @@ class Update extends Component {
 		this.state = {
 			newHistory: null,
 			redirect: false,
-			animalFound: null
+			animalFound: null,
+			images: [],
+			deleteFromFBStorage: []
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleStatus = this.handleStatus.bind(this);
@@ -32,7 +36,12 @@ class Update extends Component {
         this.handleDelete = this.handleDelete.bind(this)
         this.handleName = this.handleName.bind(this)
         this.handleColor = this.handleColor.bind(this)
-        this.handleBreed = this.handleBreed.bind(this)
+		this.handleBreed = this.handleBreed.bind(this)
+		this.imageUploadClick = this.imageUploadClick.bind(this);
+        this.onDrop = this.onDrop.bind(this);
+        this.cancel = this.cancel.bind(this);
+        this.removeImage = this.removeImage.bind(this);
+        this.makeFeatured = this.makeFeatured.bind(this);
 	}
 	
 	// Lifecycle Methods
@@ -51,6 +60,9 @@ class Update extends Component {
 		}
 
 		if ((nextProps.currentAnimal !== this.props.currentAnimal)) {
+			this.setState({
+				images: nextProps.currentAnimal.images
+			})
 			if(this.state.newHistory === null) { 
 				this.setState((state, props) => { return { newHistory: nextProps.currentAnimal.history[0] }});
 				return true
@@ -60,68 +72,72 @@ class Update extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		if ((nextProps.isScriptLoaded && nextProps.isScriptLoadSucceed) || 
+		if(this.state.redirect === false) {
+			if ((nextProps.isScriptLoaded && nextProps.isScriptLoadSucceed) || 
 				(this.props.isScriptLoaded && this.props.isScriptLoadSucceed)) {
 				if ((nextProps.currentAnimal.history || this.props.currentAnimal.history) || nextProps.currentAnimal.animalNotFound) {
 						return true
 				} else {
 						return false
 				}
+			}
 		}
 	}
 
 	componentDidUpdate (nextProps, nextState) {
-		let currentAnimal = this.props.currentAnimal
-		let positionHistory = []
-		currentAnimal.history.map((event, i) => {
-			if(event.lat && event.lng) {
-				positionHistory.push(event)
-			}
-		})
-		if (google === undefined) {
-			
-			google = window.google;
-
-			map = new google.maps.Map(this.map, {
-				zoom: 14,
-				gestureHandling: 'greedy',
-				disableDefaultUI: true,
-				fullscreenControl: true,
-				clickableIcons: false,
-				center: {
-					lat: positionHistory[0].lat,
-					lng: positionHistory[0].lng
+		if(this.state.redirect === false) {
+			let currentAnimal = this.props.currentAnimal
+			let positionHistory = []
+			currentAnimal.history.map((event, i) => {
+				if(event.lat && event.lng) {
+					positionHistory.push(event)
 				}
 			})
+			if (google === undefined) {
+				
+				google = window.google;
 
-			positionHistory.map((event, index) => {
-				let customMarker = {
-					url: require(`../images/mapIcons/${positionHistory[index].status}${currentAnimal.type}Icon.png`),
-					size: new google.maps.Size(53, 40),
-					origin: new google.maps.Point(0, 0),
-					anchor: new google.maps.Point(21, 41),
-					labelOrigin: new google.maps.Point(40, 16)
-				}
-				marker = new google.maps.Marker({
-					position: {
-						lat: event.lat,
-						lng: event.lng
-					},
-					map,
-					icon: customMarker
-				})
-			})
-			map.addListener('click', function(e) {
-				this.setState({
-					newHistory: {
-						...this.state.newHistory,
-						lat: e.latLng.lat(),
-						lng: e.latLng.lng(),
-						region: this.findRegion(e.latLng, google)
+				map = new google.maps.Map(this.map, {
+					zoom: 14,
+					gestureHandling: 'greedy',
+					disableDefaultUI: true,
+					fullscreenControl: true,
+					clickableIcons: false,
+					center: {
+						lat: positionHistory[0].lat,
+						lng: positionHistory[0].lng
 					}
 				})
-				this.placeMarkerAndPanTo(e.latLng, map, google)
-			}.bind(this))
+
+				positionHistory.map((event, index) => {
+					let customMarker = {
+						url: require(`../images/mapIcons/${positionHistory[index].status}${currentAnimal.type}Icon.png`),
+						size: new google.maps.Size(53, 40),
+						origin: new google.maps.Point(0, 0),
+						anchor: new google.maps.Point(21, 41),
+						labelOrigin: new google.maps.Point(40, 16)
+					}
+					marker = new google.maps.Marker({
+						position: {
+							lat: event.lat,
+							lng: event.lng
+						},
+						map,
+						icon: customMarker
+					})
+				})
+				map.addListener('click', function(e) {
+					this.setState({
+						newHistory: {
+							...this.state.newHistory,
+							lat: e.latLng.lat(),
+							lng: e.latLng.lng(),
+							region: this.findRegion(e.latLng, google)
+						}
+					})
+					this.placeMarkerAndPanTo(e.latLng, map, google)
+				}.bind(this))
+			}
 		}
 	}
 
@@ -129,6 +145,59 @@ class Update extends Component {
 		this.props.dispatch(currentAnimal({type: "dog"}))
 		google = undefined
 	}
+
+	// Image Methods
+    imageUploadClick() {
+        this.setState({
+            showImageUploader: !this.state.showImageUploader
+        })
+    }
+
+    onDrop(newFiles) {
+		let oldFiles = this.state.images
+		let addedImages = []
+        newFiles.map((file) => {
+			oldFiles.push(file)
+        })
+
+        this.setState({
+			images: oldFiles,
+            showImageUploader: false
+        })
+    }
+
+    cancel() {
+        this.setState({
+            showImageUploader: false
+        })
+    }
+
+    removeImage(index) {
+		let images = this.state.images
+		if (typeof(images[index]) === 'string') {
+			// let filename = images[index]
+			// .replace(/^.*[\\\/]/, '')
+			let deleteFiles = this.state.deleteFromFBStorage
+			deleteFiles.push(images[index])
+			this.setState({
+				deleteFromFBStorage: deleteFiles
+			})
+		}
+		images.splice(index, 1);
+        this.setState({
+            images
+        })
+    }
+
+    makeFeatured(index) {
+        let files = this.state.images
+        let feature = files[index]
+        files.splice(index, 1)
+        files.splice(0, 0, feature)
+        this.setState({
+            images: files
+        })
+    }
 	
 	// Form Methods
 	handleChange(event) {
@@ -183,10 +252,79 @@ class Update extends Component {
 				sex
 			}
 		})
-	}	
+	}
 
 	handleSubmit(e) {
-		// e.preventDefault();
+		e.preventDefault();
+
+		let key = this.props.currentAnimal.id
+		let imagesToDelete = this.state.deleteFromFBStorage
+		
+		// Delete images from Storage as needed
+		if (imagesToDelete !== []) {
+			imagesToDelete.map((url) => {
+				let storageRef = firebase.storage().refFromURL(url)
+				storageRef.delete().then(function() {
+				// File deleted successfully
+				}).catch(function(error) {
+				// Should exit and display error
+				console.log("Unable to delete image")
+				});
+			})
+		}
+		
+		// Get a list of just the image objects that need to be uploaded
+		// Put the image urls in a new array to have the new download urls added to later
+		let allImages = this.state.images
+		let imageObjects = []
+		let imageUrls = []
+		allImages.map((image) => {
+			if (typeof(image) !== 'string') {
+				imageObjects.push(image)
+			} else {
+				imageUrls.push(image)
+			}
+		})
+
+		// Upload imageObjects function
+		let images = []
+		let fileNumber = 1
+		const uploadImageAsPromise = (animal, object) => {
+
+			new Promise(function (resolve, reject) {
+						
+				let storageRef = firebase.storage().ref(key + "/" + object.name);
+		
+				// Upload file
+				let task = storageRef.put(object);
+				
+				// Update progress
+				task.on('state_changed', function(snapshot) {
+					let number = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+					document.getElementById("Submit").innerHTML = "Upload is " + number + "% done";
+				}, function(error) {
+
+					// Handle upload error
+					console.log("Error uploading image file")
+				}, function(complete) {
+
+					// Grab the url for the image in storage and add it to imageUrls to go in db
+					let downloadURL = task.snapshot.downloadURL;
+					imageUrls.push(downloadURL)		
+
+					if(fileNumber === imageObjects.length) {
+						// Last pass. Send back the image urls array
+						animal.images = imageUrls
+						firebaseRef.child(key).set(animal)						
+						this.setState({redirect: true})
+
+					} else {
+						++fileNumber
+					}
+				}.bind(this))
+			}.bind(this))
+		}
+		
 		let date = new Date()
 		let newHistory = this.state.newHistory
 		newHistory = {
@@ -197,10 +335,11 @@ class Update extends Component {
 			// History has not changed. Push the currentAnimal
 			let history = {};
 			this.props.currentAnimal.history.map((event, i) => {
-				let key = event.date.getTime()
+				let historyKey = event.date.getTime()
 				delete event.date
-				history[key] = event
-			})
+				history[historyKey] = event
+			})			
+
 			let newCurrent = this.props.currentAnimal
 			newCurrent = {
 				...newCurrent,
@@ -208,7 +347,17 @@ class Update extends Component {
 					...history
 				}
 			}
-			this.props.dispatch(updateAnimal(newCurrent.id, newCurrent))
+
+			if (imageObjects.length > 0) {
+				// map over each image as in the Add page sumbit
+				imageObjects.map((file) => {
+					uploadImageAsPromise(newCurrent, file)
+				})
+				
+			} else {
+				firebaseRef.child(newCurrent.id).update(newCurrent)
+				this.setState({redirect: true})
+			}
 		
 		} else {
 			// History has changed
@@ -234,12 +383,34 @@ class Update extends Component {
 					...history
 				}
 			}
-			this.props.dispatch(updateAnimal(newCurrent.id, newCurrent))
+
+			if (imageObjects.length > 0) {
+				// map over each image as in the Add page sumbit
+				imageObjects.map((file) => {
+					uploadImageAsPromise(newCurrent, file)
+				})
+				
+			} else {
+				firebaseRef.child(newCurrent.id).update(newCurrent)
+				this.setState({redirect: true})
+			}
 		}
     }
     
     handleDelete(e) {
-		// e.preventDefault()
+		e.preventDefault()
+		let images = this.state.images
+		images.map((image) => {
+			if (typeof(image) === 'string') {
+				let storageRef = firebase.storage().refFromURL(image)
+				storageRef.delete().then(function() {
+					// File deleted successfully
+				}).catch(function(error) {
+					// Should exit and display error
+					console.log("Unable to delete image")
+				});
+			}
+		})
 		const animalID = this.props.match.params.id
 		const dispatch = this.props.dispatch
         dispatch(deleteAnimal(animalID))
@@ -287,7 +458,6 @@ class Update extends Component {
 	}	
 		
 	render() {
-
 		let animal = this.props.currentAnimal
 		if (this.props.currentAnimal.animalNotFound === true ) {
 			return (
@@ -303,7 +473,16 @@ class Update extends Component {
 
             let Props = {
                 animal: this.props.currentAnimal,
-                newHistory: newHistory,
+				newHistory: newHistory,
+				Image: {
+					onClick: this.imageUploadClick,
+					showImageUploader: this.state.showImageUploader,
+					onDrop: this.onDrop,
+					files: this.state.images,
+					cancel: this.cancel,
+					removeImage: this.removeImage,
+					makeFeatured: this.makeFeatured
+				},
                 Map: { 
                     ref: el => this.map = el,
                 },

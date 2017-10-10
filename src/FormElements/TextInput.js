@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 const TextInput = (props) => {
-    
     return(
         <div className="formRow">
             <label htmlFor={props.textInputProps.id}>{props.textInputProps.label}{props.textInputProps.required ? "*" : null}</label>
@@ -12,7 +11,7 @@ const TextInput = (props) => {
                 type={props.textInputProps.type}
                 onChange={props.textInputProps.onChange}
                 required={props.textInputProps.required}
-                defaultValue={props.textInputProps.value}             
+                defaultValue={props.textInputProps.value}
             />
         </div>
     )

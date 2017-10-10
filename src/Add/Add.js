@@ -4,6 +4,7 @@ import ImageUploader from '../ImageElements/Uploader';
 import ImagePreview from '../ImageElements/ImagePreview';
 
 const AddAnimalForm = (props) => {
+
     let statusProps = props.Props.Status
     let nameProps = props.Props.Name
     let sexProps = props.Props.Sex
@@ -13,6 +14,8 @@ const AddAnimalForm = (props) => {
     let mapProps = props.Props.Map
     let submitProps = props.Props.Submit
     let imageProps = props.Props.Image
+    
+    // console.log(imageProps.files)
 
     return(
         <div className="topContainer">
@@ -20,9 +23,9 @@ const AddAnimalForm = (props) => {
             <form onSubmit={submitProps.handleSubmit}>
                 <Select options={statusProps.options} selectProps={statusProps.selectProps}/>
                 <Radio radioProps={typeProps}/>
-                <div onClick={imageProps.onClick} className="formButton">Upload Images</div>
+                <div onClick={imageProps.onClick} className="formButton" images={imageProps}>Upload Images</div>
                 <ImageUploader imageProps={imageProps}/>
-                <ImagePreview imageProps={imageProps}/>
+                <ImagePreview imageProps={imageProps} animalProps={imageProps}/>
                 <div className="mapRow" style={statusProps.value === "transferred" ? {display:"none"} : null}>
                     <label>Location{mapProps.regionName ? <span>: {mapProps.regionName}</span> : null}
                         <p>Click on the map to mark the location where the {mapProps.typeText} was {mapProps.statusText}.</p>

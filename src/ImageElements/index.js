@@ -1,4 +1,4 @@
 import { ImageUploader } from './Uploader';
-import { ImageGallery } from './Gallery';
+import { Gallery } from './Gallery';
 
-export { ImageUploader, ImageGallery };
+export { ImageUploader, Gallery };

@@ -21,12 +21,17 @@ class Add extends Component {
         super(props);
         this.state = {
             redirect: false,
-            pos: null,
-            sex: "male",
-            status: "lost",
-            name: "",
             showImageUploader: false,
-            files: []
+            sex: "male",
+            type: "dog",
+            name: "",
+            color: "",
+            breed: "",
+            images: [],
+            status: "lost",
+            lat: null,
+            lng: null,
+            region: ""
         };
         this.handleStatus = this.handleStatus.bind(this);
         this.handleSex = this.handleSex.bind(this);
@@ -82,13 +87,14 @@ class Add extends Component {
     }
 
     onDrop(newFiles) {
-        let oldFiles = this.state.files
+        // console.log(newFiles)
+        let oldFiles = this.state.images
         newFiles.map((file) => {
             oldFiles.push(file)
         })
 
         this.setState({
-            files: oldFiles,
+            images: oldFiles,
             showImageUploader: false
         })
     }
@@ -100,155 +106,139 @@ class Add extends Component {
     }
 
     removeImage(index) {
-        let files = this.state.files
+        let files = this.state.images
         files.splice(index, 1);
         this.setState({
-            files
+            images: files
         })
     }
 
     makeFeatured(index) {
-        let files = this.state.files
+        let files = this.state.images
         let feature = files[index]
         files.splice(index, 1)
         files.splice(0, 0, feature)
         this.setState({
-            files
+            images: files
         })
     }
 
     // Form Methods    
     handleName(e) {
-        this.props.dispatch(currentAnimal({
-            ...this.props.currentAnimal,
-            name: e.target.value,
-        }))
+        e.preventDefault()
+        this.setState({
+            name: e.currentTarget.value
+        })
     }
 
     handleColor(e) {
-        this.props.dispatch(currentAnimal({
-            ...this.props.currentAnimal,
-            color: e.target.value,
-        }))
+        this.setState({
+            color: e.currentTarget.value
+        })
     }
 
     handleBreed(e) {
-        this.props.dispatch(currentAnimal({
-            ...this.props.currentAnimal,
-            breed: e.target.value,
-        }))
+        this.setState({
+            breed: e.currentTarget.value
+        })
     }
 
     handleStatus(status) {
-        console.log(status)
-        this.props.dispatch(setNewHistory({
-            ...this.props.newHistory,
+        this.setState({
             status
-        }))
-        
-        if(marker && status !== "transferred") {
-            let location = new google.maps.LatLng(this.props.newHistory.lat, this.props.newHistory.lng)
-            this.replaceMarkerIcon(location, map, status, this.props.currentAnimal.type)
-        }
+        }, () => {
+            if(marker && status !== "transferred") {
+                let location = new google.maps.LatLng(this.state.lat, this.state.lng)
+                this.replaceMarkerIcon(location, map, status, this.state.type)
+            }
+        })
     }
 
     handleType(e) {
-        let type = e.currentTarget.name === "type" ? e.currentTarget.value : null;
-        this.props.dispatch(currentAnimal({
-            ...this.props.currentAnimal,
-            type
-        }));
-        
-        if(marker) {
-            let location = new google.maps.LatLng(this.props.newHistory.lat, this.props.newHistory.lng)
-            this.replaceMarkerIcon(location, map, this.props.newHistory.status, type)
-        }
+        this.setState({
+            type: e.currentTarget.value
+        }, () => {
+            if(marker) {
+                let location = new google.maps.LatLng(this.state.lat, this.state.lng)
+                this.replaceMarkerIcon(location, map, this.state.status, this.state.type)
+            }
+        })
     }
 
     handleSex(sex) {
-        this.props.dispatch(setNewHistory({
-            ...this.props.newHistory,
+        this.setState({
             sex
-        }))
+        })
     }
 
     handleSubmit(e) {
-
         e.preventDefault();
 
-        var myFiles = this.state.files
+        let myFiles = this.state.images
+        // let images = []
+        // myFiles.map((image) => {
+        //     images.push(image.name)
+        // })
 
-        let totalSize = 0
-        myFiles.map((file) => {
-            totalSize += file.size
-            console.log(file.size)
-        })
-
-        console.log("Total Size: " + totalSize)
+        let animal = {
+            name: this.state.name,
+            color: this.state.color,
+            breed: this.state.breed,
+            type: this.state.type,
+            // images
+        }
         
         let date = new Date().getTime()
         let setInitialHistory = new Promise((resolve, reject) => {
-            this.props.currentAnimal.history = {};
-            this.props.currentAnimal.history[date] = this.props.newHistory
-            this.props.currentAnimal.history[date] ? resolve() : reject()
+            animal.history = {};
+            animal.history[date] = {
+                status: this.state.status,
+                sex: this.state.sex,
+                lat: this.state.lat,
+                lng: this.state.lng,
+                region: this.state.region
+            }
+            animal.history[date] ? resolve() : reject()
         })
 
         let fileNumber = 1
-        let totalBytesTransferred = 0
-        const uploadImageAsPromise = (imageFile, key) => {
-            
-            // let completed = false
+        let images = []
+        const uploadImageAsPromise = (animal, imageFile, key) => {
+
             new Promise(function (resolve, reject) {
-                // console.log(this)
-                var storageRef = firebase.storage().ref(key+"/"+imageFile.name);
+                
+                let storageRef = firebase.storage().ref(key + "/" + imageFile.name);
         
                 // Upload file
-                var task = storageRef.put(imageFile);
-        
+                let task = storageRef.put(imageFile);
+                
                 // Update progress
                 task.on('state_changed', function(snapshot) {
-                    totalBytesTransferred += snapshot.bytesTransferred
-                    
-                    console.log("Total Transferred: " + totalBytesTransferred + " | Total Size: " + totalSize)
-                    
-                    let number = Math.round((totalBytesTransferred / totalSize) * 100);
+                    let number = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
                     document.getElementById("Submit").innerHTML = "Upload is " + number + "% done";
                 }, function(error) {
         
                 }, function(complete) {
+                    let downloadURL = task.snapshot.downloadURL;
+                    images.push(downloadURL)
                     if(fileNumber === myFiles.length) {
+                        animal.images = images
+                        firebaseRef.child(key).set(animal)
                         this.setState({redirect: true})
                     } else {
                         ++fileNumber
                     }
                 }.bind(this))
+                
             }.bind(this))
             
         }
 
         setInitialHistory.then(() => {
-            let key = firebaseRef.push(this.props.currentAnimal).key;
+            let key = firebaseRef.push().key;
             myFiles.map((file) => {
-                uploadImageAsPromise(file, key)
+                uploadImageAsPromise(animal, file, key)
             })
-
-            // let key = firebaseRef.push(this.props.currentAnimal).key;
-            
-            // const storageRef = firebase.storage().ref(key + '/' + myFile.name);
-            // let uploadTask = storageRef.put(myFile);
-
-            // uploadTask.on('state_changed', function(snapshot){
-
-            //     let progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-            //     document.getElementById("Submit").innerHTML = "Upload is " + progress + "% done";
-
-            // },function(error) {
-            //     // Handle unsuccessful uploads
-            //     console.log("Failure")
-            // }, function() {
-            //     // Handle successful uploads on complete
-            //     this.setState({redirect: true})            
-            // }.bind(this))
         }).catch((e) => e)
     }
     
@@ -258,7 +248,7 @@ class Add extends Component {
         marker = new google.maps.Marker({
             position: latLng,
             map,
-            icon: require(`../images/mapIcons/${status}${type}Icon.png`)
+            icon: require(`../images/mapIcons/${this.state.status}${this.state.type}Icon.png`)
         });
     }
 
@@ -269,7 +259,7 @@ class Add extends Component {
         marker = new google.maps.Marker({
             position: latLng,
             map,
-            icon: require(`../images/mapIcons/${this.props.newHistory.status}${this.props.currentAnimal.type}Icon.png`)
+            icon: require(`../images/mapIcons/${this.state.status}${this.state.type}Icon.png`)
         });
         map.panTo(latLng);
     }
@@ -285,24 +275,21 @@ class Add extends Component {
         })
 
         let region = regionName !== undefined ? regionName : "Outside Defined Regions"
-        this.props.dispatch(setNewHistory({
-            ...this.props.newHistory,
+        
+        this.setState({
             lat: latLng.lat(),
             lng: latLng.lng(),
-            region: region,
-            date: new Date()
-        }))
+            region
+        })
     }    
 
     render() {
-        let newAnimal = this.props.currentAnimal
-        let newHistory = this.props.newHistory
         let Props = {
             Image: {
                 onClick: this.imageUploadClick,
                 showImageUploader: this.state.showImageUploader,
                 onDrop: this.onDrop,
-                files: this.state.files,
+                images: this.state.images,
                 cancel: this.cancel,
                 removeImage: this.removeImage,
                 makeFeatured: this.makeFeatured
@@ -314,7 +301,7 @@ class Add extends Component {
                 required: true,
                 id: "name",
                 onChange: this.handleName,
-                value: newAnimal.name
+                value: this.state.name
             },
             Status: {
                 options: [
@@ -325,7 +312,7 @@ class Add extends Component {
                 selectProps: {
                     label: "Status",
                     onChange: this.handleStatus,
-                    value: newHistory.status,
+                    value: this.state.status,
                     name: "status",
                     ref: "status",
                     id: "status"
@@ -337,7 +324,7 @@ class Add extends Component {
                     value: "dog",
                     id: "typeDog",
                     name: "type",
-                    checked: newAnimal.type === "dog",
+                    checked: this.state.type === "dog",
                     onChange: this.handleType
                 },
                 two: {
@@ -345,7 +332,7 @@ class Add extends Component {
                     value: "cat",
                     id: "typeCat",
                     name: "type",
-                    checked: newAnimal.type === "cat",
+                    checked: this.state.type === "cat",
                     onChange: this.handleType
                 }
             },
@@ -359,7 +346,7 @@ class Add extends Component {
                 selectProps: {
                     label: "Sex",
                     onChange: this.handleSex,
-                    value: newHistory.sex,
+                    value: this.state.sex,
                     name: "sex",
                     ref: "sex",
                     id: "sex"
@@ -372,7 +359,7 @@ class Add extends Component {
                 required: true,
                 id: "color",
                 onChange: this.handleColor,
-                value: newAnimal.color
+                value: this.state.color
             },
             Breed: {
                 label: "Breed",
@@ -381,12 +368,12 @@ class Add extends Component {
                 required: true,
                 id: "breed",
                 onChange: this.handleBreed,
-                value: newAnimal.breed
+                value: this.state.breed
             },
             Map: {
-                typeText: newAnimal.type === "dog" ? "dog" : "cat",
-                statusText: newHistory.status === "found" ? "found" : "last seen",
-                regionName: newHistory.region,
+                typeText: this.state.type === "dog" ? "dog" : "cat",
+                statusText: this.state.status === "found" ? "found" : "last seen",
+                regionName: this.state.region,
                 findRegion: this.findRegion,
                 placeMarkerAndPanTo: this.placeMarkerAndPanTo, 
                 replaceMarkerIcon: this.replaceMarkerIcon, 
@@ -409,8 +396,8 @@ class Add extends Component {
 
 const LoadConnector = connect(state => {
     return {
-        currentAnimal: state.animal.currentAnimal,
-        newHistory: state.animal.newHistory
+        // currentAnimal: state.animal.currentAnimal,
+        // newHistory: state.animal.newHistory
     }
 })(Add)
 

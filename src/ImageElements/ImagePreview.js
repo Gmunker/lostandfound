@@ -2,34 +2,46 @@ import React from 'react';
 
 const ImagePreview = (props) => {
 
-    let featured = props.imageProps.files[0] ? props.imageProps.files[0].preview : null
+    let featured = null
+    let previews = null
 
-    let images = props.imageProps.files.map((image, i) => {
-        if (i > 0) {
-            return(
-                <div key={i} className="imagePreview__container">
-                    <img src={image.preview}/>
-                    <footer className="imagePreview__container__footer">
-                        <div onClick={() => {props.imageProps.makeFeatured(i)}}>Feature</div>
-                        <div onClick={() => {props.imageProps.removeImage(i)}}>Remove</div>
-                    </footer>
-                </div>
-            )
-        }
-    })
+    if (props.animalProps.images !== undefined) {
+        
+        let images = props.animalProps.images
+        
+        featured = images.length > 0 ? images[0] : null 
+        
+        previews = images.map((image, i) => {
+            if (i > 0) {
+                return(
+                    <div key={i} className="imagePreview__container">
+                        <img src={typeof(image) !== 'string' ? image.preview : image}/>
+                        <footer className="imagePreview__container__footer">
+                            <div onClick={() => {props.imageProps.makeFeatured(i)}}>Feature</div>
+                            <div onClick={() => {props.imageProps.removeImage(i)}}>Remove</div>
+                        </footer>
+                    </div>
+                )
+            }
+        })
+    }
 
     return(
         <div>
             {
-            featured ?
+            featured !== null ?
             <div className="featured">
-                <img src={featured}/>
+                <img src={typeof(featured) !== 'string' ? featured.preview : featured}/>
                 <footer onClick={() => {props.imageProps.removeImage(0)}}>Remove</footer>
-            </div> :
-            null
+            </div>
+            : null
             }
             <div className="imagePreview">
-                {images}
+                {
+                previews !== null ?
+                previews :
+                null
+                }
             </div>
         </div>
     )

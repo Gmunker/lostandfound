@@ -6,6 +6,11 @@ const AboutAnimal = (props) => {
             <header className="detail__main">
                 <div className="detail__sub__name">{props.animalProps.name ? props.animalProps.name : "No Name Provided"}</div>
             </header>
+            {
+            props.animalProps.images ?
+                <img src={props.animalProps.images[0]} id="Featured"/> :
+            <div>Loading...</div>
+            }
             <table className="detail__sub">
                 <tbody>
                     <tr>
