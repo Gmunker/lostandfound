@@ -223,7 +223,8 @@ class Add extends Component {
                     images.push(downloadURL)
                     if(fileNumber === myFiles.length) {
                         animal.images = images
-                        firebaseRef.child(key).set(animal)
+                        firebaseRef.child("animals/" + key).set(animal)
+                        firebaseRef.child("animalsWithPics/" + key).set(animal.images[0])
                         this.setState({redirect: true})
                     } else {
                         ++fileNumber
