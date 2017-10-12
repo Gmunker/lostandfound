@@ -33,13 +33,11 @@ class Update extends Component {
 	
 	// Lifecycle Methods
 	componentWillMount() {
-		alert("componentWillMount fired")
 		let animalID = this.props.match.params.id
 		this.props.dispatch(fetchAnimal(animalID))
 	}
 
 	componentWillReceiveProps(nextProps, nextState) {
-		alert("componentWillReceiveProps fired")
 		if (this.props.currentAnimal.animalNotFound) {
 			return true
 		}
@@ -58,7 +56,6 @@ class Update extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		alert("shouldComponentUpdate fired")
 		if ((nextProps.isScriptLoaded && nextProps.isScriptLoadSucceed) || 
 				(this.props.isScriptLoaded && this.props.isScriptLoadSucceed)) {
 				if ((nextProps.currentAnimal.history || this.props.currentAnimal.history) || nextProps.currentAnimal.animalNotFound) {
@@ -70,7 +67,6 @@ class Update extends Component {
 	}
 
 	componentDidUpdate (nextProps, nextState) {
-		alert("componentDidUpdate fired")
 		let currentAnimal = this.props.currentAnimal
 		let positionHistory = []
 		currentAnimal.history.map((event, i) => {
@@ -87,6 +83,7 @@ class Update extends Component {
 				gestureHandling: 'greedy',
 				disableDefaultUI: true,
 				fullscreenControl: true,
+				clickableIcons: false,
 				center: {
 					lat: positionHistory[0].lat,
 					lng: positionHistory[0].lng
@@ -187,11 +184,11 @@ class Update extends Component {
 		if (this.state.newHistory === this.props.currentAnimal.history[0]) {
 			// History has not changed. Push the currentAnimal
 			let history = {};
-			for (let i = 0; i < this.props.currentAnimal.history.length; ++i) {
-				let key = this.props.currentAnimal.history[i].date.getTime()
-				delete this.props.currentAnimal.history[i].date
-				history[key] = this.props.currentAnimal.history[i];
-			}
+			this.props.currentAnimal.history.map((event, i) => {
+				let key = event.date.getTime()
+				delete event.date
+				history[key] = event
+			})
 			let newCurrent = this.props.currentAnimal
 			newCurrent = {
 				...newCurrent,
@@ -213,11 +210,11 @@ class Update extends Component {
 			this.props.currentAnimal.history.push(newHistory)
 			// Do something amazing in a loop that grabs the new date and keys each item in history with that transformed date
 			let history = {};
-			for (let i = 0; i < this.props.currentAnimal.history.length; ++i) {
-				let key = this.props.currentAnimal.history[i].date.getTime()
-				delete this.props.currentAnimal.history[i].date
-				history[key] = this.props.currentAnimal.history[i];
-			}
+			this.props.currentAnimal.history.map((event, i) => {
+				let key = event.date.getTime()
+				delete event.date
+				history[key] = event
+			})
 			let newCurrent = this.props.currentAnimal
 			newCurrent = {
 				...newCurrent,
@@ -258,12 +255,12 @@ class Update extends Component {
 
 	findRegion(latLng, google) {
 		let regionName;
-		for(let i=0; i<regions.length;i++) {
-			let currentPoly = new google.maps.Polygon({paths: regions[i].polygon});
-			if(google.maps.geometry.poly.containsLocation(latLng, currentPoly)) {
-				regionName = regions[i].name;
-			}
-		}
+		regions.map((region, i) => {
+            let currentPoly = new google.maps.Polygon({paths: region.polygon})
+            if(google.maps.geometry.poly.containsLocation(latLng, currentPoly)) {
+                regionName = region.name
+            }
+        })
 		
 		let region = regionName !== undefined ? regionName : "Outside Defined Regions"
 		return region
@@ -280,8 +277,6 @@ class Update extends Component {
 	}
 		
 	render() {
-		
-		alert("render fired")
 
 		let animal = this.props.currentAnimal
 		if (this.props.currentAnimal.animalNotFound === true ) {

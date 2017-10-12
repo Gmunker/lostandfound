@@ -33,7 +33,6 @@ class Add extends Component {
 
     // Lifecycle Methods
     componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
-        alert("componentWillReceiveProps fired")
         if(google === undefined) {
             if (isScriptLoaded && isScriptLoadSucceed) {
                 google = window.google
@@ -42,6 +41,7 @@ class Add extends Component {
                     gestureHandling: 'greedy',
                     disableDefaultUI: true,
                     fullscreenControl: true,
+                    clickableIcons: false,
                     center: {
                         lat: 36.170295,
                         lng: -86.674846
@@ -145,12 +145,14 @@ class Add extends Component {
 
     findRegion(latLng, google) {
         let regionName;
-        for(let i=0; i<regions.length;i++) {
-            currentPoly = new google.maps.Polygon({paths: regions[i].polygon});
+
+        regions.map((region, i) => {
+            currentPoly = new google.maps.Polygon({paths: region.polygon})
             if(google.maps.geometry.poly.containsLocation(latLng, currentPoly)) {
-                regionName = regions[i].name;
+                regionName = region.name
             }
-        }
+        })
+
         let region = regionName !== undefined ? regionName : "Outside Defined Regions"
         this.props.dispatch(setNewHistory({
             ...this.props.newHistory,
@@ -162,8 +164,6 @@ class Add extends Component {
     }
 
     render() {
-
-        alert("render fired")
 
         let newAnimal = this.props.currentAnimal
         let newHistory = this.props.newHistory
@@ -177,7 +177,7 @@ class Add extends Component {
                 <div className="topContainer">
                     <h2 className="pageHeader">Add New Animal</h2>
                     <form onSubmit={this.handleSubmit}>
-                        <div className="formRow">
+                        {/* <div className="formRow">
                             <div className="radio">
                                 <span>Lost</span>
                                 <input 
@@ -202,7 +202,27 @@ class Add extends Component {
                                 />
                                 <label htmlFor="statusFound"></label>
                             </div>
+                        </div> */}
+
+                        <div className="formRow">
+                            <label htmlFor="status">Status</label>
+                            <select 
+                                name="status"
+                                ref="status" 
+                                id="status" 
+                                onChange={this.handleStatus}
+                                value={newAnimal.status}
+                            >
+                                <option value={"lost"}>Lost</option>
+                                <option value={"found"}>Found</option>
+                                <option value={"Returned to Owner"}>Returned to Owner</option>
+                                <option value={"Transferred"}>Transferred</option>
+                                <option value={"Vetrinary Care"}>Vetrinary Care</option>
+                                <option value={"Foster"}>Foster</option>
+                                <option value={"Adopted"}>Adopted</option>
+                            </select>
                         </div>
+
                         <div className="formRow">
                             <div className="radio">
                                 <span>Dog</span>

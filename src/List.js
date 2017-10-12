@@ -18,7 +18,6 @@ class List extends Component {
 	}
 
 	componentWillMount() {
-		alert("componentWillMount fired")
 		this.props.dispatch(fetchAnimals());
 	}
 
@@ -28,8 +27,6 @@ class List extends Component {
 	
    	render() {
 
-		alert("render fired")
-
 		let { searchText, showDog, showCat, showLost, showFound } = this.props.searchFields;
 		let filteredAnimals = searchAPI.filterAnimals(this.props.animals, showDog, showCat, showLost, showFound, searchText);
 		let table = filteredAnimals.map((animal) => {
@@ -37,9 +34,6 @@ class List extends Component {
 			return(
 				<tr key={animal.id}>
 					<td className="nametd"><Link id={animal.id} to={loc}>{animal.name}</Link></td>
-					{/* <td className="loctd">
-						<Link id={animal.id} to={loc}>{animal.history[0].region}</Link> 
-					</td> */}
 					<td className="colortd"><Link to={loc}>{animal.color}</Link></td>
 					<td className="breedtd"><Link to={loc}>{animal.breed}</Link></td>
 				</tr>
@@ -48,10 +42,11 @@ class List extends Component {
 
 		return(
 			<div className="listContent content">
-				<Navigation navSwitch={this.props.navSwitch} ActivePage="List"/>
+				<Navigation/>
 				<div className="topContainer">
 					<h2 className="pageHeader">I'm looking for a...</h2>
 					<Search />
+					{filteredAnimals.length > 0 ?
 					<table>
 						<thead>
 							<tr>
@@ -63,7 +58,9 @@ class List extends Component {
 						<tbody>
 							{this.props.animals.length > 0 ? table : null}
 						</tbody>
-					</table>
+					</table> :
+					<p className="listEmptySet">No Results</p>
+					}
 					{this.props.animals.length === 0 ? <h1>Loading List....</h1> : null}
 				</div>
 			</div>

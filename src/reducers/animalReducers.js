@@ -1,6 +1,6 @@
 const initialState = {
   	currentAnimal: {
-			type: 'dog',
+			type: 'dog'
 		},
   	newHistory: {
 		"lat": null, 
@@ -16,6 +16,7 @@ export default function reducer(state=initialState, action) {
 
   	switch(action.type) {
 		case "SET_CURRENT_ANIMAL": {
+			console.log(action.payload)
 			return {
 				...state,
 				currentAnimal: action.payload
