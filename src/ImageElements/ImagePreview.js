@@ -5,6 +5,8 @@ const ImagePreview = (props) => {
     let featured = null
     let previews = null
 
+    console.log(props.animalProps)
+
     if (props.animalProps.images !== undefined) {
         
         let images = props.animalProps.images

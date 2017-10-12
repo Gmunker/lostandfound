@@ -16,7 +16,7 @@ const Gallery = (props) => {
 
     return(
         <div className="gallery">
-            {images}
+            {images ? images : null}
         </div>
     )
 }

@@ -1,7 +1,8 @@
-export default function reducrs(state=[], action) {
+export default function reducrs(state={}, action) {
   switch(action.type) {
     case "SET_ANIMALS_WITH_PICS": {
-      return action.payload
+      let pics = action.payload
+      return pics
     }
     default: {
       return state

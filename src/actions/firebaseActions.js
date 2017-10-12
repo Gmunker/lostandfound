@@ -11,7 +11,12 @@ export function addAnimal(animal, myFile) {
 
 export function deleteAnimal(id) {
     return function() {
-      return firebaseRef.child(id).remove()
+      let dataToDelete = {}
+      dataToDelete["animals/" + id] = null
+      dataToDelete["animalsWithPics/" + id] = null
+      return (
+        firebaseRef.update(dataToDelete)
+      )
     }
   }
 

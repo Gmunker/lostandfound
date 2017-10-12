@@ -9,7 +9,7 @@ const AboutAnimal = (props) => {
             {
             props.animalProps.images ?
                 <img src={props.animalProps.images[0]} id="Featured"/> :
-            <div>Loading...</div>
+            null
             }
             <table className="detail__sub">
                 <tbody>

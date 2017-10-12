@@ -26,7 +26,7 @@ const UpdateContent = (props) => {
                 <Select options={statusProps.options} selectProps={statusProps.selectProps}/>
                 <div onClick={imageProps.onClick} className="formButton">Upload Images</div>
                 <ImageUploader imageProps={imageProps}/>
-                <ImagePreview imageProps={imageProps} animalProps={animal}/>
+                <ImagePreview imageProps={imageProps} animalProps={imageProps}/>
                 <div className="mapRow">
                     <div ref={mapProps.ref} id="map" style={{height: "250px", width:"100%"}}></div>
                 </div>
