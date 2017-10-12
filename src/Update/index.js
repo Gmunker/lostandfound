@@ -97,17 +97,31 @@ class Update extends Component {
 				
 				google = window.google;
 
-				map = new google.maps.Map(this.map, {
-					zoom: 14,
-					gestureHandling: 'greedy',
-					disableDefaultUI: true,
-					fullscreenControl: true,
-					clickableIcons: false,
-					center: {
-						lat: positionHistory[0].lat,
-						lng: positionHistory[0].lng
-					}
-				})
+				if(positionHistory.length > 0) {
+					map = new google.maps.Map(this.map, {
+						zoom: 14,
+						gestureHandling: 'greedy',
+						disableDefaultUI: true,
+						fullscreenControl: true,
+						clickableIcons: false,
+						center: {
+							lat: positionHistory[0].lat,
+							lng: positionHistory[0].lng
+						}
+					})
+				} else {
+					map = new google.maps.Map(this.map, {
+						zoom: 12,
+						gestureHandling: 'greedy',
+						disableDefaultUI: true,
+						fullscreenControl: true,
+						clickableIcons: false,
+						center: {
+							lat: 36.170295,
+							lng: -86.674846
+						}
+					})
+				}
 
 				positionHistory.map((event, index) => {
 					let customMarker = {
@@ -154,12 +168,15 @@ class Update extends Component {
     }
 
     onDrop(newFiles) {
-		let oldFiles = this.state.images
-		let addedImages = []
+		let oldFiles
+		if(this.state.images !== undefined) {
+			oldFiles = this.state.images
+		} else {
+			oldFiles = []
+		}
         newFiles.map((file) => {
 			oldFiles.push(file)
         })
-
         this.setState({
 			images: oldFiles,
             showImageUploader: false
@@ -179,8 +196,10 @@ class Update extends Component {
 			// .replace(/^.*[\\\/]/, '')
 			let deleteFiles = this.state.deleteFromFBStorage
 			deleteFiles.push(images[index])
+			images.splice(index, 1);
 			this.setState({
-				deleteFromFBStorage: deleteFiles
+				deleteFromFBStorage: deleteFiles,
+				images
 			})
 		}
 		images.splice(index, 1);
@@ -259,7 +278,6 @@ class Update extends Component {
 
 		let key = this.props.currentAnimal.id
 		let imagesToDelete = this.state.deleteFromFBStorage
-		
 		// Delete images from Storage as needed
 		if (imagesToDelete !== []) {
 			imagesToDelete.map((url) => {
@@ -271,6 +289,13 @@ class Update extends Component {
 				console.log("Unable to delete image")
 				});
 			})
+		}
+
+		// If all images have been removed from the gallery delete the record from animalsWithPics
+		if(this.state.images.length === 0) {
+			firebaseRef.child('animalsWithPics/' + key).remove()
+		} else {
+			firebaseRef.child('animalsWithPics/' + key).set(this.state.images[0])
 		}
 		
 		// Get a list of just the image objects that need to be uploaded
@@ -315,7 +340,7 @@ class Update extends Component {
 					if(fileNumber === imageObjects.length) {
 						// Last pass. Send back the image urls array
 						animal.images = imageUrls
-						firebaseRef.child(key).set(animal)						
+						firebaseRef.child("animals/" + key).set(animal)				
 						this.setState({redirect: true})
 
 					} else {
@@ -355,7 +380,7 @@ class Update extends Component {
 				})
 				
 			} else {
-				firebaseRef.child(newCurrent.id).update(newCurrent)
+				firebaseRef.child("animals/" + newCurrent.id).update(newCurrent)
 				this.setState({redirect: true})
 			}
 		
@@ -391,7 +416,7 @@ class Update extends Component {
 				})
 				
 			} else {
-				firebaseRef.child(newCurrent.id).update(newCurrent)
+				firebaseRef.child("animals/" + newCurrent.id).update(newCurrent)
 				this.setState({redirect: true})
 			}
 		}
@@ -478,7 +503,7 @@ class Update extends Component {
 					onClick: this.imageUploadClick,
 					showImageUploader: this.state.showImageUploader,
 					onDrop: this.onDrop,
-					files: this.state.images,
+					images: this.state.images,
 					cancel: this.cancel,
 					removeImage: this.removeImage,
 					makeFeatured: this.makeFeatured

@@ -314,7 +314,8 @@ h2.pageHeader {
     height: 100px;
     border-radius: 50%;
     overflow: hidden;
-    transform: rotate(-45deg); }
+    transform: rotate(-45deg);
+    object-fit: cover; }
   .dogImages .dogImages__image1 {
     top: 0;
     left: 0; }
