@@ -21,7 +21,6 @@ class Landing extends Component {
 			if(Object.keys(this.props.animalsWithPics).length > 0) {
 				return this.props.animalsWithPics.values.map((url, index) => {
 					let currentKey = this.props.animalsWithPics.keys[index]
-					// console.log(this.props.animalsWithPics)
 					return (
 					<Link className={"dogImages__image" + (index + 1)} key={currentKey} to={"/dog/details/" + currentKey}>
 					<img className={"dogImages__image1" + (index + 1)} src={url} alt={`${currentKey}`} />
