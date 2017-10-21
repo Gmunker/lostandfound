@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import { searchText, showType, showStatus } from  './actions/searchActions';
 
 
@@ -8,14 +7,18 @@ class Search extends Component {
   constructor(props) {
     super(props);
     this.handleText = this.handleText.bind(this);
+    
   }
 
+  
 
   handleText(e) {
     this.props.dispatch(searchText(this.refs.searchText.value));
   }
 
   render() {
+    // let nodeSelection = this.props.Props.nodeSelection
+    // let formMethods = this.props.Props.formMethods
     return (
       <form>
         <div className="filter">
@@ -25,6 +28,7 @@ class Search extends Component {
               <input 
                 type="radio" 
                 id="statusLost"
+                value="lost"
                 onClick={() => this.props.dispatch(showStatus())}
                 checked={this.props.searchFields.showLost}
               />
@@ -35,6 +39,7 @@ class Search extends Component {
               <input 
                 type="radio" 
                 id="statusFound"
+                value="found"
                 onClick={() => this.props.dispatch(showStatus())}
                 checked={this.props.searchFields.showFound}
               />
@@ -47,6 +52,7 @@ class Search extends Component {
               <input 
                 type="radio" 
                 id="typeDog"
+                value="dog"
                 onClick={() => this.props.dispatch(showType())}
                 checked={this.props.searchFields.showDog}
               />
@@ -57,6 +63,7 @@ class Search extends Component {
               <input 
                 type="radio" 
                 id="typeCat" 
+                value="cat"
                 onClick={() => this.props.dispatch(showType())}
                 checked={this.props.searchFields.showCat}
               />
@@ -80,6 +87,7 @@ class Search extends Component {
 
 export default connect(state => {
   return {
-    searchFields: state.searchFields
+    searchFields: state.searchFields,
+    animals: state.animals.animals
   }
 })(Search);

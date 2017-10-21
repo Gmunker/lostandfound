@@ -15,6 +15,7 @@ let google
 let map
 let marker
 let newMarker
+let submitted
 
 class Update extends Component {
 	constructor(props) {
@@ -48,6 +49,7 @@ class Update extends Component {
 	componentWillMount() {
 		let animalID = this.props.match.params.id
 		this.props.dispatch(fetchAnimal(animalID))
+		submitted = false
 	}
 
 	componentWillReceiveProps(nextProps, nextState) {
@@ -58,11 +60,18 @@ class Update extends Component {
 		if ((this.props.currentAnimal.id !== nextProps.currentAnimal.id)) {
 			this.setState((state, props) => { return { currentAnimal: nextProps.currentAnimal }});
 		}
-
-		if ((nextProps.currentAnimal !== this.props.currentAnimal)) {
-			this.setState({
-				images: nextProps.currentAnimal.images
-			})
+		if (nextProps.currentAnimal !== this.props.currentAnimal) {
+			if (this.state.images.length === 0) {
+				if (nextProps.currentAnimal.images === undefined) {
+					this.setState({
+						images: []
+					})
+				} else {
+					this.setState({
+						images: nextProps.currentAnimal.images
+					})
+				}
+			}
 			if(this.state.newHistory === null) { 
 				this.setState((state, props) => { return { newHistory: nextProps.currentAnimal.history[0] }});
 				return true
@@ -81,11 +90,13 @@ class Update extends Component {
 						return false
 				}
 			}
+		} else {
+			return false
 		}
 	}
 
 	componentDidUpdate (nextProps, nextState) {
-		if(this.state.redirect === false) {
+		if(submitted === false) {
 			let currentAnimal = this.props.currentAnimal
 			let positionHistory = []
 			currentAnimal.history.map((event, i) => {
@@ -275,7 +286,7 @@ class Update extends Component {
 
 	handleSubmit(e) {
 		e.preventDefault();
-
+		submitted = true
 		let key = this.props.currentAnimal.id
 		let imagesToDelete = this.state.deleteFromFBStorage
 		// Delete images from Storage as needed
@@ -294,8 +305,6 @@ class Update extends Component {
 		// If all images have been removed from the gallery delete the record from animalsWithPics
 		if(this.state.images.length === 0) {
 			firebaseRef.child('animalsWithPics/' + key).remove()
-		} else {
-			firebaseRef.child('animalsWithPics/' + key).set(this.state.images[0])
 		}
 		
 		// Get a list of just the image objects that need to be uploaded
@@ -316,7 +325,7 @@ class Update extends Component {
 		let fileNumber = 1
 		const uploadImageAsPromise = (animal, object) => {
 
-			new Promise(function (resolve, reject) {
+			return new Promise(function (resolve, reject) {
 						
 				let storageRef = firebase.storage().ref(key + "/" + object.name);
 		
@@ -335,13 +344,13 @@ class Update extends Component {
 
 					// Grab the url for the image in storage and add it to imageUrls to go in db
 					let downloadURL = task.snapshot.downloadURL;
-					imageUrls.push(downloadURL)		
-
+					imageUrls.push(downloadURL)	
 					if(fileNumber === imageObjects.length) {
 						// Last pass. Send back the image urls array
 						animal.images = imageUrls
-						firebaseRef.child("animals/" + key).set(animal)				
-						this.setState({redirect: true})
+						// firebaseRef.child("animals/" + key).set(animal)
+						resolve(animal);			
+						// this.setState({redirect: true})
 
 					} else {
 						++fileNumber
@@ -377,10 +386,16 @@ class Update extends Component {
 				// map over each image as in the Add page sumbit
 				imageObjects.map((file) => {
 					uploadImageAsPromise(newCurrent, file)
+					.then(function(animal) {
+						// Update the animal in db
+						firebaseRef.child(this.props.currentAnimal.type + this.props.currentAnimal.history[0].status + "/" + key).update(animal)
+						// Update animalsWithPics
+						firebaseRef.child("animalsWithPics/" + key).set(animal.images[0])
+						this.setState({redirect: true})
+					}.bind(this))
 				})
-				
 			} else {
-				firebaseRef.child("animals/" + newCurrent.id).update(newCurrent)
+				firebaseRef.child(this.props.currentAnimal.type + this.props.currentAnimal.history[0].status + "/" + key).update(newCurrent)
 				this.setState({redirect: true})
 			}
 		
@@ -411,12 +426,41 @@ class Update extends Component {
 
 			if (imageObjects.length > 0) {
 				// map over each image as in the Add page sumbit
-				imageObjects.map((file) => {
+				imageObjects.map((file, index) => {
 					uploadImageAsPromise(newCurrent, file)
+					.then(function(animal) {
+						firebaseRef.child("animalsMaster/" + key).set(animal.type + animal.history[date.getTime()].status).then(() => {
+							firebaseRef.child(this.props.currentAnimal.type + this.props.currentAnimal.history[0].status + "/" + key).remove().then(() => {
+								firebaseRef.child("animalsWithPics/" + key).set(animal.images[0]).then(() => {
+									firebaseRef.child(animal.type + animal.history[date.getTime()].status + "/" + key).set(animal).then(() => {
+										this.setState({redirect: true})
+									})
+								})
+							})
+						})
+						// this.setState({redirect: true})
+						// Change history and upload image
+						// remove the old object
+						
+						// write the new object
+						
+						
+						// update the animalsMaster
+						
+						// update the animalsWithPics
+						
+						// this.setState({redirect: true})
+					}.bind(this))
 				})
 				
 			} else {
-				firebaseRef.child("animals/" + newCurrent.id).update(newCurrent)
+				// History has changed!
+				// remove the old object
+				firebaseRef.child(this.props.currentAnimal.type + this.props.currentAnimal.history[0].status + "/" + key).remove()
+				// write the new object
+				firebaseRef.child(newCurrent.type + newCurrent.history[date.getTime()].status + "/" + key).set(newCurrent)
+				// update the animalsMaster
+				firebaseRef.child("animalsMaster/" + key).set(newCurrent.type + newCurrent.history[date.getTime()].status)
 				this.setState({redirect: true})
 			}
 		}

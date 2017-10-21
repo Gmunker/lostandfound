@@ -185,8 +185,9 @@ class Add extends Component {
             color: this.state.color,
             breed: this.state.breed,
             type: this.state.type,
-            // images
         }
+
+        
         
         let date = new Date().getTime()
         let setInitialHistory = new Promise((resolve, reject) => {
@@ -223,8 +224,9 @@ class Add extends Component {
                     images.push(downloadURL)
                     if(fileNumber === myFiles.length) {
                         animal.images = images
-                        firebaseRef.child("animals/" + key).set(animal)
+                        firebaseRef.child(animal.type + animal.history[date].status + "/" + key).set(animal)
                         firebaseRef.child("animalsWithPics/" + key).set(animal.images[0])
+                        firebaseRef.child("animalsMaster/" + key).set(animal.type + animal.history[date].status)
                         this.setState({redirect: true})
                     } else {
                         ++fileNumber
@@ -232,14 +234,19 @@ class Add extends Component {
                 }.bind(this))
                 
             }.bind(this))
-            
         }
 
         setInitialHistory.then(() => {
             let key = firebaseRef.push().key;
-            myFiles.map((file) => {
-                uploadImageAsPromise(animal, file, key)
-            })
+            if(myFiles.length > 0) {
+                myFiles.map((file) => {
+                    uploadImageAsPromise(animal, file, key)
+                })
+            } else {
+                firebaseRef.child(animal.type + animal.history[date].status + "/" + key).set(animal)
+                firebaseRef.child("animalsMaster/" + key).set(animal.type + animal.history[date].status)
+                this.setState({redirect: true})
+            }
         }).catch((e) => e)
     }
     

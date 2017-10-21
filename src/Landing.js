@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import logo from './images/logo.jpg';
 import { connect } from 'react-redux';
-import { fetchAnimals } from './actions/animalsActions';
 import { fetchAnimalsWithPics } from './actions/animalsActions';
 
 class Landing extends Component {
 
 	componentWillMount() {
-		this.props.dispatch(fetchAnimals());
 		this.props.dispatch(fetchAnimalsWithPics());
 	}
 
