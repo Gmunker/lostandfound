@@ -1,5 +1,6 @@
 module.exports = {
 	filterAnimals(animals, showDog, showCat, showLost, showFound, searchText) {
+		// console.log(animals)
 		let filteredAnimals = animals;
 		
 		filteredAnimals = animals.filter(animal => {

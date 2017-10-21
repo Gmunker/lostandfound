@@ -46,17 +46,31 @@ class Detail extends Component {
 			}
 		})
 		google = window.google;
-		map = new google.maps.Map(this.map, {
-			zoom: 14,
-			gestureHandling: 'greedy',
-			disableDefaultUI: true,
-			fullscreenControl: true,
-			clickableIcons: false,
-			center: {
-					lat: positionHistory[0].lat,
-					lng: positionHistory[0].lng
-			}
-		})
+		if(positionHistory.length > 0) {
+			map = new google.maps.Map(this.map, {
+				zoom: 14,
+				gestureHandling: 'greedy',
+				disableDefaultUI: true,
+				fullscreenControl: true,
+				clickableIcons: false,
+				center: {
+						lat: positionHistory[0].lat,
+						lng: positionHistory[0].lng
+				}
+			})
+		} else {
+			map = new google.maps.Map(this.map, {
+				zoom: 12,
+				gestureHandling: 'greedy',
+				disableDefaultUI: true,
+				fullscreenControl: true,
+				clickableIcons: false,
+				center: {
+					lat: 36.170295,
+					lng: -86.674846
+				}
+			})
+		}
 		let arrLength = positionHistory.length;
 		positionHistory.map((event, index) => {
 			let customMarker = {

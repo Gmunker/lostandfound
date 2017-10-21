@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import EventList from './EventList';
 import AboutAnimal from './AboutAnimal';
+import Gallery from '../ImageElements/Gallery';
 
 const DetailContent = (props) => {
 
@@ -14,7 +15,7 @@ const DetailContent = (props) => {
     return(
         <div className="detail">
             <AboutAnimal animalProps={animalProps}/>
-            {/* <Gallery/> */}
+            <Gallery animalProps={animalProps}/>
             <div className="mapRow">
                 <div ref={mapRef} id="map" style={{height: "250px", width:"100%"}}></div> 
             </div>

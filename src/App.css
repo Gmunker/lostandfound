@@ -98,6 +98,7 @@ table {
 
 .formButton {
   display: block;
+  clear: both;
   width: 100%;
   max-width: 330px;
   margin: 0.25em auto;
@@ -313,7 +314,8 @@ h2.pageHeader {
     height: 100px;
     border-radius: 50%;
     overflow: hidden;
-    transform: rotate(-45deg); }
+    transform: rotate(-45deg);
+    object-fit: cover; }
   .dogImages .dogImages__image1 {
     top: 0;
     left: 0; }
@@ -515,17 +517,19 @@ td {
   margin-bottom: 20px;
   font: 1em/1.5em 'Open Sans', 'Arial', serif; }
 
-.detail__main__status, .detail__sub__name {
+.detail__sub__name {
   text-transform: uppercase;
-  font: 1.5em 'Bree Serif', Times, serif;
+  font: 1.25em 'Bree Serif', Times, serif;
   color: white;
   background: #423837;
-  margin: 0 7px 1em 7px;
+  margin: 0 1em 1em 1em;
   display: block;
   border-radius: 1em;
-  padding: 0.25em;
-  border: 2px solid #EFEFEF;
-  box-shadow: 0 0 0 5px #423837; }
+  padding: 0.25em; }
+
+.detail__sub__name {
+  position: relative;
+  z-index: 1; }
 
 .detail__sub tr:nth-child(2) td:first-child {
   border-top: 1px solid white;
@@ -579,18 +583,38 @@ table.detailList {
   position: relative;
   bottom: 10px; }
 
-.name {
-  font-size: 1.2em;
-  margin-top: 20px;
-  line-height: 1; }
+#Featured {
+  position: relative;
+  width: calc(100% - 10px);
+  margin-top: -2.5em;
+  margin-bottom: 1em;
+  border: 5px solid #423837; }
+
+.gallery {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; }
+
+.gallery__container {
+  width: 90px;
+  height: 90px;
+  overflow: hidden;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  margin-bottom: 0.5em; }
+
+.gallery__container__thumbnail {
+  height: 100%;
+  object-fit: cover;
+  object-position: center; }
 
 .uploadContainer {
-  position: relative; }
+  position: relative;
+  background: white;
+  height: 150px; }
 
 .uploadContainer__imageUploader {
   display: none;
-  height: 200px;
-  background: white;
+  height: 150px;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
   position: absolute;
   width: 100%;
@@ -601,6 +625,8 @@ table.detailList {
 .uploadContainer__imageUploader.active {
   display: block;
   top: 50px;
+  height: 205px;
+  background: white;
   animation: slideandfade 0.3s ease-out;
   animation-fill-mode: forwards; }
 
@@ -617,6 +643,27 @@ table.detailList {
   color: #D8511D;
   padding-top: 2em; }
 
+.uploadContainer__imageUploader__dropzone__graphic__cancel {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 40px;
+  height: 40px;
+  background: #D8511D;
+  border-radius: 50%;
+  transform: rotate(45deg); }
+  .uploadContainer__imageUploader__dropzone__graphic__cancel:before, .uploadContainer__imageUploader__dropzone__graphic__cancel:after {
+    position: absolute;
+    left: 16px;
+    top: 5px;
+    content: "";
+    display: block;
+    width: 8px;
+    height: 30px;
+    background: white; }
+  .uploadContainer__imageUploader__dropzone__graphic__cancel:after {
+    transform: rotate(90deg); }
+
 @keyframes slideandfade {
   0% {
     top: 50px;
@@ -626,11 +673,53 @@ table.detailList {
   100% {
     top: 80px; } }
 
+.featured {
+  margin-bottom: 1em;
+  position: relative;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); }
+  .featured img {
+    width: 100%; }
+  .featured footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2em;
+    background: rgba(216, 81, 29, 0.85);
+    color: white;
+    font: 1em 'Open Sans', 'Arial', sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    padding-top: 6px; }
+
 .imagePreview {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap; }
 
-.imagePreview__image img {
-  width: 80px;
-  height: 80px; }
+.imagePreview__container {
+  width: 140px;
+  height: 140px;
+  overflow: hidden;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  margin-bottom: 0.5em; }
+  .imagePreview__container img {
+    height: 100%;
+    object-fit: cover; }
+  .imagePreview__container .imagePreview__container__footer {
+    position: relative;
+    width: 140px;
+    background: rgba(216, 81, 29, 0.85);
+    bottom: 2em;
+    height: 2em;
+    clear: both; }
+    .imagePreview__container .imagePreview__container__footer div {
+      color: white;
+      font: 0.9em 'Open Sans', 'Arial', sans-serif;
+      text-transform: uppercase;
+      width: calc(50% - 0.5px);
+      float: left;
+      height: 100%;
+      text-align: center;
+      padding-top: 6px; }
+      .imagePreview__container .imagePreview__container__footer div:first-of-type {
+        border-right: 1px solid #ec926f; }

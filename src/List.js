@@ -4,7 +4,7 @@ import Navigation from './Navigation';
 import Search from './Search';
 import { connect } from 'react-redux';
 import { currentAnimal } from './actions/animalActions';
-import { fetchAnimals } from './actions/animalsActions';
+import { newfetchAnimals } from './actions/animalsActions';
 import searchAPI from'./api/searchApi';
 
 class List extends Component {
@@ -12,24 +12,56 @@ class List extends Component {
 		super(props);
 		this.state = {
 			type: "dog",
-			searchField: "",
-			status: "lost"
+			status: "lost",
+			searchField: ""
 		}
+		// this.fetchNewNodeFromStatus = this.fetchNewNodeFromStatus.bind(this)
+		// this.fetchNewNodeFromType = this.fetchNewNodeFromType.bind(this)
 	}
 
 	componentWillMount() {
-		this.props.dispatch(fetchAnimals());
+		this.props.dispatch(newfetchAnimals(this.state.type, this.state.status));
 	}
+
+	// fetchNewNodeFromType(event) {
+	// 		this.setState({
+	// 	type: event.target.value
+	// 	}, () => {
+	// 	this.props.dispatch(newfetchAnimals(this.state.type, this.state.status));
+	// 	})
+	// }
+	
+	// fetchNewNodeFromStatus(event) {
+	// 	this.setState({
+	// 	status: event.target.value
+	// 	}, () => {
+	// 	this.props.dispatch(newfetchAnimals(this.state.type, this.state.status))
+	// 	})
+	// }
 
 	componentWillUnmount() {
         this.props.dispatch(currentAnimal({history: [{status: "lost"}], type: "dog"}))
-    }
+	}
+	
+	
 	
    	render() {
+		console.log(this.props)
+		// let Props = {
+		// 	formMethods: {
+		// 		fetchNewNodeFromType: this.fetchNewNodeFromType,
+		// 		fetchNewNodeFromStatus: this.fetchNewNodeFromStatus
+		// 	},
+		// 	nodeSelection: {
+		// 		status: this.state.status,
+		// 		type: this.state.type
+		// 	}
+		// }
 
 		let { searchText, showDog, showCat, showLost, showFound } = this.props.searchFields;
 		let filteredAnimals = searchAPI.filterAnimals(this.props.animals, showDog, showCat, showLost, showFound, searchText);
 		let table = filteredAnimals.map((animal) => {
+			
 			let loc = animal.type === "dog" ? `/dog/details/${animal.id}` : `/cat/details/${animal.id}`;
 			return(
 				<tr key={animal.id}>
@@ -45,8 +77,8 @@ class List extends Component {
 				<Navigation/>
 				<div className="topContainer">
 					<h2 className="pageHeader">I'm looking for a...</h2>
-					<Search />
-					{filteredAnimals.length > 0 ?
+					<Search/>
+					{this.props.animals.length > 0 ?
 					<table>
 						<thead>
 							<tr>
@@ -61,7 +93,7 @@ class List extends Component {
 					</table> :
 					<p className="listEmptySet">No Results</p>
 					}
-					{this.props.animals.length === 0 ? <h1>Loading List....</h1> : null}
+					
 				</div>
 			</div>
 		)
@@ -73,3 +105,5 @@ export default connect(state => {
 	animals: state.animals.animals,
 	searchFields: state.searchFields
 }})(List);
+
+// {this.props.animals.length === 0 ? <h1>Loading List....</h1> : null}

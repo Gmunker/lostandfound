@@ -6,9 +6,9 @@
     "chrome-launch": "^1.1.4",
     "dateformat": "^2.0.0",
     "firebase": "^4.1.3",
-    "react": "^15.6.1",
+    "react": "^16.0.0",
     "react-async-script-loader": "^0.3.0",
-    "react-dom": "^15.6.1",
+    "react-dom": "^16.0.0",
     "react-dropzone": "^4.1.3",
     "react-google-maps": "next",
     "react-redux": "^5.0.5",
@@ -18,7 +18,8 @@
     "redux-promise-middleware": "^4.3.0",
     "redux-thunk": "^2.2.0",
     "set-default-browser": "^1.0.0",
-    "validator": "^8.0.0"
+    "validator": "^8.0.0",
+    "jic": "^2.0.2"
   },
   "devDependencies": {
     "node-sass-chokidar": "0.0.3",

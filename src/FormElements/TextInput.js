@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
 
-export class TextInput extends Component {
-    constructor(props) {
-        super(props)
-    }
-    render() {
-        return(
-            <div className="formRow">
-                <label htmlFor={this.props.textInputProps.id}>{this.props.textInputProps.label}{this.props.textInputProps.required ? "*" : null}</label>
-                <input
-                    ref={this.props.name}
-                    name={this.props.textInputProps.name}
-                    id={this.props.textInputProps.id} 
-                    type={this.props.textInputProps.type}
-                    onChange={this.props.textInputProps.onChange}
-                    required={this.props.textInputProps.required}
-                    value={this.props.textInputProps.value}                  
-                />
-            </div>
-        )
-    }
+const TextInput = (props) => {
+    return(
+        <div className="formRow">
+            <label htmlFor={props.textInputProps.id}>{props.textInputProps.label}{props.textInputProps.required ? "*" : null}</label>
+            <input
+                ref={props.name}
+                name={props.textInputProps.name}
+                id={props.textInputProps.id} 
+                type={props.textInputProps.type}
+                onChange={props.textInputProps.onChange}
+                required={props.textInputProps.required}
+                defaultValue={props.textInputProps.value}
+            />
+        </div>
+    )
 }
+
+export default TextInput
