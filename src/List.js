@@ -19,8 +19,15 @@ class List extends Component {
 		// this.fetchNewNodeFromType = this.fetchNewNodeFromType.bind(this)
 	}
 
-	componentWillMount() {
-		this.props.dispatch(newfetchAnimals(this.state.type, this.state.status));
+	componentWillMount(nextProps, nextState) {
+		this.props.dispatch(newfetchAnimals());
+	}
+
+	componentWillUpdate(nextProps, nextState) {
+		const type = nextProps.searchFields.showDog ? "dog" : "cat"
+		const status = nextProps.searchFields.showLost ? "lost" : "found"
+
+		nextProps.searchFields !== this.props.searchFields && this.props.dispatch(newfetchAnimals(type, status));
 	}
 
 	// fetchNewNodeFromType(event) {
