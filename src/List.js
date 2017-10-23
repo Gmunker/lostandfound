@@ -11,8 +11,8 @@ class List extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			type: "dog",
-			status: "lost",
+			// type: this.props.searchFields.showDog ? "dog" : "cat",
+			// status: this.props.searchFields.showLost ? "lost" : "found",
 			searchField: ""
 		}
 		// this.fetchNewNodeFromStatus = this.fetchNewNodeFromStatus.bind(this)
@@ -20,13 +20,14 @@ class List extends Component {
 	}
 
 	componentWillMount() {
-		this.props.dispatch(newfetchAnimals(this.state.type, this.state.status));
+		this.props.dispatch(newfetchAnimals())
 	}
 
-	shouldComponentUpdate(prevProps, prevState) {
-		console.log(prevProps)
-		console.log(this.props)
-		return true;
+	componentWillUpdate(nextProps, nextState) {
+		const type = nextProps.searchFields.showDog ? "dog" : "cat"
+		const status = nextProps.searchFields.showLost ? "lost" : "found"
+
+		nextProps.searchFields !== this.props.searchFields && this.props.dispatch(newfetchAnimals(type, status))
 	}
 
 	// fetchNewNodeFromType(event) {
@@ -52,7 +53,6 @@ class List extends Component {
 	
 	
    	render() {
-		console.log(this.props)
 		// let Props = {
 		// 	formMethods: {
 		// 		fetchNewNodeFromType: this.fetchNewNodeFromType,
