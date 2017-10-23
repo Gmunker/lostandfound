@@ -480,11 +480,19 @@ class Update extends Component {
 				});
 			}
 		})
-		const animalID = this.props.match.params.id
-		const dispatch = this.props.dispatch
-        dispatch(deleteAnimal(animalID))
-            .then(this.setState((state, props) => { return { redirect: true }}))
-            .catch(err => console.log(err))
+		let currentStatus = this.props.currentAnimal.history[0].status
+		let currentType = this.props.currentAnimal.type
+		let currentNode = currentType + currentStatus
+		let id = this.props.currentAnimal.id
+		let dataToDelete = {}
+		dataToDelete[currentNode + "/" + id] = null
+		dataToDelete["animalsMaster" + "/" + id] = null
+		dataToDelete["animalsWithPics/" + id] = null
+		this.setState({
+			redirect: true
+		}, () => {
+			firebaseRef.update(dataToDelete)
+		})
 	}
 
 	// Map Methods
