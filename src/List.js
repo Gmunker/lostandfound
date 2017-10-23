@@ -23,6 +23,12 @@ class List extends Component {
 		this.props.dispatch(newfetchAnimals(this.state.type, this.state.status));
 	}
 
+	shouldComponentUpdate(prevProps, prevState) {
+		console.log(prevProps)
+		console.log(this.props)
+		return true;
+	}
+
 	// fetchNewNodeFromType(event) {
 	// 		this.setState({
 	// 	type: event.target.value
