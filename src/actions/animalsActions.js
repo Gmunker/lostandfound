@@ -32,7 +32,7 @@ export function fetchAnimals() {
     }
 }
 
-export function newfetchAnimals(type, status) {
+export function newfetchAnimals(type = "dog", status = "lost") {
 	console.log(type + " | " + status)
 	return function(dispatch) {
 

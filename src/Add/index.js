@@ -7,7 +7,7 @@ import { addAnimal } from '../actions/firebaseActions';
 import { currentAnimal, setNewHistory } from '../actions/animalActions';
 import scriptLoader from 'react-async-script-loader';
 import AddAnimalForm from './Add';
-import superagent from 'superagent';
+// import superagent from 'superagent';
 import firebase from 'firebase';
 let firebaseRef = firebase.database().ref("HipD");
 
