@@ -47,15 +47,19 @@ class Update extends Component {
 	
 	// Lifecycle Methods
 	componentWillMount() {
-		let animalID = this.props.match.params.id
-		this.props.dispatch(fetchAnimal(animalID))
-		submitted = false
+		if(!this.props.user.uid) {
+            this.setState({redirect: true})
+        } else {
+			let animalID = this.props.match.params.id
+			this.props.dispatch(fetchAnimal(animalID))
+			submitted = false
+		}
 	}
 
 	componentWillReceiveProps(nextProps, nextState) {
-		if (this.props.currentAnimal.animalNotFound) {
-			return true
-		}
+		// if (this.props.currentAnimal.animalNotFound) {
+		// 	return true
+		// }
 		
 		if ((this.props.currentAnimal.id !== nextProps.currentAnimal.id)) {
 			this.setState((state, props) => { return { currentAnimal: nextProps.currentAnimal }});
@@ -74,10 +78,10 @@ class Update extends Component {
 			}
 			if(this.state.newHistory === null) { 
 				this.setState((state, props) => { return { newHistory: nextProps.currentAnimal.history[0] }});
-				return true
+				// return true
 			}
 		}
-		return false
+		// return false
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -536,6 +540,11 @@ class Update extends Component {
 		
 	render() {
 		let animal = this.props.currentAnimal
+		if (!this.props.user.uid) {
+			return(
+				<Redirect to="/list" />
+			)
+		}
 		if (this.props.currentAnimal.animalNotFound === true ) {
 			return (
 					<Redirect to="/list" />
@@ -630,10 +639,11 @@ class Update extends Component {
             }
 
 			return(
+				this.state.redirect ?
+				<Redirect to="/list" />:
 				<div className="addContent content">
 					<Navigation />
-                    <UpdateContent Props={Props}/>
-					{this.state.redirect === true ? <Redirect to="/list" /> : null}
+					<UpdateContent Props={Props}/>
 				</div>
 			)
 		}
@@ -642,7 +652,8 @@ class Update extends Component {
 
 const LoadConnector = connect(state => {
     return {
-		currentAnimal: state.animal.currentAnimal
+		currentAnimal: state.animal.currentAnimal,
+		user: state.user
     }
 })(Update);
 export default scriptLoader(["https://maps.googleapis.com/maps/api/js?key=AIzaSyDiUupl6Z9qBY5J_IKupr44xM542C23Xiw&libraries=geometry"])(LoadConnector) 

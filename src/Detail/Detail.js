@@ -1,28 +1,36 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import EventList from './EventList';
 import AboutAnimal from './AboutAnimal';
 import Gallery from '../ImageElements/Gallery';
+import { connect } from 'react-redux';
 
-const DetailContent = (props) => {
+class DetailContent extends Component {
+    constructor(props) {
+        super(props)
+    }
 
-    let animalProps = props.Props.animal
-    let activeRegion = props.Props.activeRegion
-    let activeIndex = props.Props.activeIndex
-    let mapRef = props.Props.map
-    let handleClick = props.Props.handleClick
-
-    return(
-        <div className="detail">
-            <AboutAnimal animalProps={animalProps}/>
-            <Gallery animalProps={animalProps}/>
-            <div className="mapRow">
-                <div ref={mapRef} id="map" style={{height: "250px", width:"100%"}}></div> 
+    render() {
+        return(
+            <div className="detail">
+                <AboutAnimal animalProps={this.props.Props.animal}/>
+                <Gallery animalProps={this.props.Props.animal}/>
+                <div className="mapRow">
+                    <div ref={this.props.Props.map} id="map" style={{height: "250px", width:"100%"}}></div> 
+                </div>
+                <EventList handleClick={this.props.Props.handleClick} animalHistory={this.props.Props.animal.history} activeRegion={this.props.Props.activeRegion} activeIndex={this.props.Props.activeIndex}/>
+                {
+                this.props.user.uid !== undefined ?
+                <Link className="formButton" to={this.props.Props.animal.type === "dog" ? `/dog/update/${this.props.Props.animal.id}` : `/cat/update/${this.props.Props.animal.id}`}>Update</Link> :
+                null
+                }
             </div>
-            <EventList handleClick={handleClick} animalHistory={animalProps.history} activeRegion={activeRegion} activeIndex={activeIndex}/>
-            <Link className="formButton" to={animalProps.type === "dog" ? `/dog/update/${animalProps.id}` : `/cat/update/${animalProps.id}`}>Update</Link>
-        </div>
-    )
+        )
+    }
 }
 
-export default DetailContent
+export default connect(state => {
+	return {
+		user: state.user
+	}
+})(DetailContent);

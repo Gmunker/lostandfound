@@ -25,7 +25,11 @@ class Navigation extends Component {
 					<Link to="/">
 						<img src={icon} alt="Hip Lost and Found Pets Icon"/>
 					</Link>
-					<Link to="/add"><li>Add New Animal</li></Link>
+					{
+					this.props.user.uid ?
+					<Link to="/add"><li>Add New Animal</li></Link> :
+					null
+					}
 					<Link to="/list"><li>View List</li></Link>
 					{
 					this.props.user.uid ?

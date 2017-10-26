@@ -9,6 +9,7 @@ import Update from './Update/';
 import ScrollToTop from './ScrollToTop';
 import Login from './Login/';
 import RegionGmap from './GoogleMap/RegionGmap';
+import { connect } from 'react-redux';
 
 let views = false
 
@@ -31,7 +32,7 @@ class App extends Component {
 						<Route path="/list" component={List} />
 						<Route path="/dog/details/:id" component={Detail} />
 						<Route path="/cat/details/:id" component={Detail} />
-						<Route path="/add" component={Add} />
+						<Route path="/add" component={Add}/>
 						<Route path="/dog/update/:id" component={Update} />
 						<Route path="/cat/update/:id" component={Update} />
 						<Route path="/login" component={Login} />>		
