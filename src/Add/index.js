@@ -7,8 +7,8 @@ import { addAnimal } from '../actions/firebaseActions';
 import { currentAnimal, setNewHistory } from '../actions/animalActions';
 import scriptLoader from 'react-async-script-loader';
 import AddAnimalForm from './Add';
-import superagent from 'superagent';
 import firebase from 'firebase';
+// import { ImageTools } from '../ImageElements';
 let firebaseRef = firebase.database().ref("HipD");
 
 let google
@@ -51,6 +51,13 @@ class Add extends Component {
     }
 
     // Lifecycle Methods
+
+    componentWillMount() {
+        if(!this.props.user.uid) {
+            this.setState({redirect: true})
+        }
+    }
+
     componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
         if(google === undefined) {
             if (isScriptLoaded && isScriptLoadSucceed) {
@@ -185,8 +192,9 @@ class Add extends Component {
             color: this.state.color,
             breed: this.state.breed,
             type: this.state.type,
-            // images
         }
+
+        
         
         let date = new Date().getTime()
         let setInitialHistory = new Promise((resolve, reject) => {
@@ -205,7 +213,20 @@ class Add extends Component {
         let images = []
         const uploadImageAsPromise = (animal, imageFile, key) => {
 
+            
+
             new Promise(function (resolve, reject) {
+
+
+                // ImageTools.resize(imageFile, {
+                //     width: 320, // maximum width
+                //     height: 240 // maximum height
+                // }, function(blob, didItResize) {
+                //     // didItResize will be true if it managed to resize it, otherwise false (and will return the original file as 'blob')
+                //     document.getElementById('preview').src = window.URL.createObjectURL(blob);
+                //     // you can also now upload this blob using an XHR.
+                // });
+
                 
                 let storageRef = firebase.storage().ref(key + "/" + imageFile.name);
         
@@ -223,23 +244,29 @@ class Add extends Component {
                     images.push(downloadURL)
                     if(fileNumber === myFiles.length) {
                         animal.images = images
-                        firebaseRef.child("animals/" + key).set(animal)
+                        firebaseRef.child(animal.type + animal.history[date].status + "/" + key).set(animal)
                         firebaseRef.child("animalsWithPics/" + key).set(animal.images[0])
-                        this.setState({redirect: true})
+                        firebaseRef.child("animalsMaster/" + key).set(animal.type + animal.history[date].status)
+                        // this.setState({redirect: true})
                     } else {
                         ++fileNumber
                     }
                 }.bind(this))
                 
             }.bind(this))
-            
         }
 
         setInitialHistory.then(() => {
             let key = firebaseRef.push().key;
-            myFiles.map((file) => {
-                uploadImageAsPromise(animal, file, key)
-            })
+            if(myFiles.length > 0) {
+                myFiles.map((file) => {
+                    uploadImageAsPromise(animal, file, key)
+                })
+            } else {
+                firebaseRef.child(animal.type + animal.history[date].status + "/" + key).set(animal)
+                firebaseRef.child("animalsMaster/" + key).set(animal.type + animal.history[date].status)
+                this.setState({redirect: true})
+            }
         }).catch((e) => e)
     }
     
@@ -388,6 +415,7 @@ class Add extends Component {
         return(
             <div className="addContent content">
                 <Navigation/>
+                <img id="preview"/>
                 <AddAnimalForm Props={Props}/>
                 {this.state.redirect ? <Redirect to="/list" /> : null}
             </div>
@@ -397,8 +425,7 @@ class Add extends Component {
 
 const LoadConnector = connect(state => {
     return {
-        // currentAnimal: state.animal.currentAnimal,
-        // newHistory: state.animal.newHistory
+        user: state.user
     }
 })(Add)
 

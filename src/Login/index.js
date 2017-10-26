@@ -47,6 +47,7 @@ class Login extends Component {
 	}
 
 	render() {
+		
 		let Props = {
 			Username: {
 				label: "Username",
@@ -66,11 +67,15 @@ class Login extends Component {
 				type: "password",
 				onChange: this.handlePassword,
 				value: this.state.password
+			},
+			Methods: {
+				handleLogin: this.handleLogin,
+				handleLogout: this.handleLogout
 			}
 		}
 		return (
 			<div className="content">
-				<Navigation navSwitch={this.props.navSwitch} ActivePage="Login"/>
+				<Navigation/>
 				<LoginForm Props={Props}/>
 			</div>
 		)
