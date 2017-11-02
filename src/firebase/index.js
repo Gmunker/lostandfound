@@ -8,4 +8,6 @@ const config = {
 };
 
 firebase.initializeApp(config);
+// console.log(firebase.auth.Auth)
+// firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
 export default firebase;

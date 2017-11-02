@@ -3,6 +3,7 @@ import firebase from '../firebase';
 export function login(email, password) {
   return function(dispatch) {
     firebase.auth().signInWithEmailAndPassword(email, password)
+    
     .then(result => {
       dispatch({type: "USER_LOGIN", payload: result.uid})
       console.log("User Logged In!")
