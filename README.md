@@ -1,4 +1,4 @@
-###### Chingu > Bears > Team 4
+###### Chingu > Bears > Team 2
 #### Build to learn
 
 **Who is this application for?**  
