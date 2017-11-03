@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { currentAnimal } from './actions/animalActions';
 import { newfetchAnimals } from './actions/animalsActions';
 import searchAPI from'./api/searchApi';
+import Footer from './Footer';
 
 class List extends Component {
 	constructor(props) {
@@ -102,6 +103,7 @@ class List extends Component {
 					}
 					
 				</div>
+				<Footer/>
 			</div>
 		)
   }

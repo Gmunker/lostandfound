@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { currentAnimal } from '../actions/animalActions';
 import { fetchAnimal } from '../actions/animalsActions';
 import DetailContent from './Detail';
+import Footer from '../Footer';
 
 let google
 let map
@@ -137,6 +138,7 @@ class Detail extends Component {
 				<div className="content">
 					<Navigation/>
                     <DetailContent Props={Props}/>
+					<Footer/>
 				</div>
 			)
 		}

@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import regions from '../GoogleMap/geojson.json';
 import UpdateContent from './Update';
 import firebase from 'firebase';
+import Footer from '../Footer';
 
 let firebaseRef = firebase.database().ref("HipD");
 let google
@@ -644,6 +645,7 @@ class Update extends Component {
 				<div className="addContent content">
 					<Navigation />
 					<UpdateContent Props={Props}/>
+					<Footer/>
 				</div>
 			)
 		}

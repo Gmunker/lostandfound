@@ -261,7 +261,8 @@ body {
   flex-direction: column;
   position: relative;
   top: 58px;
-  padding: 1em; }
+  padding: 1em;
+  height: calc(100% - 90px); }
 
 h2.pageHeader {
   text-align: center;
@@ -723,3 +724,21 @@ table.detailList {
       padding-top: 6px; }
       .imagePreview__container .imagePreview__container__footer div:first-of-type {
         border-right: 1px solid #ec926f; }
+
+footer {
+  position: relative;
+  bottom: -1rem;
+  width: 100%;
+  left: -1rem;
+  right: -1rem;
+  padding: 1rem 1rem;
+  background: #D8511D;
+  color: white;
+  font: 0.85rem 'Open Sans', Arial, sans-serif; }
+  footer a {
+    color: white;
+    text-decoration: none;
+    float: left; }
+  footer p {
+    float: right;
+    font-style: italic; }

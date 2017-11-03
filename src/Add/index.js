@@ -8,6 +8,7 @@ import { currentAnimal, setNewHistory } from '../actions/animalActions';
 import scriptLoader from 'react-async-script-loader';
 import AddAnimalForm from './Add';
 import firebase from 'firebase';
+import Footer from '../Footer';
 
 let firebaseRef = firebase.database().ref("HipD");
 let google
@@ -443,6 +444,7 @@ class Add extends Component {
                 <img id="preview"/>
                 <AddAnimalForm Props={Props}/>
                 {this.state.redirect ? <Redirect to="/list" /> : null}
+                <Footer/>
             </div>
         )
     }
