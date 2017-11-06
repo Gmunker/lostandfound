@@ -681,6 +681,9 @@ table.detailList {
   .featured img {
     width: 100%; }
   .featured footer {
+    left: 0;
+    right: 0;
+    padding: 0;
     position: absolute;
     bottom: 0;
     width: 100%;

@@ -111,11 +111,13 @@ class Add extends Component {
                         let maxHeight = 1000
                         let quality = 1.0
                         if (width > height) {
+                            console.log("landscape")
                             if (width > maxWidth) {
                                 height = Math.round(height * maxWidth / width)
                                 width = maxWidth
                             }
                         } else {
+                            console.log("portrait")
                             if (height > maxHeight) {
                                 width = Math.round(width * maxHeight / height)
                                 height = maxHeight
