@@ -10,6 +10,7 @@ import ScrollToTop from './ScrollToTop';
 import Login from './Login/';
 import RegionGmap from './GoogleMap/RegionGmap';
 import { connect } from 'react-redux';
+import { checkAuth } from './actions/userActions';
 
 let views = false
 
@@ -17,6 +18,10 @@ class App extends Component {
 	constructor(props) {
 		super(props)
 		this.incrementViews = this.incrementViews.bind(this)
+	}
+
+	componentWillMount() {
+		this.props.dispatch(checkAuth())
 	}
 
 	incrementViews() {
@@ -44,4 +49,10 @@ class App extends Component {
 	}
 }
 
-export default App;
+// export default App;
+
+export default connect(state => {
+	return {
+		user: state.user
+	}
+})(App);

@@ -33,12 +33,11 @@ export function fetchAnimals() {
 }
 
 export function newfetchAnimals(type = "dog", status = "lost") {
-	console.log(type + " | " + status)
+
 	return function(dispatch) {
 
 	  firebaseRef.ref('HipD/' + type + status).on('value', (snapshot) => {
 		  let animals = snapshot.val() || {};
-		  console.log(animals)
 		  let parsedAnimals = [];
 		  Object.keys(animals).forEach((animalId) => {
 			  let parsedHistory = [];

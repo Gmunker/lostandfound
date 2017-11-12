@@ -5,6 +5,7 @@ import Navigation from '../Navigation';
 import LoginForm from './Login';
 import { login, logout } from '../actions/userActions';
 import Footer from '../Footer';
+import firebase from 'firebase';
 
 class Login extends Component {
 	constructor(props){

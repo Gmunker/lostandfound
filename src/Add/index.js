@@ -9,6 +9,7 @@ import scriptLoader from 'react-async-script-loader';
 import AddAnimalForm from './Add';
 import firebase from 'firebase';
 import Footer from '../Footer';
+import { checkAuth } from '../actions/userActions';
 
 let firebaseRef = firebase.database().ref("HipD");
 let google
@@ -51,12 +52,6 @@ class Add extends Component {
     }
 
     // Lifecycle Methods
-
-    componentWillMount() {
-        if(!this.props.user.uid) {
-            this.setState({redirect: true})
-        }
-    }
 
     componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
         if(google === undefined) {

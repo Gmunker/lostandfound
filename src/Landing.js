@@ -15,7 +15,6 @@ class Landing extends Component {
 	}
 
 	render() {
-		console.log(this.props.user.uid)
 		let randomAnimals = () => {
 			if(Object.keys(this.props.animalsWithPics).length > 0) {
 				return this.props.animalsWithPics.values.map((url, index) => {

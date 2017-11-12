@@ -183,20 +183,78 @@ class Update extends Component {
         })
     }
 
-    onDrop(newFiles) {
-		let oldFiles
-		if(this.state.images !== undefined) {
-			oldFiles = this.state.images
-		} else {
-			oldFiles = []
-		}
-        newFiles.map((file) => {
-			oldFiles.push(file)
-        })
-        this.setState({
-			images: oldFiles,
-            showImageUploader: false
-        })
+    onDrop(newfiles) {
+
+		function compress(newfiles) {
+            return new Promise(function(resolve, reject) {
+                let compressedFiles = []
+                let images = newfiles.map((img, index) => {
+                    const image = new Image()
+                    image.src = img.preview
+                    image.onload = () => {
+
+                        // Start image compression
+                        const canvas = document.createElement('canvas')
+                        let width = image.width
+                        let height = image.height
+                        let maxWidth = 1000
+                        let maxHeight = 1000
+                        let quality = 1.0
+                        if (width > height) {
+                            console.log("landscape")
+                            if (width > maxWidth) {
+                                height = Math.round(height * maxWidth / width)
+                                width = maxWidth
+                            }
+                        } else {
+                            console.log("portrait")
+                            if (height > maxHeight) {
+                                width = Math.round(width * maxHeight / height)
+                                height = maxHeight
+                            }
+                        }
+                        canvas.width = width
+                        canvas.height = height
+                        const ctx = canvas.getContext('2d')
+                        ctx.drawImage(image, 0, 0, width, height)                        
+                        canvas.toBlob(function(blob) {
+                            const newImg = new Image()
+                            newImg.src = URL.createObjectURL(blob)
+                            blob.preview = newImg.src
+                            blob.name = img.name
+                            compressedFiles.push(blob)
+                            console.log(newfiles.length + " | " + compressedFiles.length)
+                            if(newfiles.length === compressedFiles.length) {
+                                resolve(compressedFiles)
+                            }
+                        }, 'image/jpeg', 0.95)
+                    }
+                })
+            })
+        }
+
+		compress(newfiles)
+        .then(function(compressedFiles) {
+            let currentImages = this.state.images
+            this.setState({
+                images: [...currentImages, ...compressedFiles],
+                showImageUploader: false
+            })
+        }.bind(this))
+
+		// let oldFiles = []
+		// if(this.state.images !== undefined) {
+		// 	oldFiles = this.state.images
+		// }
+
+        // newFiles.map((file) => {
+		// 	oldFiles.push(file)
+		// })
+
+        // this.setState({
+		// 	images: oldFiles,
+        //     showImageUploader: false
+        // })
     }
 
     cancel() {

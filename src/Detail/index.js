@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Navigation from '../Navigation';
 import scriptLoader from 'react-async-script-loader';
 import { connect } from 'react-redux';

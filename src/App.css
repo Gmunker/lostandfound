@@ -710,6 +710,9 @@ table.detailList {
     height: 100%;
     object-fit: cover; }
   .imagePreview__container .imagePreview__container__footer {
+    left: 0;
+    right: 0;
+    padding: 0;
     position: relative;
     width: 140px;
     background: rgba(216, 81, 29, 0.85);
