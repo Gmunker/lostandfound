@@ -357,8 +357,7 @@ class Add extends Component {
             Status: {
                 options: [
                     "lost",
-                    "found",
-                    "transferred"
+                    "found"
                 ],
                 selectProps: {
                     label: "Status",
