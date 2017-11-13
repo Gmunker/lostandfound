@@ -1,7 +1,5 @@
 import firebase from '../firebase';
 
-
-
 export function login(email, password) {
 
   return function(dispatch) {
