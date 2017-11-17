@@ -46,7 +46,6 @@ class Update extends Component {
         this.makeFeatured = this.makeFeatured.bind(this);
 	}
 	
-	// Lifecycle Methods
 	componentWillMount() {
 		if(!this.props.user.uid) {
             this.setState({redirect: true})

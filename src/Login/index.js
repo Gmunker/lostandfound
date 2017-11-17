@@ -5,7 +5,7 @@ import Navigation from '../Navigation';
 import LoginForm from './Login';
 import { login, logout } from '../actions/userActions';
 import Footer from '../Footer';
-import firebase from 'firebase';
+// import firebase from 'firebase';
 
 class Login extends Component {
 	constructor(props){
@@ -50,6 +50,8 @@ class Login extends Component {
 	}
 
 	render() {
+console.log(this.props)
+
 		let Props = {
 			Username: {
 				label: "Username",

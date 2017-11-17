@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 import Search from './Search';
 import { connect } from 'react-redux';
-import { currentAnimal } from './actions/animalActions';
+// import { currentAnimal } from './actions/animalActions';
 import { newfetchAnimals } from './actions/animalsActions';
 import searchAPI from'./api/searchApi';
 import Footer from './Footer';

@@ -3,13 +3,13 @@ import { Redirect } from 'react-router-dom';
 import Navigation from '../Navigation';
 import { connect } from 'react-redux';
 import regions from '../GoogleMap/geojson.json';
-import { addAnimal } from '../actions/firebaseActions';
-import { currentAnimal, setNewHistory } from '../actions/animalActions';
+// import { addAnimal } from '../actions/firebaseActions';
+// import { currentAnimal, setNewHistory } from '../actions/animalActions';
 import scriptLoader from 'react-async-script-loader';
 import AddAnimalForm from './Add';
 import firebase from 'firebase';
 import Footer from '../Footer';
-import { checkAuth } from '../actions/userActions';
+// import { checkAuth } from '../actions/userActions';
 
 let firebaseRef = firebase.database().ref("HipD");
 let google
