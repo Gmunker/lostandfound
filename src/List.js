@@ -38,7 +38,7 @@ class List extends Component {
 
 		let { searchText, showDog, showCat, showLost, showFound } = this.props.searchFields;
 		let filteredAnimals = searchAPI.filterAnimals(this.props.animals, showDog, showCat, showLost, showFound, searchText);
-		let table = filteredAnimals.map((animal) => {
+		let table = filteredAnimals.reverse().map((animal) => {
 			
 			let loc = animal.type === "dog" ? `/dog/details/${animal.id}` : `/cat/details/${animal.id}`;
 			return(

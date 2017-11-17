@@ -1,0 +1,49 @@
+.container {
+    background: rgba(black, 0.5);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 10000;
+    padding: 0.5em;
+    display: flex;
+    img {
+        max-width: calc(100% - 1em);
+        max-height: calc(100% - 1em);
+        align-self: center;
+    }
+    .closeBox {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        width: 40px;
+        height: 40px;
+        background: $Secondary;
+        border-radius: 50%;
+        transform: rotate(45deg);
+        &:before, &:after {
+            position: absolute;
+            left: 16px;
+            top: 5px;
+            content: "";
+            display: block;
+            width: 8px;
+            height: 30px;
+            background: white;
+        }
+        &:after {
+            transform: rotate(90deg);
+        }
+    }
+}
+
+.container.landscape {
+    flex-flow: column;
+}
+
+body.noScroll {
+    overflow: hidden;
+}

@@ -748,3 +748,46 @@ footer {
   footer p {
     float: right;
     font-style: italic; }
+
+.container {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 10000;
+  padding: 0.5em;
+  display: flex; }
+  .container img {
+    max-width: calc(100% - 1em);
+    max-height: calc(100% - 1em);
+    align-self: center; }
+  .container .closeBox {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 40px;
+    height: 40px;
+    background: #D8511D;
+    border-radius: 50%;
+    transform: rotate(45deg); }
+    .container .closeBox:before, .container .closeBox:after {
+      position: absolute;
+      left: 16px;
+      top: 5px;
+      content: "";
+      display: block;
+      width: 8px;
+      height: 30px;
+      background: white; }
+    .container .closeBox:after {
+      transform: rotate(90deg); }
+
+.container.landscape {
+  flex-flow: column; }
+
+body.noScroll {
+  overflow: hidden; }

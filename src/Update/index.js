@@ -614,7 +614,29 @@ class Update extends Component {
 			)
 		} else if (animal.history) {
 
-            let newHistory = this.state.newHistory
+			let newHistory = this.state.newHistory
+			
+			let options
+
+			switch (animal.history[0].status) {
+				case "lost":
+					options = ["lost", "found", "returned to owner"]
+					break
+				case "found":
+					options = ["found", "foster", "returned to owner"]
+					break
+				case "returned to owner":
+					options = ["returned to owner", "lost", "found"]
+					break
+				case "foster":
+					options = ["foster", "adoptable"]
+					break
+				case "adoptable":
+					options = ["adoptable", "adopted"]
+					break
+				case "adopted":
+					options = ["adopted", "lost", "found"]
+			}
 
             let Props = {
                 animal: this.props.currentAnimal,
@@ -638,10 +660,7 @@ class Update extends Component {
                     handleDelete: this.handleDelete
                 },
                 Status: {
-                    options: [
-                        "lost",
-                        "found"
-                    ],
+                    options: options,
                     selectProps: {
                         label: "Status",
                         onChange: this.handleStatus,
