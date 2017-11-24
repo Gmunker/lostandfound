@@ -22,7 +22,6 @@ class Update extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			newHistory: null,
 			redirect: false,
 			animalFound: null,
 			images: [],
@@ -35,69 +34,48 @@ class Update extends Component {
 		this.placeMarkerAndPanTo = this.placeMarkerAndPanTo.bind(this);
 		this.findRegion = this.findRegion.bind(this);
 		this.replaceMarkerIcon = this.replaceMarkerIcon.bind(this);
-        this.handleDelete = this.handleDelete.bind(this)
-        this.handleName = this.handleName.bind(this)
-        this.handleColor = this.handleColor.bind(this)
+		this.handleDelete = this.handleDelete.bind(this)
+		this.handleName = this.handleName.bind(this)
+		this.handleColor = this.handleColor.bind(this)
 		this.handleBreed = this.handleBreed.bind(this)
 		this.imageUploadClick = this.imageUploadClick.bind(this);
-        this.onDrop = this.onDrop.bind(this);
-        this.cancel = this.cancel.bind(this);
-        this.removeImage = this.removeImage.bind(this);
-        this.makeFeatured = this.makeFeatured.bind(this);
+		this.onDrop = this.onDrop.bind(this);
+		this.cancel = this.cancel.bind(this);
+		this.removeImage = this.removeImage.bind(this);
+		this.makeFeatured = this.makeFeatured.bind(this);
 	}
 	
 	componentWillMount() {
-		if(!this.props.user.uid) {
-            this.setState({redirect: true})
-        } else {
-			let animalID = this.props.match.params.id
-			this.props.dispatch(fetchAnimal(animalID))
-			submitted = false
-		}
+		this.props.dispatch(fetchAnimal(this.props.match.params.id))
 	}
 
-	componentWillReceiveProps(nextProps, nextState) {
-		// if (this.props.currentAnimal.animalNotFound) {
-		// 	return true
-		// }
-		
-		if ((this.props.currentAnimal.id !== nextProps.currentAnimal.id)) {
-			this.setState((state, props) => { return { currentAnimal: nextProps.currentAnimal }});
-		}
-		if (nextProps.currentAnimal !== this.props.currentAnimal) {
-			if (this.state.images.length === 0) {
-				if (nextProps.currentAnimal.images === undefined) {
-					this.setState({
-						images: []
-					})
-				} else {
-					this.setState({
-						images: nextProps.currentAnimal.images
-					})
-				}
-			}
-			if(this.state.newHistory === null) { 
-				this.setState((state, props) => { return { newHistory: nextProps.currentAnimal.history[0] }});
-				// return true
-			}
-		}
-		// return false
-	}
 
-	shouldComponentUpdate(nextProps, nextState) {
-		if(this.state.redirect === false) {
-			if ((nextProps.isScriptLoaded && nextProps.isScriptLoadSucceed) || 
-				(this.props.isScriptLoaded && this.props.isScriptLoadSucceed)) {
-				if ((nextProps.currentAnimal.history || this.props.currentAnimal.history) || nextProps.currentAnimal.animalNotFound) {
-						return true
-				} else {
-						return false
+componentWillReceiveProps(nextProps, nextState) {
+	if (nextProps.currentAnimal.history && !this.state.newHistory) {
+		if (nextProps.currentAnimal.images) {
+			this.setState((state, props) => { 
+				return {
+					images: nextProps.currentAnimal.images
 				}
-			}
-		} else {
-			return false
+			})
 		}
+		this.setState((state, props) => {
+			return {
+				currentAnimal: nextProps.currentAnimal,
+				newHistory: nextProps.currentAnimal.history[0]
+			}
+		})
 	}
+}
+
+shouldComponentUpdate(nextProps, nextState) {
+	if(this.state.redirect === false) {
+		if ((nextProps.isScriptLoaded && nextProps.isScriptLoadSucceed) 
+			|| (this.props.isScriptLoaded && this.props.isScriptLoadSucceed)) {
+				return true
+		}
+	} 
+}
 
 	componentDidUpdate (nextProps, nextState) {
 		if(submitted === false) {
@@ -597,13 +575,16 @@ class Update extends Component {
 	}	
 		
 	render() {
+		console.log(window.user)
 		let animal = this.props.currentAnimal
-		if (!this.props.user.uid) {
-			return(
-				<Redirect to="/list" />
-			)
-		}
+		// if (!this.props.user.uid) {
+		// 	console.log("You must be signed in to update an animal.")
+		// 	return(
+		// 		<Redirect to="/list" />
+		// 	)
+		// }
 		if (this.props.currentAnimal.animalNotFound === true ) {
+			console.log("No Animal Found!")
 			return (
 					<Redirect to="/list" />
 			)
@@ -611,7 +592,7 @@ class Update extends Component {
 			return(
 				<div>Loading...</div>
 			)
-		} else if (animal.history) {
+		} else if (this.state.newHistory) {
 
             let newHistory = this.state.newHistory
 
@@ -696,16 +677,20 @@ class Update extends Component {
             }
 
 			return(
-				this.state.redirect ?
-				<Redirect to="/list" />:
+				// this.state.redirect ?
+				// <Redirect to="/list" />:
 				<div className="addContent content">
 					<Navigation />
 					<UpdateContent Props={Props}/>
 					<Footer/>
 				</div>
 			)
+		} else {
+			return (
+				<div>Loading...</div>
+			)
 		}
-	}
+	} 
 }
 
 const LoadConnector = connect(state => {

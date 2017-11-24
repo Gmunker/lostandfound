@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 import Search from './Search';
 import { connect } from 'react-redux';
-// import { currentAnimal } from './actions/animalActions';
 import { newfetchAnimals } from './actions/animalsActions';
 import searchAPI from'./api/searchApi';
 import Footer from './Footer';
@@ -22,16 +21,18 @@ class List extends Component {
 		this.props.dispatch(newfetchAnimals());
 	}	
 
-	componentWillUpdate(nextProps, nextState) {
+	componentDidMount() {
+		const type = this.props.searchFields.showDog ? "dog" : "cat"
+		const status = this.props.searchFields.showLost ? "lost" : "found"
+			
+		this.props.dispatch(newfetchAnimals(type, status));
+	}
+
+	componentWillReceiveProps(nextProps, nextState) {
 		const type = nextProps.searchFields.showDog ? "dog" : "cat"
 		const status = nextProps.searchFields.showLost ? "lost" : "found"
 		
 		nextProps.searchFields !== this.props.searchFields && this.props.dispatch(newfetchAnimals(type, status));
-	}
-
-	componentWillUnmount() {
-		// this.props.searchFields.showDog = true
-		// this.props.searchFields.showLost = true
 	}
 	
    	render() {
