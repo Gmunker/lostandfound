@@ -1,16 +1,21 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import './App.css';
-import Add from './Add/';
-import Detail from './Detail/';
-import Landing from './Landing';
-import List from './List';
-import Update from './Update/';
-import ScrollToTop from './ScrollToTop';
-import Login from './Login/';
-import RegionGmap from './GoogleMap/RegionGmap';
-import { connect } from 'react-redux';
-import { checkAuth } from './actions/userActions';
+import React, { Component } from "react"
+import {
+	BrowserRouter as Router,
+	Route,
+	Switch,
+	Redirect
+} from "react-router-dom"
+import "./App.css"
+import Add from "./Add/"
+import Detail from "./Detail/"
+import Landing from "./Landing"
+import List from "./List"
+import Update from "./Update/"
+import ScrollToTop from "./ScrollToTop"
+import Login from "./Login/"
+import RegionGmap from "./GoogleMap/RegionGmap"
+import { connect } from "react-redux"
+import { checkAuth } from "./actions/userActions"
 
 let views = false
 
@@ -25,10 +30,23 @@ class App extends Component {
 	}
 
 	incrementViews() {
-		views = true;
+		views = true
 	}
 
 	render() {
+		const PrivateRoute = ({ component: Component, ...rest }) => (
+			<Route
+				{...rest}
+				render={props =>
+					this.props.user.uid ? (
+						<Component {...props} />
+					) : (
+						<Redirect to="/login" />
+					)
+				}
+			/>
+		)
+
 		return (
 			<Router>
 				<ScrollToTop>
@@ -37,22 +55,25 @@ class App extends Component {
 						<Route path="/list" component={List} />
 						<Route path="/dog/details/:id" component={Detail} />
 						<Route path="/cat/details/:id" component={Detail} />
-						<Route path="/add" component={Add}/>
-						<Route path="/dog/update/:id" component={Update} />
-						<Route path="/cat/update/:id" component={Update} />
-						<Route path="/login" component={Login} />>		
-						<Route path="/" component={() => (<Landing views={views} incrementViews={this.incrementViews}/>)}/>
+						<PrivateRoute path="/add" component={Add} />
+						<PrivateRoute path="/dog/update/:id" component={Update} />
+						<PrivateRoute path="/cat/update/:id" component={Update} />
+						<Route path="/login" component={Login} />>
+						<Route
+							path="/"
+							component={() => (
+								<Landing views={views} incrementViews={this.incrementViews} />
+							)}
+						/>
 					</Switch>
 				</ScrollToTop>
 			</Router>
-		);
+		)
 	}
 }
-
-// export default App;
 
 export default connect(state => {
 	return {
 		user: state.user
 	}
-})(App);
+})(App)

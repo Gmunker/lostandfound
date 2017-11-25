@@ -1,27 +1,27 @@
-import React, {Component} from 'react';
-import { connect } from 'react-redux';
-import validator from 'validator';
-import Navigation from '../Navigation';
-import LoginForm from './Login';
-import { login, logout } from '../actions/userActions';
-import Footer from '../Footer';
-// import firebase from 'firebase';
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import validator from "validator"
+import Navigation from "../Navigation"
+import LoginForm from "./Login"
+import { login, logout } from "../actions/userActions"
+import Footer from "../Footer"
+import { Redirect } from "react-router-dom"
 
 class Login extends Component {
-	constructor(props){
+	constructor(props) {
 		super(props)
 		this.state = {
 			email: "",
 			password: ""
 		}
-		this.handleUsername = this.handleUsername.bind(this);
-		this.handlePassword = this.handlePassword.bind(this);
-		this.handleLogin = this.handleLogin.bind(this);
+		this.handleUsername = this.handleUsername.bind(this)
+		this.handlePassword = this.handlePassword.bind(this)
+		this.handleLogin = this.handleLogin.bind(this)
 		this.handleLogout = this.handleLogout.bind(this)
 	}
 
 	handleUsername(e) {
-		let email = validator.isEmail(e.target.value) ? e.target.value : null;
+		let email = validator.isEmail(e.target.value) ? e.target.value : null
 		this.setState((state, props) => {
 			return {
 				...state,
@@ -31,7 +31,7 @@ class Login extends Component {
 	}
 
 	handlePassword(e) {
-		let password = e.target.value.length > 5 ? e.target.value : null;
+		let password = e.target.value.length > 5 ? e.target.value : null
 		this.setState((state, props) => {
 			return {
 				...state,
@@ -41,7 +41,7 @@ class Login extends Component {
 	}
 
 	handleLogin(e) {
-		e.preventDefault();
+		e.preventDefault()
 		this.props.dispatch(login(this.state.email, this.state.password))
 	}
 
@@ -50,8 +50,6 @@ class Login extends Component {
 	}
 
 	render() {
-console.log(this.props)
-
 		let Props = {
 			Username: {
 				label: "Username",
@@ -79,9 +77,10 @@ console.log(this.props)
 		}
 		return (
 			<div className="content">
-				<Navigation/>
-				<LoginForm Props={Props}/>
-				<Footer/>
+				<Navigation />
+				{this.props.user.uid ? <Redirect to="/list" /> : null}
+				<LoginForm Props={Props} />
+				<Footer />
 			</div>
 		)
 	}
@@ -91,4 +90,4 @@ export default connect(state => {
 	return {
 		user: state.user
 	}
-})(Login);
+})(Login)
