@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import Navigation from "./Navigation"
 import Search from "./Search"
@@ -99,6 +100,19 @@ class List extends Component {
 			</div>
 		)
 	}
+}
+
+List.propTypes = {
+	dispatch: PropTypes.func.isRequired,
+	animals: PropTypes.array.isRequired,
+	searchFields: PropTypes.object.isRequired,
+	searchFields: PropTypes.shape({
+		showCat: PropTypes.bool.isRequired,
+		showDog: PropTypes.bool.isRequired,
+		showLost: PropTypes.bool.isRequired,
+		showFound: PropTypes.bool.isRequired,
+		searchText: PropTypes.string.isRequired
+	})
 }
 
 export default connect(state => {
