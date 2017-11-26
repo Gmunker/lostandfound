@@ -10,6 +10,7 @@ import AddAnimalForm from './Add';
 import firebase from 'firebase';
 import Footer from '../Footer';
 import { checkAuth } from '../actions/userActions';
+import EXIF from 'exif-js';
 
 let firebaseRef = firebase.database().ref("HipD");
 let google
@@ -95,11 +96,25 @@ class Add extends Component {
                 let compressedFiles = []
                 let images = newfiles.map((img, index) => {
                     const image = new Image()
+
+                    // Rotate based on exif data
+                    let Rotate
+                    let data = (param) => {
+                        Rotate = param === 1 ? false : true
+                    }
+
+                    EXIF.getData(img, function() {
+                        let Orientation = EXIF.getTag(this, "Orientation")
+                        console.log(Orientation)
+                        data(Orientation)
+                    })
+
                     image.src = img.preview
                     image.onload = () => {
 
                         // Start image compression
                         const canvas = document.createElement('canvas')
+
                         let width = image.width
                         let height = image.height
                         let maxWidth = 1000
@@ -118,10 +133,48 @@ class Add extends Component {
                                 height = maxHeight
                             }
                         }
-                        canvas.width = width
-                        canvas.height = height
-                        const ctx = canvas.getContext('2d')
-                        ctx.drawImage(image, 0, 0, width, height)                        
+                        // console.log(Rotate)
+                        // if (Rotate === true) {
+                        //     canvas.width = height
+                        //     canvas.height = width
+                        // } else {
+                        //     canvas.width = width
+                        //     canvas.height = height
+                        // }
+                        
+
+                        // if (Rotate) {
+                        //     let ctx = canvas.getContext('2d')
+                        //     let rot = canvas.getContext('2d')
+                        //     rot.rotate(45*Math.PI/180)
+                        //     canvas.width = height
+                        //     canvas.height = width
+                        //     ctx.drawImage(image, 0, 100, width, height)
+                        //     // rot.drawImage(image, 0, 100, height, width)
+                        // } else {
+                        //     let ctx = canvas.getContext('2d')
+                        //     canvas.width = width
+                        //     canvas.height = height
+                        //     ctx.drawImage(image, 0, 0, width, height)
+                        // }
+                        
+                        // ctx.drawImage(image, 0, 0, width, height)
+                        if (Rotate === true) {
+                            canvas.width = height
+                            canvas.height = width
+                            let ctx = canvas.getContext('2d')
+                            let rot = canvas.getContext('2d')
+                            rot.rotate(90*Math.PI/180)
+                            ctx.drawImage(image, 0, -height, width, height)
+                        } else {
+                            canvas.width = width
+                            canvas.height = height
+                            let ctx = canvas.getContext('2d')
+                            ctx.drawImage(image, 0, 0, width, height)
+                        }
+
+
+                                                
                         canvas.toBlob(function(blob) {
                             const newImg = new Image()
                             newImg.src = URL.createObjectURL(blob)

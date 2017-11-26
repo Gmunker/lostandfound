@@ -708,6 +708,7 @@ table.detailList {
   margin-bottom: 0.5em; }
   .imagePreview__container img {
     height: 100%;
+    width: 100%;
     object-fit: cover; }
   .imagePreview__container .imagePreview__container__footer {
     left: 0;

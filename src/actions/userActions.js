@@ -24,8 +24,10 @@ export function checkAuth() {
   return function(dispatch) {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
+        console.log("Active User")
         dispatch({type: "USER_LOGIN", payload: user.uid})
       } else {
+        console.log("No Active User")
         return null
       }
     });
