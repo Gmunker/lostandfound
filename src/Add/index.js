@@ -51,7 +51,16 @@ class Add extends Component {
 		this.makeFeatured = this.makeFeatured.bind(this)
 	}
 
-	// Lifecycle Methods
+	// componentWillMount() {
+	// 	firebase.auth().onAuthStateChanged(user => {
+	// 		if (!user) {
+	// 			this.setState((state, props) => {
+	// 				return { redirect: true }
+	// 			})
+	// 			console.log(user.uid)
+	// 		}
+	// 	})
+	// }
 
 	componentWillReceiveProps({ isScriptLoaded, isScriptLoadSucceed }) {
 		if (google === undefined) {

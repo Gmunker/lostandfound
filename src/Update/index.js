@@ -8,8 +8,9 @@ import { updateAnimal, deleteAnimal } from "../actions/firebaseActions"
 import { connect } from "react-redux"
 import regions from "../GoogleMap/geojson.json"
 import UpdateContent from "./Update"
-import firebase from "firebase"
 import Footer from "../Footer"
+import firebase from "../firebase"
+import { checkAuth } from "../actions/userActions"
 
 let firebaseRef = firebase.database().ref("HipD")
 let google
@@ -68,18 +69,17 @@ class Update extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		if (this.state.redirect === false) {
-			if (
-				(nextProps.isScriptLoaded && nextProps.isScriptLoadSucceed) ||
-				(this.props.isScriptLoaded && this.props.isScriptLoadSucceed)
-			) {
-				return true
-			}
+		if (
+			(nextProps.isScriptLoaded && nextProps.isScriptLoadSucceed) ||
+			((this.props.isScriptLoaded && this.props.isScriptLoadSucceed) ||
+				this.state.newHistory)
+		) {
+			return true
 		}
 	}
 
 	componentDidUpdate(nextProps, nextState) {
-		if (submitted === false) {
+		if (this.props.currentAnimal.history) {
 			let currentAnimal = this.props.currentAnimal
 			let positionHistory = []
 			currentAnimal.history.map((event, i) => {
@@ -667,12 +667,11 @@ class Update extends Component {
 	}
 
 	render() {
-		console.log(window.user)
 		let animal = this.props.currentAnimal
 		if (this.props.currentAnimal.animalNotFound === true) {
 			console.log("No Animal Found!")
 			return <Redirect to="/list" />
-		} else if (!animal.history) {
+		} else if (!this.state.newHistory) {
 			return <div>Loading...</div>
 		} else if (this.state.newHistory) {
 			let newHistory = this.state.newHistory

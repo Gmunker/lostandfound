@@ -78,7 +78,7 @@ class Login extends Component {
 		return (
 			<div className="content">
 				<Navigation />
-				{this.props.user.uid ? <Redirect to="/list" /> : null}
+				{/* {this.props.user.uid ? <Redirect to="/list" /> : null} */}
 				<LoginForm Props={Props} />
 				<Footer />
 			</div>
