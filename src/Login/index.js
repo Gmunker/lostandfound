@@ -4,6 +4,8 @@ import validator from 'validator';
 import Navigation from '../Navigation';
 import LoginForm from './Login';
 import { login, logout } from '../actions/userActions';
+import Footer from '../Footer';
+import firebase from 'firebase';
 
 class Login extends Component {
 	constructor(props){
@@ -38,7 +40,8 @@ class Login extends Component {
 		})
 	}
 
-	handleLogin() {
+	handleLogin(e) {
+		e.preventDefault();
 		this.props.dispatch(login(this.state.email, this.state.password))
 	}
 
@@ -47,7 +50,6 @@ class Login extends Component {
 	}
 
 	render() {
-		
 		let Props = {
 			Username: {
 				label: "Username",
@@ -77,6 +79,7 @@ class Login extends Component {
 			<div className="content">
 				<Navigation/>
 				<LoginForm Props={Props}/>
+				<Footer/>
 			</div>
 		)
 	}

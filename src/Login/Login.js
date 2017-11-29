@@ -9,11 +9,11 @@ const LoginForm = (props) => {
     return(
         <div className="topContainer">
             <h2 className="pageHeader">Volunteer Login</h2>
-            <div>
+            <form onSubmit={usernameProps.value ? formProps.handleLogin : null}>
                 <TextInput textInputProps={usernameProps}/>
                 <TextInput textInputProps={passwordProps}/>
-                <button className="formButton" onClick={usernameProps.value ? formProps.handleLogin : null}>Login</button>
-            </div>
+                <button type="submit" className="formButton">Login</button>
+            </form>
         </div>
     )
 }

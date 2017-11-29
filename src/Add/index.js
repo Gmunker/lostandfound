@@ -8,9 +8,11 @@ import { currentAnimal, setNewHistory } from '../actions/animalActions';
 import scriptLoader from 'react-async-script-loader';
 import AddAnimalForm from './Add';
 import firebase from 'firebase';
-// import { ImageTools } from '../ImageElements';
-let firebaseRef = firebase.database().ref("HipD");
+import Footer from '../Footer';
+import { checkAuth } from '../actions/userActions';
+import EXIF from 'exif-js';
 
+let firebaseRef = firebase.database().ref("HipD");
 let google
 let map
 let marker
@@ -52,12 +54,6 @@ class Add extends Component {
 
     // Lifecycle Methods
 
-    componentWillMount() {
-        if(!this.props.user.uid) {
-            this.setState({redirect: true})
-        }
-    }
-
     componentWillReceiveProps ({ isScriptLoaded, isScriptLoadSucceed }) {
         if(google === undefined) {
             if (isScriptLoaded && isScriptLoadSucceed) {
@@ -87,23 +83,122 @@ class Add extends Component {
     }
 
     // Image Methods
+
     imageUploadClick() {
         this.setState({
             showImageUploader: !this.state.showImageUploader
         })
     }
 
-    onDrop(newFiles) {
-        // console.log(newFiles)
-        let oldFiles = this.state.images
-        newFiles.map((file) => {
-            oldFiles.push(file)
-        })
+    onDrop(newfiles) {
+        function compress(newfiles) {
+            return new Promise(function(resolve, reject) {
+                let compressedFiles = []
+                let images = newfiles.map((img, index) => {
+                    const image = new Image()
 
-        this.setState({
-            images: oldFiles,
-            showImageUploader: false
-        })
+                    // Rotate based on exif data
+                    let Rotate
+                    let data = (param) => {
+                        Rotate = param === 1 ? false : true
+                    }
+
+                    EXIF.getData(img, function() {
+                        let Orientation = EXIF.getTag(this, "Orientation")
+                        console.log(Orientation)
+                        data(Orientation)
+                    })
+
+                    image.src = img.preview
+                    image.onload = () => {
+
+                        // Start image compression
+                        const canvas = document.createElement('canvas')
+
+                        let width = image.width
+                        let height = image.height
+                        let maxWidth = 1000
+                        let maxHeight = 1000
+                        let quality = 1.0
+                        if (width > height) {
+                            console.log("landscape")
+                            if (width > maxWidth) {
+                                height = Math.round(height * maxWidth / width)
+                                width = maxWidth
+                            }
+                        } else {
+                            console.log("portrait")
+                            if (height > maxHeight) {
+                                width = Math.round(width * maxHeight / height)
+                                height = maxHeight
+                            }
+                        }
+                        // console.log(Rotate)
+                        // if (Rotate === true) {
+                        //     canvas.width = height
+                        //     canvas.height = width
+                        // } else {
+                        //     canvas.width = width
+                        //     canvas.height = height
+                        // }
+                        
+
+                        // if (Rotate) {
+                        //     let ctx = canvas.getContext('2d')
+                        //     let rot = canvas.getContext('2d')
+                        //     rot.rotate(45*Math.PI/180)
+                        //     canvas.width = height
+                        //     canvas.height = width
+                        //     ctx.drawImage(image, 0, 100, width, height)
+                        //     // rot.drawImage(image, 0, 100, height, width)
+                        // } else {
+                        //     let ctx = canvas.getContext('2d')
+                        //     canvas.width = width
+                        //     canvas.height = height
+                        //     ctx.drawImage(image, 0, 0, width, height)
+                        // }
+                        
+                        // ctx.drawImage(image, 0, 0, width, height)
+                        if (Rotate === true) {
+                            canvas.width = height
+                            canvas.height = width
+                            let ctx = canvas.getContext('2d')
+                            let rot = canvas.getContext('2d')
+                            rot.rotate(90*Math.PI/180)
+                            ctx.drawImage(image, 0, -height, width, height)
+                        } else {
+                            canvas.width = width
+                            canvas.height = height
+                            let ctx = canvas.getContext('2d')
+                            ctx.drawImage(image, 0, 0, width, height)
+                        }
+
+
+                                                
+                        canvas.toBlob(function(blob) {
+                            const newImg = new Image()
+                            newImg.src = URL.createObjectURL(blob)
+                            blob.preview = newImg.src
+                            blob.name = img.name
+                            compressedFiles.push(blob)
+                            console.log(newfiles.length + " | " + compressedFiles.length)
+                            if(newfiles.length === compressedFiles.length) {
+                                resolve(compressedFiles)
+                            }
+                        }, 'image/jpeg', 0.95)
+                    }
+                })
+            })
+        }
+
+        compress(newfiles)
+        .then(function(compressedFiles) {
+            let currentImages = this.state.images
+            this.setState({
+                images: [...currentImages, ...compressedFiles],
+                showImageUploader: false
+            })
+        }.bind(this))
     }
 
     cancel() {
@@ -182,19 +277,13 @@ class Add extends Component {
         e.preventDefault();
 
         let myFiles = this.state.images
-        // let images = []
-        // myFiles.map((image) => {
-        //     images.push(image.name)
-        // })
 
         let animal = {
             name: this.state.name,
             color: this.state.color,
             breed: this.state.breed,
             type: this.state.type,
-        }
-
-        
+        }        
         
         let date = new Date().getTime()
         let setInitialHistory = new Promise((resolve, reject) => {
@@ -211,22 +300,9 @@ class Add extends Component {
 
         let fileNumber = 1
         let images = []
-        const uploadImageAsPromise = (animal, imageFile, key) => {
-
-            
+        const uploadImageAsPromise = (animal, imageFile, key) => {            
 
             new Promise(function (resolve, reject) {
-
-
-                // ImageTools.resize(imageFile, {
-                //     width: 320, // maximum width
-                //     height: 240 // maximum height
-                // }, function(blob, didItResize) {
-                //     // didItResize will be true if it managed to resize it, otherwise false (and will return the original file as 'blob')
-                //     document.getElementById('preview').src = window.URL.createObjectURL(blob);
-                //     // you can also now upload this blob using an XHR.
-                // });
-
                 
                 let storageRef = firebase.storage().ref(key + "/" + imageFile.name);
         
@@ -247,7 +323,7 @@ class Add extends Component {
                         firebaseRef.child(animal.type + animal.history[date].status + "/" + key).set(animal)
                         firebaseRef.child("animalsWithPics/" + key).set(animal.images[0])
                         firebaseRef.child("animalsMaster/" + key).set(animal.type + animal.history[date].status)
-                        // this.setState({redirect: true})
+                        this.setState({redirect: true})
                     } else {
                         ++fileNumber
                     }
@@ -334,8 +410,7 @@ class Add extends Component {
             Status: {
                 options: [
                     "lost",
-                    "found",
-                    "transferred"
+                    "found"
                 ],
                 selectProps: {
                     label: "Status",
@@ -418,6 +493,7 @@ class Add extends Component {
                 <img id="preview"/>
                 <AddAnimalForm Props={Props}/>
                 {this.state.redirect ? <Redirect to="/list" /> : null}
+                <Footer/>
             </div>
         )
     }

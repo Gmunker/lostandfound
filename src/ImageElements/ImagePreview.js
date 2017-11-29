@@ -31,7 +31,7 @@ const ImagePreview = (props) => {
             {
             featured !== null ?
             <div className="featured">
-                <img src={typeof(featured) !== 'string' ? featured.preview : featured}/>
+                {<img src={typeof(featured) !== 'string' ? featured.preview : featured}/>}
                 <footer onClick={() => {props.imageProps.removeImage(0)}}>Remove</footer>
             </div>
             : null
