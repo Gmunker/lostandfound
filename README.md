@@ -27,11 +27,11 @@ The database will be set up on Heroku along with a functioning instance of Apach
 ***
 
 ### 2.4.2
-* Basic Authentication  
+* **Basic Authentication**  
   Only authenticated users have the ability to add or update animals.  
 
-* Conditional dropdown menu  
+* **Conditional dropdown menu**  
   The dropdown menu on the update page now changes based on the current status of the animal
   
-* Mobile Image Rotation Fix  
+* **Mobile Image Rotation Fix**  
   The method responsible for image compression (on the Add page) now reads the EXIF metadata on the image and rotates the image if necessary.
