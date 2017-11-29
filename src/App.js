@@ -20,11 +20,6 @@ import firebase from "./firebase"
 
 let views = false
 
-// const authUserTest = Object.keys(window.localStorage)
-// 	.map(data => data)
-
-
-
 class App extends Component {
 	constructor(props) {
 		super(props)
@@ -109,8 +104,6 @@ class App extends Component {
 		)
 	}
 }
-
-// export default (App)
 
 export default connect((state) => {
 	return {
