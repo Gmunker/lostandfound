@@ -757,8 +757,6 @@ class Update extends Component {
 					<Footer />
 				</div>
 			)
-		} else {
-			return <div>Loading...</div>
 		}
 	}
 }

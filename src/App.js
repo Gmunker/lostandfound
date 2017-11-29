@@ -1,6 +1,4 @@
-import React, {
-	Component
-} from "react"
+import React, {	Component } from "react"
 import {
 	BrowserRouter as Router,
 	Route,
@@ -16,12 +14,8 @@ import Update from "./Update/"
 import ScrollToTop from "./ScrollToTop"
 import Login from "./Login/"
 import RegionGmap from "./GoogleMap/RegionGmap"
-import {
-	connect
-} from "react-redux"
-import {
-	checkAuth
-} from "./actions/userActions"
+import { connect } from "react-redux"
+import { checkAuth } from "./actions/userActions"
 import firebase from "./firebase"
 
 let views = false
@@ -40,6 +34,10 @@ class App extends Component {
 		}
 		this.incrementViews = this.incrementViews.bind(this)
 		this.authTest = this.authTest.bind(this)
+	}
+
+	componentWillMount() {
+		this.props.dispatch(checkAuth())
 	}
 
 	authTest() {
@@ -112,10 +110,10 @@ class App extends Component {
 	}
 }
 
-export default (App)
+// export default (App)
 
-// export default connect((state) => {
-// 	return {
-// 		user: state.user
-// 	}
-// })(App)
+export default connect((state) => {
+	return {
+		user: state.user
+	}
+})(App)
