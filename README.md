@@ -28,4 +28,10 @@ The database will be set up on Heroku along with a functioning instance of Apach
 
 ### 2.4.2
 * Basic Authentication  
-  Only authenticated users have access to modify the database.
+  Only authenticated users have access to modify the database.  
+
+* Conditional dropdown menu  
+  The dropdown menu on the update page now changes based on the current status of the animal
+  
+* Mobile Image Rotation Fix  
+  The method responsible for image compression (on the Add page) now reads the EXIF metadata on the image and rotates the image if necessary.
