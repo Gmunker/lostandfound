@@ -27,5 +27,5 @@ The database will be set up on Heroku along with a functioning instance of Apach
 ***
 
 ### 2.4.2
-* Basic Authentication--
+* Basic Authentication  
   Only authenticated users have access to modify the database.
