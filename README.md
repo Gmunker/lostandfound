@@ -1,5 +1,6 @@
-###### Chingu > Bears > Team 2
-#### Build to learn
+# Chingu > Bears > Team 2
+
+## Lost and Found Pets app
 
 **Who is this application for?**  
 Our target audience is a small group of animal lovers, and animal advocates in Donelson, TN who voluntarily rescue lost and stray animals in the city. There will be an open door for similar groups in the surrounding area.
@@ -22,3 +23,15 @@ The database will be set up on Heroku along with a functioning instance of Apach
 * React
 * Redux
 * Sass
+
+***
+
+### 2.4.2
+* **Basic Authentication**  
+  Only authenticated users have the ability to add or update animals.  
+
+* **Conditional dropdown menu**  
+  The dropdown menu on the update page now changes based on the current status of the animal
+  
+* **Mobile Image Rotation Fix**  
+  The method responsible for image compression (on the Add page) now reads the EXIF metadata on the image and rotates the image if necessary.

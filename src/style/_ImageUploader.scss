@@ -82,6 +82,9 @@
         width: 100%;
     }
     footer {
+        left: 0;
+        right: 0;
+        padding: 0;
         position: absolute;
         bottom: 0;
         width: 100%;
@@ -109,9 +112,13 @@
     margin-bottom: 0.5em;
     img {
         height: 100%;
+        width: 100%;
         object-fit: cover;
     }
     .imagePreview__container__footer {
+        left: 0;
+        right: 0;
+        padding: 0;
         position: relative;
         width: 140px;
         background: rgba($Secondary, 0.85);

@@ -261,7 +261,8 @@ body {
   flex-direction: column;
   position: relative;
   top: 58px;
-  padding: 1em; }
+  padding: 1em;
+  height: calc(100% - 90px); }
 
 h2.pageHeader {
   text-align: center;
@@ -680,6 +681,9 @@ table.detailList {
   .featured img {
     width: 100%; }
   .featured footer {
+    left: 0;
+    right: 0;
+    padding: 0;
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -704,8 +708,12 @@ table.detailList {
   margin-bottom: 0.5em; }
   .imagePreview__container img {
     height: 100%;
+    width: 100%;
     object-fit: cover; }
   .imagePreview__container .imagePreview__container__footer {
+    left: 0;
+    right: 0;
+    padding: 0;
     position: relative;
     width: 140px;
     background: rgba(216, 81, 29, 0.85);
@@ -723,3 +731,64 @@ table.detailList {
       padding-top: 6px; }
       .imagePreview__container .imagePreview__container__footer div:first-of-type {
         border-right: 1px solid #ec926f; }
+
+footer {
+  position: relative;
+  bottom: -1rem;
+  width: 100%;
+  left: -1rem;
+  right: -1rem;
+  padding: 1rem 1rem;
+  background: #D8511D;
+  color: white;
+  font: 0.85rem 'Open Sans', Arial, sans-serif; }
+  footer a {
+    color: white;
+    text-decoration: none;
+    float: left; }
+  footer p {
+    float: right;
+    font-style: italic; }
+
+.container {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 10000;
+  padding: 0.5em;
+  display: flex; }
+  .container img {
+    max-width: calc(100% - 1em);
+    max-height: calc(100% - 1em);
+    align-self: center; }
+  .container .closeBox {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 40px;
+    height: 40px;
+    background: #D8511D;
+    border-radius: 50%;
+    transform: rotate(45deg); }
+    .container .closeBox:before, .container .closeBox:after {
+      position: absolute;
+      left: 16px;
+      top: 5px;
+      content: "";
+      display: block;
+      width: 8px;
+      height: 30px;
+      background: white; }
+    .container .closeBox:after {
+      transform: rotate(90deg); }
+
+.container.landscape {
+  flex-flow: column; }
+
+body.noScroll {
+  overflow: hidden; }

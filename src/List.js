@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { currentAnimal } from './actions/animalActions';
 import { newfetchAnimals } from './actions/animalsActions';
 import searchAPI from'./api/searchApi';
+import Footer from './Footer';
 
 class List extends Component {
 	constructor(props) {
@@ -15,59 +16,29 @@ class List extends Component {
 			status: "lost",
 			searchField: ""
 		}
-		// this.fetchNewNodeFromStatus = this.fetchNewNodeFromStatus.bind(this)
-		// this.fetchNewNodeFromType = this.fetchNewNodeFromType.bind(this)
 	}
 
 	componentWillMount(nextProps, nextState) {
 		this.props.dispatch(newfetchAnimals());
-	}
+	}	
 
 	componentWillUpdate(nextProps, nextState) {
 		const type = nextProps.searchFields.showDog ? "dog" : "cat"
 		const status = nextProps.searchFields.showLost ? "lost" : "found"
-
+		
 		nextProps.searchFields !== this.props.searchFields && this.props.dispatch(newfetchAnimals(type, status));
 	}
 
-	// fetchNewNodeFromType(event) {
-	// 		this.setState({
-	// 	type: event.target.value
-	// 	}, () => {
-	// 	this.props.dispatch(newfetchAnimals(this.state.type, this.state.status));
-	// 	})
-	// }
-	
-	// fetchNewNodeFromStatus(event) {
-	// 	this.setState({
-	// 	status: event.target.value
-	// 	}, () => {
-	// 	this.props.dispatch(newfetchAnimals(this.state.type, this.state.status))
-	// 	})
-	// }
-
 	componentWillUnmount() {
-        this.props.dispatch(currentAnimal({history: [{status: "lost"}], type: "dog"}))
+		// this.props.searchFields.showDog = true
+		// this.props.searchFields.showLost = true
 	}
 	
-	
-	
    	render() {
-		console.log(this.props)
-		// let Props = {
-		// 	formMethods: {
-		// 		fetchNewNodeFromType: this.fetchNewNodeFromType,
-		// 		fetchNewNodeFromStatus: this.fetchNewNodeFromStatus
-		// 	},
-		// 	nodeSelection: {
-		// 		status: this.state.status,
-		// 		type: this.state.type
-		// 	}
-		// }
 
 		let { searchText, showDog, showCat, showLost, showFound } = this.props.searchFields;
 		let filteredAnimals = searchAPI.filterAnimals(this.props.animals, showDog, showCat, showLost, showFound, searchText);
-		let table = filteredAnimals.map((animal) => {
+		let table = filteredAnimals.reverse().map((animal) => {
 			
 			let loc = animal.type === "dog" ? `/dog/details/${animal.id}` : `/cat/details/${animal.id}`;
 			return(
@@ -100,8 +71,8 @@ class List extends Component {
 					</table> :
 					<p className="listEmptySet">No Results</p>
 					}
-					
 				</div>
+				<Footer/>
 			</div>
 		)
   }
@@ -112,5 +83,3 @@ export default connect(state => {
 	animals: state.animals.animals,
 	searchFields: state.searchFields
 }})(List);
-
-// {this.props.animals.length === 0 ? <h1>Loading List....</h1> : null}

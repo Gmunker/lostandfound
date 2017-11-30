@@ -1,0 +1,20 @@
+footer {
+    position: relative;
+    bottom: -1rem;
+    width: 100%;
+    left: -1rem;
+    right: -1rem;
+    padding: 1rem 1rem;
+    background: $Secondary;
+    color: white;
+    font: 0.85rem 'Open Sans', Arial, sans-serif;
+    a {
+        color: white;
+        text-decoration: none;
+        float: left;
+    }
+    p {
+        float: right;
+        font-style: italic;
+    }
+}
